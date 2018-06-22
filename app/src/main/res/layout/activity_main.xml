@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <ImageButton
+        android:id="@+id/theater_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/cinema_ib"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_theaters_black_48" />
+
+    <ImageButton
+        android:id="@+id/cinema_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/art_ib"
+        app:layout_constraintStart_toEndOf="@+id/theater_ib"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_videocam_black_48" />
+
+    <ImageButton
+        android:id="@+id/art_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/music_ib"
+        app:layout_constraintStart_toEndOf="@+id/cinema_ib"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_portrait_black_48" />
+
+    <ImageButton
+        android:id="@+id/music_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/science_ib"
+        app:layout_constraintStart_toEndOf="@+id/art_ib"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_music_note_black_48" />
+
+    <ImageButton
+        android:id="@+id/science_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/music_ib"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_hdr_strong_black_48" />
+
+    <ImageButton
+        android:id="@+id/literature_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/entertainment_ib"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/theater_ib"
+        app:srcCompat="@drawable/baseline_local_library_black_48" />
+
+    <ImageButton
+        android:id="@+id/entertainment_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/recreation_ib"
+        app:layout_constraintStart_toEndOf="@+id/literature_ib"
+        app:layout_constraintTop_toBottomOf="@+id/cinema_ib"
+        app:srcCompat="@drawable/baseline_local_bar_black_48" />
+
+    <ImageButton
+        android:id="@+id/recreation_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/other_ib"
+        app:layout_constraintStart_toEndOf="@+id/entertainment_ib"
+        app:layout_constraintTop_toBottomOf="@+id/art_ib"
+        app:srcCompat="@drawable/baseline_terrain_black_48" />
+
+    <ImageButton
+        android:id="@+id/other_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/all_ib"
+        app:layout_constraintStart_toEndOf="@+id/recreation_ib"
+        app:layout_constraintTop_toBottomOf="@+id/music_ib"
+        app:srcCompat="@drawable/baseline_more_black_48" />
+
+    <ImageButton
+        android:id="@+id/all_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/other_ib"
+        app:layout_constraintTop_toBottomOf="@+id/science_ib"
+        app:srcCompat="@drawable/baseline_select_all_black_48" />
+
+    <TextView
+        android:id="@+id/city_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/city"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/literature_ib" />
+
+
+
+
+    <TextView
+        android:id="@+id/calendar_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/calendar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city_tv" />
+
+    <TextView
+        android:id="@+id/time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendar_tv" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="today"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="179dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/baseline_navigate_before_black_18"
+        tools:layout_editor_absoluteX="62dp"
+        tools:layout_editor_absoluteY="171dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/baseline_navigate_next_black_18"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="171dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="104dp"
+        tools:layout_editor_absoluteY="216dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/baseline_navigate_before_black_18"
+        tools:layout_editor_absoluteX="62dp"
+        tools:layout_editor_absoluteY="205dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/baseline_navigate_next_black_18"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="209dp" />
+
+</android.support.constraint.ConstraintLayout>
