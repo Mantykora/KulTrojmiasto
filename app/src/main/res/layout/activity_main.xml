@@ -107,84 +107,51 @@
         app:srcCompat="@drawable/baseline_select_all_black_48" />
 
     <TextView
-        android:id="@+id/city_tv"
+        android:id="@+id/all_cities_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/city"
+        android:text="All cities"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/literature_ib" />
 
-
-
-
     <TextView
-        android:id="@+id/calendar_tv"
+        android:id="@+id/date_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/calendar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city_tv" />
+        android:text="Today"
+        app:layout_constraintEnd_toStartOf="@+id/hour_tv"
+        app:layout_constraintStart_toEndOf="@+id/all_cities_tv"
+        app:layout_constraintTop_toBottomOf="@+id/recreation_ib" />
 
     <TextView
-        android:id="@+id/time_tv"
+        android:id="@+id/hour_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="6:00"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/all_ib" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="368dp"
+        android:layout_height="324dp"
+        android:layout_marginBottom="9dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/time"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendar_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/date_tv">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="today"
-        tools:layout_editor_absoluteX="120dp"
-        tools:layout_editor_absoluteY="179dp" />
+    </FrameLayout>
 
-    <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/baseline_navigate_before_black_18"
-        tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="171dp" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/baseline_navigate_next_black_18"
-        tools:layout_editor_absoluteX="171dp"
-        tools:layout_editor_absoluteY="171dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="104dp"
-        tools:layout_editor_absoluteY="216dp" />
-
-    <ImageButton
-        android:id="@+id/imageButton4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/baseline_navigate_before_black_18"
-        tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="205dp" />
-
-    <ImageButton
-        android:id="@+id/imageButton5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/baseline_navigate_next_black_18"
-        tools:layout_editor_absoluteX="171dp"
-        tools:layout_editor_absoluteY="209dp" />
 
 </android.support.constraint.ConstraintLayout>
