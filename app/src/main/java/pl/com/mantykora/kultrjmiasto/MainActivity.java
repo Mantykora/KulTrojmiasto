@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.io.Serializable;
 import java.util.List;
 
+import pl.com.mantykora.kultrjmiasto.model.Attachment;
 import pl.com.mantykora.kultrjmiasto.model.Event;
 import pl.com.mantykora.kultrjmiasto.network.GetDataService;
 import pl.com.mantykora.kultrjmiasto.network.RetrofitClientInstance;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
     private RecyclerView recyclerView;
+    private List<Attachment> attachmentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,24 @@ public class MainActivity extends AppCompatActivity {
 
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Event>> call = service.getAllEvents();
+//        Call<List<Attachment>> attachmentCall = service.getAllAtachments();
+//
+//        attachmentCall.enqueue(new Callback<List<Attachment>>() {
+//            @Override
+//            public void onResponse(Call<List<Attachment>> call, Response<List<Attachment>> response) {
+//                attachmentList = response.body();
+//                progressDialog.dismiss();
+//                Log.d("MainActivity",  "Attachment response " + response.body());
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Attachment>> call, Throwable t) {
+//                progressDialog.dismiss();
+//                Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
         call.enqueue(new Callback<List<Event>>() {
             @Override
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
@@ -43,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("eventList", (Serializable) response.body());
+//                bundle.putSerializable("attachmentList", (Serializable) attachmentList);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 EventListFragment fragment = new EventListFragment();
@@ -59,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
 
 

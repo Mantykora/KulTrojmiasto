@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import pl.com.mantykora.kultrjmiasto.adapter.EventsAdapter;
+import pl.com.mantykora.kultrjmiasto.model.Attachment;
 import pl.com.mantykora.kultrjmiasto.model.Event;
 
 public class EventListFragment extends Fragment {
@@ -21,6 +22,7 @@ public class EventListFragment extends Fragment {
     private RecyclerView recyclerView;
     private EventsAdapter adapter;
     private List<Event> eventList;
+    private List<Attachment> attachmentList;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -28,24 +30,23 @@ public class EventListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
         Bundle bundle = this.getArguments();
         eventList = (List<Event>) bundle.getSerializable("eventList");
+//        attachmentList = (List<Attachment>) bundle.getSerializable("attachmentList");
+
+//        Log.d("EventsListFragment.java", attachmentList)
+
         Log.d("EventsListFragment.java", "" + eventList);
+//        Log.d("EventsListFragment.java", "" + attachmentList);
 
         recyclerView = view.findViewById(R.id.events_rv);
         adapter = new EventsAdapter(getActivity(), eventList);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        generateDataList(eventList);
+
 
 
         return view;
     }
 
-    private void generateDataList(List<Event> eventList) {
 
-
-
-
-
-    }
 }
