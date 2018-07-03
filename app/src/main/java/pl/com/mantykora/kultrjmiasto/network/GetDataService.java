@@ -14,6 +14,5 @@ public interface GetDataService {
     @GET("/api/rest/events.json")
     Call<List<Event>> getAllEvents();
 
-    @GET("/api/rest/events.json")
-    Call<List<Attachment>> getAllAtachments();
+
 }

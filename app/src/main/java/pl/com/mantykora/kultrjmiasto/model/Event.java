@@ -1,11 +1,15 @@
 
 package pl.com.mantykora.kultrjmiasto.model; ;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Event {
+public class Event implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -151,4 +155,57 @@ public class Event {
         this.descShort = descShort;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeParcelable(this.place, flags);
+        dest.writeString(this.endDate);
+        dest.writeString(this.name);
+        dest.writeParcelable(this.urls, flags);
+              dest.writeList(this.attachments);
+        dest.writeString(this.descLong);
+        dest.writeValue(this.categoryId);
+        dest.writeString(this.startDate);
+        dest.writeParcelable(this.organizer, flags);
+        dest.writeValue(this.active);
+        dest.writeParcelable(this.tickets, flags);
+        dest.writeString(this.descShort);
+    }
+
+    public Event() {
+    }
+
+    protected Event(Parcel in) {
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.place = in.readParcelable(Place.class.getClassLoader());
+        this.endDate = in.readString();
+        this.name = in.readString();
+        this.urls = in.readParcelable(Urls.class.getClassLoader());
+        this.attachments = new ArrayList<Attachment>();
+        in.readList(this.attachments, Attachment.class.getClassLoader());
+        this.descLong = in.readString();
+        this.categoryId = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.startDate = in.readString();
+        this.organizer = in.readParcelable(Organizer.class.getClassLoader());
+        this.active = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.tickets = in.readParcelable(Tickets.class.getClassLoader());
+        this.descShort = in.readString();
+    }
+
+    public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel source) {
+            return new Event(source);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 }

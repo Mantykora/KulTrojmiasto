@@ -1,10 +1,13 @@
 
 package pl.com.mantykora.kultrjmiasto.model; ;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Tickets {
+public class Tickets implements Parcelable {
 
     @SerializedName("type")
     @Expose
@@ -40,4 +43,36 @@ public class Tickets {
         this.endTicket = endTicket;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.type);
+        dest.writeString(this.startTicket);
+        dest.writeString(this.endTicket);
+    }
+
+    public Tickets() {
+    }
+
+    protected Tickets(Parcel in) {
+        this.type = in.readString();
+        this.startTicket = in.readString();
+        this.endTicket = in.readString();
+    }
+
+    public static final Parcelable.Creator<Tickets> CREATOR = new Parcelable.Creator<Tickets>() {
+        @Override
+        public Tickets createFromParcel(Parcel source) {
+            return new Tickets(source);
+        }
+
+        @Override
+        public Tickets[] newArray(int size) {
+            return new Tickets[size];
+        }
+    };
 }

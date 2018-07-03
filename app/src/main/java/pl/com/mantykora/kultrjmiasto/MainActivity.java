@@ -23,8 +23,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
-    private RecyclerView recyclerView;
-    private List<Attachment> attachmentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,23 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Event>> call = service.getAllEvents();
-//        Call<List<Attachment>> attachmentCall = service.getAllAtachments();
-//
-//        attachmentCall.enqueue(new Callback<List<Attachment>>() {
-//            @Override
-//            public void onResponse(Call<List<Attachment>> call, Response<List<Attachment>> response) {
-//                attachmentList = response.body();
-//                progressDialog.dismiss();
-//                Log.d("MainActivity",  "Attachment response " + response.body());
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Attachment>> call, Throwable t) {
-//                progressDialog.dismiss();
-//                Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
 
         call.enqueue(new Callback<List<Event>>() {
             @Override
@@ -63,14 +45,18 @@ public class MainActivity extends AppCompatActivity {
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("eventList", (Serializable) response.body());
-//                bundle.putSerializable("attachmentList", (Serializable) attachmentList);
+
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 EventListFragment fragment = new EventListFragment();
-                fragment.setArguments(bundle);
-                fragmentTransaction.add(R.id.fragment_container, fragment);
-                fragmentTransaction.commit();
+                if (fragment.isAdded()) {
 
+                } else {
+                    fragment.setArguments(bundle);
+
+                    fragmentTransaction.add(R.id.fragment_container, fragment);
+                    fragmentTransaction.commit();
+                }
 
             }
 

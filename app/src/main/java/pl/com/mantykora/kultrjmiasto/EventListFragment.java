@@ -22,7 +22,6 @@ public class EventListFragment extends Fragment {
     private RecyclerView recyclerView;
     private EventsAdapter adapter;
     private List<Event> eventList;
-    private List<Attachment> attachmentList;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -30,12 +29,9 @@ public class EventListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
         Bundle bundle = this.getArguments();
         eventList = (List<Event>) bundle.getSerializable("eventList");
-//        attachmentList = (List<Attachment>) bundle.getSerializable("attachmentList");
 
-//        Log.d("EventsListFragment.java", attachmentList)
 
         Log.d("EventsListFragment.java", "" + eventList);
-//        Log.d("EventsListFragment.java", "" + attachmentList);
 
         recyclerView = view.findViewById(R.id.events_rv);
         adapter = new EventsAdapter(getActivity(), eventList);

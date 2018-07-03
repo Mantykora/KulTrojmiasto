@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+    <dimen name="bitmapWidth">170dp</dimen>
+    <dimen name="bitmapHeight">170dp</dimen>
 </resources>

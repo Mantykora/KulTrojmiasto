@@ -1,6 +1,8 @@
 package pl.com.mantykora.kultrjmiasto.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,8 +15,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.io.Serializable;
 import java.util.List;
 
+import pl.com.mantykora.kultrjmiasto.DetailActivity;
 import pl.com.mantykora.kultrjmiasto.R;
 import pl.com.mantykora.kultrjmiasto.model.Attachment;
 import pl.com.mantykora.kultrjmiasto.model.CategoryEnum;
@@ -23,17 +27,15 @@ import pl.com.mantykora.kultrjmiasto.utils.ImageTransformation;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsViewHolder> {
 
-    private List<Event> eventList;
-    //private List<Attachment> attachmentList;
+    private static List<Event> eventList;
     private Context context;
 
     public EventsAdapter(Context context, List<Event> dataList) {
         this.context = context;
         this.eventList = dataList;
-       // this.attachmentList = attachmentList;
     }
 
-    class EventsViewHolder extends RecyclerView.ViewHolder {
+    public static class EventsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public final View view;
 
@@ -42,15 +44,49 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         TextView hourTextView;
         ImageView imageIv;
 
-        EventsViewHolder(View itemView) {
+         EventsViewHolder.ViewHolderClick clickListener;
+
+        public EventsViewHolder(View itemView, ViewHolderClick viewHolderClick) {
             super(itemView);
             view = itemView;
+            clickListener = viewHolderClick;
 
             nameTv = view.findViewById(R.id.event_title_tv);
             categoryTv = view.findViewById(R.id.event_category_tv);
             hourTextView = view.findViewById(R.id.event_hour_tv);
             imageIv = view.findViewById(R.id.event_iv);
 
+            imageIv.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            clickListener.onEventListItem(view);
+            int position = (int) view.getTag();
+
+            Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
+
+            Event singleEvent = eventList.get(position);
+
+            Log.d("EventsAdapter", "" + singleEvent.getName());
+
+           // Bundle bundle = new Bundle();
+           // bundle.putSerializable("singleEvent",  singleEvent);
+          // bundle.putParcelable("singleEvent", singleEvent);
+            intent.putExtra("singleEvent", singleEvent);
+
+            itemView.getContext().startActivity(intent);
+
+
+
+
+
+            Log.d("EventsAdapter", "" + position);
+        }
+
+        public interface ViewHolderClick {
+            void onEventListItem(View view);
         }
     }
 
@@ -59,13 +95,20 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
     public EventsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.list_item_event, parent, false);
-        return new EventsViewHolder(view);
+        return new EventsViewHolder(view, new EventsViewHolder.ViewHolderClick() {
+            public void onEventListItem(View view) {
+
+                Log.d("EventsAdapter", "onclick");
+
+            }
+        });
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull EventsViewHolder holder, int position) {
         Event event = eventList.get(position);
+        holder.imageIv.setTag(position);
         String imageLinkString;
 
         int categoryId = event.getCategoryId();
@@ -98,10 +141,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             Transformation transformation = new ImageTransformation();
             Picasso.get().load(imageLinkString)
                     .transform(transformation)
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background)
                     .into(holder.imageIv);
     }
+
+
     }
 
     @Override
