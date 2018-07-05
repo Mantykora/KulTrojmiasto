@@ -20,9 +20,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Icons_Fragment.OnIconSelectedListener{
 
     ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,4 +76,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onIconSelected(int position) {
+        Toast.makeText(this, "Position clicked = " + position, Toast.LENGTH_SHORT).show();
+        EventListFragment eventListFragment = (EventListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
+        eventListFragment.updateArticleView(position);
+
+
+    }
 }

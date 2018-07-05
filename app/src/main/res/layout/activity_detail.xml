@@ -55,7 +55,7 @@
         app:srcCompat="@drawable/baseline_query_builder_black_36" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/ticket_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toEndOf="@+id/ticket_iv"
         app:layout_constraintTop_toBottomOf="@+id/detail_date_tv"
         tools:text="free" />
 
@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/ticket_iv"
         tools:text="New books in libraries! Come and see!" />
 
     <TextView
@@ -115,6 +115,15 @@
         app:layout_constraintTop_toBottomOf="@+id/detail_description_tv"
         app:layout_constraintVertical_bias="0.0"
         tools:text="Link to event" />
+
+    <TextView
+        android:id="@+id/detail_price_end_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        tools:text="free"
+        app:layout_constraintStart_toEndOf="@+id/detail_price_tv"
+        app:layout_constraintTop_toTopOf="@+id/detail_price_tv" />
 
 
 </android.support.constraint.ConstraintLayout>

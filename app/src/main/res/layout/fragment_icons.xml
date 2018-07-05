@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridView
+        android:id="@+id/icons_gv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnWidth="90dp"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <!--<ImageButton-->
+    <!--android:id="@+id/theater_ib"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/cinema_ib"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:srcCompat="@drawable/baseline_theaters_black_48" />-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/cinema_ib"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/art_ib"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/theater_ib"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:srcCompat="@drawable/baseline_videocam_black_48" />-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/art_ib"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/music_ib"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/cinema_ib"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:srcCompat="@drawable/baseline_portrait_black_48" />-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/music_ib"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/science_ib"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/art_ib"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:srcCompat="@drawable/baseline_music_note_black_48" />-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/science_ib"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/music_ib"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:srcCompat="@drawable/baseline_hdr_strong_black_48" />-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/literature_ib"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/entertainment_ib"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/theater_ib"-->
+    <!--app:srcCompat="@drawable/baseline_local_library_black_48" />-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/entertainment_ib"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/recreation_ib"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/literature_ib"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/cinema_ib"-->
+    <!--app:srcCompat="@drawable/baseline_local_bar_black_48" />-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/recreation_ib"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/other_ib"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/entertainment_ib"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/art_ib"-->
+    <!--app:srcCompat="@drawable/baseline_terrain_black_48" />-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/other_ib"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/all_ib"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/recreation_ib"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/music_ib"-->
+    <!--app:srcCompat="@drawable/baseline_more_black_48" />-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/all_ib"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/other_ib"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/science_ib"-->
+    <!--app:srcCompat="@drawable/baseline_select_all_black_48" />-->
+
+    <TextView
+        android:id="@+id/date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Today"
+        app:layout_constraintEnd_toStartOf="@+id/hour_tv"
+        app:layout_constraintStart_toEndOf="@+id/all_cities_tv"
+        app:layout_constraintTop_toBottomOf="@+id/icons_gv" />
+
+    <TextView
+        android:id="@+id/hour_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="6:00"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icons_gv" />
+
+    <TextView
+        android:id="@+id/all_cities_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="All cities"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icons_gv" />
+</android.support.constraint.ConstraintLayout>

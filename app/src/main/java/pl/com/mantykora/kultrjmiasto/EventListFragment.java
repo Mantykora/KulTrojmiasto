@@ -1,6 +1,7 @@
 package pl.com.mantykora.kultrjmiasto;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Iterator;
 import java.util.List;
 
 import pl.com.mantykora.kultrjmiasto.adapter.EventsAdapter;
@@ -19,9 +21,14 @@ import pl.com.mantykora.kultrjmiasto.model.Event;
 
 public class EventListFragment extends Fragment {
 
+
+
     private RecyclerView recyclerView;
     private EventsAdapter adapter;
     private List<Event> eventList;
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +49,22 @@ public class EventListFragment extends Fragment {
 
 
         return view;
+    }
+
+    public void updateArticleView(int position) {
+        if (position == 0) {
+            Iterator<Event> eventIterator =  eventList.iterator();
+            while(eventIterator.hasNext()) {
+                Event e = eventIterator.next();
+                if (e.getCategoryId() != 19) {
+                    eventIterator.remove();
+                }
+            }
+            recyclerView.setAdapter(adapter);
+
+
+            Log.d("EventListFragment", "cinema clicked");
+        }
     }
 
 
