@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class EventListFragment extends Fragment {
     private RecyclerView recyclerView;
     private EventsAdapter adapter;
     private List<Event> eventList;
+    List<Event> litToShort;
 
 
 
@@ -53,18 +55,53 @@ public class EventListFragment extends Fragment {
 
     public void updateArticleView(int position) {
         if (position == 0) {
-            Iterator<Event> eventIterator =  eventList.iterator();
-            while(eventIterator.hasNext()) {
-                Event e = eventIterator.next();
-                if (e.getCategoryId() != 19) {
-                    eventIterator.remove();
-                }
-            }
-            recyclerView.setAdapter(adapter);
-
-
-            Log.d("EventListFragment", "cinema clicked");
+           cutListView(19);
         }
+        if (position == 1) {
+            cutListView(1);
+        }
+        if (position == 2) {
+            cutListView(51);
+        }
+        if (position == 3) {
+            cutListView(35);
+        }
+        if (position == 4) {
+            cutListView(83);
+        }
+        if (position == 5) {
+            cutListView(61);
+        }
+        if (position == 6) {
+            cutListView(69);
+        }
+        if (position == 7) {
+            cutListView(77);
+        }
+        if (position == 8) {
+            cutListView(96);
+        }
+        if (position == 9) {
+            adapter = new EventsAdapter(getActivity(), eventList);
+        recyclerView.setAdapter(adapter);}
+
+    }
+
+    public void cutListView(int categoryId) {
+
+
+        litToShort = new ArrayList<>(eventList);
+        Iterator<Event> eventIterator =  litToShort.iterator();
+        while(eventIterator.hasNext()) {
+            Event e = eventIterator.next();
+            if (e.getCategoryId() != categoryId) {
+                eventIterator.remove();
+            }
+        }
+        adapter = new EventsAdapter(getActivity(), litToShort);
+        recyclerView.setAdapter(adapter);
+
+
     }
 
 
