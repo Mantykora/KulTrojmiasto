@@ -19,6 +19,7 @@ import java.util.List;
 import pl.com.mantykora.kultrjmiasto.adapter.EventsAdapter;
 import pl.com.mantykora.kultrjmiasto.model.Attachment;
 import pl.com.mantykora.kultrjmiasto.model.Event;
+import pl.com.mantykora.kultrjmiasto.model.Location;
 
 public class EventListFragment extends Fragment {
 
@@ -27,6 +28,7 @@ public class EventListFragment extends Fragment {
     private RecyclerView recyclerView;
     private EventsAdapter adapter;
     private List<Event> eventList;
+    private List<Location> locationList;
     List<Event> litToShort;
 
 
@@ -38,9 +40,11 @@ public class EventListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
         Bundle bundle = this.getArguments();
         eventList = (List<Event>) bundle.getSerializable("eventList");
+        locationList = (List<Location>) bundle.getSerializable("locationList");
 
 
         Log.d("EventsListFragment.java", "" + eventList);
+        Log.d("EventListFragment.java", "" + locationList);
 
         recyclerView = view.findViewById(R.id.events_rv);
         adapter = new EventsAdapter(getActivity(), eventList);

@@ -3,4 +3,5 @@
     <string name="city">city</string>
     <string name="calendar">calendar</string>
     <string name="time">time</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
