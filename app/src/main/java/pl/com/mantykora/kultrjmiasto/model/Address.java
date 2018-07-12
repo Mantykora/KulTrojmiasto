@@ -1,10 +1,15 @@
 
 package pl.com.mantykora.kultrjmiasto.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Parcelable {
 
     @SerializedName("street")
     @Expose
@@ -21,6 +26,26 @@ public class Address {
     @SerializedName("lng")
     @Expose
     private String lng;
+
+    protected Address(Parcel in) {
+        street = in.readString();
+        zipcode = in.readString();
+        city = in.readString();
+        lat = in.readString();
+        lng = in.readString();
+    }
+
+    public static final Creator<Address> CREATOR = new Creator<Address>() {
+        @Override
+        public Address createFromParcel(Parcel in) {
+            return new Address(in);
+        }
+
+        @Override
+        public Address[] newArray(int size) {
+            return new Address[size];
+        }
+    };
 
     public String getStreet() {
         return street;
@@ -62,4 +87,23 @@ public class Address {
         this.lng = lng;
     }
 
+
+
+    public Address() {
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(street);
+        dest.writeString(zipcode);
+        dest.writeString(city);
+        dest.writeString(lat);
+        dest.writeString(lng);
+    }
 }

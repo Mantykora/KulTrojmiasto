@@ -20,6 +20,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
+import java.util.List;
+
+import pl.com.mantykora.kultrjmiasto.model.Event;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -34,6 +38,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private Location mLastKnownLocation;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    private List<Location> locationList;
+    private List<Event> eventList;
 
 
 
@@ -49,6 +55,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        //locationList = (List<Location>) getIntent().getExtras().getSerializable("locationList");
+        Bundle bundle =  getIntent().getExtras();
+       eventList = (List<Event>) bundle.getSerializable("eventList");
+
+
+        if (eventList != null) {
+            for(Event e: eventList) {
+                Log.d("MapsActivity", e.getLocation().getName());
+            }
+        }
+        Log.d("MapsActivity", "" + eventList.toString());
     }
 
     @Override

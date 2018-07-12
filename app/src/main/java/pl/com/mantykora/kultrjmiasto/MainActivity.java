@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,11 +13,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import pl.com.mantykora.kultrjmiasto.model.Attachment;
 import pl.com.mantykora.kultrjmiasto.model.Event;
 import pl.com.mantykora.kultrjmiasto.model.Location;
+import pl.com.mantykora.kultrjmiasto.model.Place;
 import pl.com.mantykora.kultrjmiasto.network.GetDataService;
 import pl.com.mantykora.kultrjmiasto.network.RetrofitClientInstance;
 import retrofit2.Call;
@@ -29,7 +29,9 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
 
     ProgressDialog progressDialog;
     Bundle locationBundle;
-    List<Location> responseList;
+    List<Location> locationList;
+    List<Event> eventList;
+    ArrayList<Event> newList;
 
 
     @Override
@@ -51,9 +53,10 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
             public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
                 Log.d("MainActivity", "" + response.body());
 
-                responseList = response.body();
+                locationList = response.body();
               //  locationBundle = new Bundle();
                // locationBundle.putSerializable("locationList", (Serializable) response.body());
+
 
             }
 
@@ -69,11 +72,15 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
             @Override
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 progressDialog.dismiss();
+                eventList = response.body();
+
+
+
                 Log.d("MainActivity", "" + response.body());
 
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("eventList", (Serializable) response.body());
-                bundle.putSerializable("locationList", (Serializable) responseList);
+                bundle.putSerializable("eventList", (Serializable)eventList);
+                bundle.putSerializable("locationList", (Serializable) locationList);
 
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -117,6 +124,26 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
     public boolean onOptionsItemSelected(MenuItem item) {
        if (item.getItemId() == R.id.map_menu_item) {
            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+           for (Event x: eventList) {
+               int placeId = x.getPlace().getId();
+               for (Location y: locationList) {
+                   if (y.getId() == placeId) {
+                       //Log.d("MainActivity","" +y.getId());
+
+                       x.setLocation(y);
+
+                       Log.d("MainActivity", x.getLocation().getName());
+
+                   }
+               }
+
+
+
+           }
+           Bundle bundle = new Bundle();
+           //bundle.putSerializable("locationList", (Serializable) locationList);
+           bundle.putSerializable("eventList", (Serializable) eventList);
+           intent.putExtras(bundle);
            startActivity(intent);
            return true;
 

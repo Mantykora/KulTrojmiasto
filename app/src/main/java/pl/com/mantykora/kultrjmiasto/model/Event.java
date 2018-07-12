@@ -50,6 +50,19 @@ public class Event implements Parcelable {
     @SerializedName("descShort")
     @Expose
     private String descShort;
+    @SerializedName("location")
+    @Expose
+    private Location location;
+
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
 
     public Integer getId() {
         return id;
@@ -175,6 +188,7 @@ public class Event implements Parcelable {
         dest.writeValue(this.active);
         dest.writeParcelable(this.tickets, flags);
         dest.writeString(this.descShort);
+        dest.writeParcelable(this.location, flags);
     }
 
     public Event() {
@@ -195,6 +209,7 @@ public class Event implements Parcelable {
         this.active = (Integer) in.readValue(Integer.class.getClassLoader());
         this.tickets = in.readParcelable(Tickets.class.getClassLoader());
         this.descShort = in.readString();
+        this.location = in.readParcelable(Location.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
