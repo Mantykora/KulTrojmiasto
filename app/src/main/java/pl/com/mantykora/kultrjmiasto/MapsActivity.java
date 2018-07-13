@@ -1,7 +1,9 @@
 package pl.com.mantykora.kultrjmiasto;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -15,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -103,8 +106,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (address.getLat() != null && address.getLng() != null) {
                     double lat = Double.parseDouble(address.getLat());
                     double lng = Double.parseDouble(address.getLng());
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(e.getName()).snippet(location.getName())).setTag(e);
 
-                googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(e.getName()).snippet(location.getName())); }
+            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                   // int tag = (int) marker.getTag();
+                    Intent intent = new Intent(MapsActivity.this, DetailActivity.class);
+                    intent.putExtra("singleEvent",(Event) marker.getTag());
+                    startActivity(intent);
+                    //TODO onInfoWindowClick
+                }
+            });
+
+                }
             }
         }
         // Add a marker in Sydney and move the camera
@@ -187,7 +202,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.e("Exception: %s", e.getMessage());
         }
     }
-
 
 
 
