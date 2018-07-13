@@ -22,6 +22,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 
 import java.util.List;
 
+import pl.com.mantykora.kultrjmiasto.model.Address;
 import pl.com.mantykora.kultrjmiasto.model.Event;
 
 
@@ -60,11 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
        eventList = (List<Event>) bundle.getSerializable("eventList");
 
 
-        if (eventList != null) {
-            for(Event e: eventList) {
-                Log.d("MapsActivity", e.getLocation().getName());
-            }
-        }
+
         Log.d("MapsActivity", "" + eventList.toString());
     }
 
@@ -97,6 +94,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        if (eventList != null) {
+            for(Event e: eventList) {
+                Log.d("MapsActivity", e.getLocation().getName());
+                pl.com.mantykora.kultrjmiasto.model.Location location = e.getLocation();
+                Address address = location.getAddress();
+                Log.d("MapsActivity", "" + address.getLat());
+                if (address.getLat() != null && address.getLng() != null) {
+                    double lat = Double.parseDouble(address.getLat());
+                    double lng = Double.parseDouble(address.getLng());
+
+                googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(e.getName()).snippet(location.getName())); }
+            }
+        }
         // Add a marker in Sydney and move the camera
        // LatLng sydney = new LatLng(-34, 151);
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
