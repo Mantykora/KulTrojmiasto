@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation 'com.google.firebase:firebase-database:16.0.1'
     def room_version = "1.1.1"
+    def lifecycle_version = "1.1.1"
 
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
@@ -56,6 +57,8 @@ dependencies {
 
     // Test helpers
     testImplementation "android.arch.persistence.room:testing:$room_version"
+
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
 
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 

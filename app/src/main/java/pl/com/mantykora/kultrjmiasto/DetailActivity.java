@@ -1,5 +1,7 @@
 package pl.com.mantykora.kultrjmiasto;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -78,12 +80,18 @@ public class DetailActivity extends AppCompatActivity {
         mDb = AppDatabase.getInstance(getApplicationContext());
 
 
-       FavoriteEntry likedEntry =  mDb.favoriteDao().loadTaskById(event.getId());
-       if (likedEntry != null) {
-           if (likedEntry.getIsLiked()) {
-               likeButton.setLiked(true);
+       LiveData<FavoriteEntry> likedEntry =  mDb.favoriteDao().loadTaskById(event.getId());
+       likedEntry.observe(this, new Observer<FavoriteEntry>() {
+           @Override
+           public void onChanged(@Nullable FavoriteEntry favoriteEntry) {
+               if (favoriteEntry != null) {
+                   if (favoriteEntry.getIsLiked()) {
+                       likeButton.setLiked(true);
+                   }
+               }
            }
-       }
+       });
+
         likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -92,8 +100,7 @@ public class DetailActivity extends AppCompatActivity {
                 if (event.getAttachments().size() > 0) {
                    fileName = event.getAttachments().get(0).getFileName();
                 }
-                favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
-                mDb.favoriteDao().insertFavorite(favoriteEntry);
+                addFavoriteToDatabase();
                 likeButton.setLiked(true);
 
             }
@@ -103,8 +110,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
                 isLiked = false;
-                //TODO get favorite entry with id?
-               favoriteEntry =  mDb.favoriteDao().loadTaskById(event.getId());
+                //TODO delete not on main thread
                 mDb.favoriteDao().deleteTask(favoriteEntry);
                 likeButton.setLiked(false);
 
@@ -115,6 +121,16 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    public void addFavoriteToDatabase() {
+        favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
+         AppExecutors.getInstance().diskIO().execute(new Runnable() {
+             @Override
+             public void run() {
+                 mDb.favoriteDao().insertFavorite(favoriteEntry);
+
+             }
+         });
+    }
     public void populateUi() {
 
         if (event.getAttachments().size() > 0) {

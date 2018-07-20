@@ -62,9 +62,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     @Override
     public int getItemCount() {
+        if (eventList == null) {
+            return 0;
+        }
         return eventList.size();
-    }
-    public void setFavorites(List<FavoriteEntry> eventList) {
+
+
+    }    public void setFavorites(List<FavoriteEntry> eventList) {
         this.eventList = eventList;
         notifyDataSetChanged();
     }

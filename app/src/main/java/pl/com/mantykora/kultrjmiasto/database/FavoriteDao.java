@@ -1,5 +1,6 @@
 package pl.com.mantykora.kultrjmiasto.database;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -13,7 +14,7 @@ import pl.com.mantykora.kultrjmiasto.model.Event;
 public interface FavoriteDao {
 
     @Query("SELECT * FROM favorite")
-    List<FavoriteEntry> loadAllFavorites();
+    LiveData<List<FavoriteEntry>> loadAllFavorites();
 
     @Insert
     void insertFavorite(FavoriteEntry favoriteEntry);
@@ -22,6 +23,6 @@ public interface FavoriteDao {
     void deleteTask(FavoriteEntry favoriteEntry);
 
     @Query("SELECT * FROM favorite WHERE id = :id")
-    FavoriteEntry loadTaskById(int id);
+    LiveData<FavoriteEntry> loadTaskById(int id);
 
 }
