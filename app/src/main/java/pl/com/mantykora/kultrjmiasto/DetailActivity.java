@@ -10,10 +10,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import pl.com.mantykora.kultrjmiasto.database.AppDatabase;
+import pl.com.mantykora.kultrjmiasto.database.FavoriteEntry;
 import pl.com.mantykora.kultrjmiasto.model.Event;
 
 public class DetailActivity extends AppCompatActivity {
@@ -42,6 +46,14 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.ticket_iv)
      ImageView ticket_iv;
 
+    @BindView(R.id.heart_button)
+    LikeButton likeButton;
+
+    private AppDatabase mDb;
+    private String startTicket;
+    private String endTicket;
+    private boolean isLiked;
+
     Event event;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +68,27 @@ public class DetailActivity extends AppCompatActivity {
         event = getIntent().getParcelableExtra("singleEvent");
         Log.d("DetailActivity", event.getName());
 
+         startTicket = event.getTickets().getStartTicket();
+         endTicket = event.getTickets().getEndTicket();
         populateUi();
+
+        mDb = AppDatabase.getInstance(getApplicationContext());
+
+        likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+                isLiked = true;
+                FavoriteEntry favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), event.getAttachments().get(0).getFileName(), isLiked);
+                mDb.favoriteDao().insertFavorite(favoriteEntry);
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+            }
+        });
 
     }
 
@@ -68,8 +100,7 @@ public class DetailActivity extends AppCompatActivity {
        placeTv.setText(String.valueOf(event.getPlace().getName()));
        dateTv.setText(event.getStartDate());
        //TODO set endTicket
-        String startTicket = event.getTickets().getStartTicket();
-        String endTicket = event.getTickets().getEndTicket();
+
 
        if (startTicket != null) {
            priceTv.setText(startTicket);

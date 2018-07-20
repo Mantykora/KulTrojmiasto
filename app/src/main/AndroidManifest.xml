@@ -45,6 +45,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.com.mantykora.kultrjmiasto.MainActivity" />
         </activity>
+        <activity android:name=".Favorites_Activity"></activity>
     </application>
 
 </manifest>

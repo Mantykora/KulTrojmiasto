@@ -122,8 +122,9 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       if (item.getItemId() == R.id.map_menu_item) {
-           Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+       switch (item.getItemId()) {
+           case  R.id.map_menu_item:
+               Intent intent = new Intent(MainActivity.this, MapsActivity.class);
            for (Event x: eventList) {
                int placeId = x.getPlace().getId();
                for (Location y: locationList) {
@@ -135,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
                        Log.d("MainActivity", x.getLocation().getName());
 
                    }
+
+
                }
 
 
@@ -147,7 +150,13 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
            startActivity(intent);
            return true;
 
-       } else return super.onOptionsItemSelected(item);
+           case R.id.favorites_menu_item:
+
+               Intent intent1 = new Intent(MainActivity.this, Favorites_Activity.class);
+               startActivity(intent1);
+               return true;
+
+       default: return super.onOptionsItemSelected(item); }
     }
 
 
