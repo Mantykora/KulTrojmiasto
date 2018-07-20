@@ -52,7 +52,10 @@ public class DetailActivity extends AppCompatActivity {
     private AppDatabase mDb;
     private String startTicket;
     private String endTicket;
-    private boolean isLiked;
+    private boolean isLiked = false;
+    FavoriteEntry favoriteEntry;
+    String fileName;
+
 
     Event event;
     @Override
@@ -74,21 +77,41 @@ public class DetailActivity extends AppCompatActivity {
 
         mDb = AppDatabase.getInstance(getApplicationContext());
 
+
+       FavoriteEntry likedEntry =  mDb.favoriteDao().loadTaskById(event.getId());
+       if (likedEntry != null) {
+           if (likedEntry.getIsLiked()) {
+               likeButton.setLiked(true);
+           }
+       }
         likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
 
                 isLiked = true;
-                FavoriteEntry favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), event.getAttachments().get(0).getFileName(), isLiked);
+                if (event.getAttachments().size() > 0) {
+                   fileName = event.getAttachments().get(0).getFileName();
+                }
+                favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
                 mDb.favoriteDao().insertFavorite(favoriteEntry);
+                likeButton.setLiked(true);
 
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
 
+
+                isLiked = false;
+                //TODO get favorite entry with id?
+               favoriteEntry =  mDb.favoriteDao().loadTaskById(event.getId());
+                mDb.favoriteDao().deleteTask(favoriteEntry);
+                likeButton.setLiked(false);
+
             }
         });
+
+
 
     }
 

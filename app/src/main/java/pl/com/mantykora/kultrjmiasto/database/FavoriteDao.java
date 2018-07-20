@@ -21,4 +21,7 @@ public interface FavoriteDao {
     @Delete
     void deleteTask(FavoriteEntry favoriteEntry);
 
+    @Query("SELECT * FROM favorite WHERE id = :id")
+    FavoriteEntry loadTaskById(int id);
+
 }

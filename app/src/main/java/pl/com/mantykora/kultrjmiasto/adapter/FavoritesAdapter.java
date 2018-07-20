@@ -68,4 +68,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         this.eventList = eventList;
         notifyDataSetChanged();
     }
+
+    public List<FavoriteEntry> getFavorites() {
+        return eventList;
+    }
 }
