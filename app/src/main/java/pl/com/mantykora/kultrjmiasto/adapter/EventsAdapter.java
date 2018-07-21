@@ -15,7 +15,13 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import pl.com.mantykora.kultrjmiasto.DetailActivity;
@@ -127,9 +133,20 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             // TODO: log error
             return;
         }
+
+       // SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+//        String date = dateFormat.format(eventList.get(position).getStartDate());
+
+        DateTime dateTime = new DateTime(eventList.get(position).getStartDate());
+        org.joda.time.format.DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("HH:mm");
+        String sss = dateTime.toString(dateTimeFormatter);
+
+//
+
+
         holder.nameTv.setText(eventList.get(position).getName());
         holder.categoryTv.setText(enumValue.getName());
-        holder.hourTextView.setText(eventList.get(position).getStartDate());
+        holder.hourTextView.setText(sss);
         if (attachments.size() > 0) {
 
             if (attachments.size() > 1) {
@@ -145,6 +162,11 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
     }
 
 
+    }
+
+    public void getHour() {
+//       SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+//       String date = dateFormat.format(eventList.get(position).getStartDate())
     }
 
     @Override

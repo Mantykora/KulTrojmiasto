@@ -57,6 +57,7 @@ public class DetailActivity extends AppCompatActivity {
     private boolean isLiked = false;
     FavoriteEntry favoriteEntry;
     String fileName;
+    FavoriteEntry likedEntryWithoutLiveData;
 
 
     Event event;
@@ -80,38 +81,57 @@ public class DetailActivity extends AppCompatActivity {
         mDb = AppDatabase.getInstance(getApplicationContext());
 
 
-       LiveData<FavoriteEntry> likedEntry =  mDb.favoriteDao().loadTaskById(event.getId());
-       likedEntry.observe(this, new Observer<FavoriteEntry>() {
-           @Override
-           public void onChanged(@Nullable FavoriteEntry favoriteEntry) {
-               if (favoriteEntry != null) {
-                   if (favoriteEntry.getIsLiked()) {
-                       likeButton.setLiked(true);
-                   }
-               }
-           }
-       });
+       //LiveData<FavoriteEntry> likedEntry =  mDb.favoriteDao().loadTaskById(event.getId());
+//       likedEntry.observe(this, new Observer<FavoriteEntry>() {
+//           @Override
+//           public void onChanged(@Nullable FavoriteEntry favoriteEntry) {
+//               if (favoriteEntry != null) {
+//                   if (favoriteEntry.getIsLiked()) {
+//                       likeButton.setLiked(true);
+//                   }
+//               }
+//           }
+//       });
+
+        favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
+
+        //TODO bug bug bug bug bug bug bug
+
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+               likedEntryWithoutLiveData = mDb.favoriteDao().loadTaskByIdWithoutLiveData(event.getId());
+
+                if (likedEntryWithoutLiveData != null) {
+                    if (likedEntryWithoutLiveData.getIsLiked()) {
+                        likeButton.setLiked(true);
+                    } else likeButton.setLiked(false);
+                }
+
+
+
+            }
+        });
+
 
         likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
 
                 isLiked = true;
+                favoriteEntry.setIsLiked(isLiked);
                 if (event.getAttachments().size() > 0) {
                    fileName = event.getAttachments().get(0).getFileName();
                 }
                 addFavoriteToDatabase();
-                likeButton.setLiked(true);
-
+                likeButton.setLiked(isLiked);
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-
-
                 isLiked = false;
                 //TODO delete not on main thread
-                mDb.favoriteDao().deleteTask(favoriteEntry);
+                removeFavoriteFromDatabase();
                 likeButton.setLiked(false);
 
             }
@@ -122,7 +142,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void addFavoriteToDatabase() {
-        favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
+        //favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
          AppExecutors.getInstance().diskIO().execute(new Runnable() {
              @Override
              public void run() {
@@ -130,6 +150,17 @@ public class DetailActivity extends AppCompatActivity {
 
              }
          });
+    }
+
+    public void removeFavoriteFromDatabase() {
+       // favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.favoriteDao().deleteTask(favoriteEntry);
+
+            }
+        });
     }
     public void populateUi() {
 
