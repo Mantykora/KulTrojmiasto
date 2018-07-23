@@ -1,5 +1,6 @@
 package pl.com.mantykora.kultrjmiasto;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
@@ -95,14 +96,15 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
 
                                      FragmentManager fragmentManager = getFragmentManager();
                                      FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                     Fragment eventFragment = fragmentManager.findFragmentById(R.id.fragment_container);
                                      EventListFragment fragment = new EventListFragment();
-                                     if (fragment.isAdded()) {
-
-                                     } else {
+                                     if (eventFragment == null) {
                                          fragment.setArguments(bundle);
 
                                          fragmentTransaction.add(R.id.fragment_container, fragment);
                                          fragmentTransaction.commit();
+                                     } else {
+
                                      }
 
                                  }

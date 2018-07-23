@@ -2,12 +2,16 @@ package pl.com.mantykora.kultrjmiasto;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +52,17 @@ public class EventListFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.events_rv);
         adapter = new EventsAdapter(getActivity(), eventList);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 175, r.getDisplayMetrics());
+
+        int spanCount = Math.round(metrics.widthPixels/px);
+
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), spanCount);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 

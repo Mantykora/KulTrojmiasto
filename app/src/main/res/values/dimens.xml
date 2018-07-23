@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="bitmapWidth">170dp</dimen>
-    <dimen name="bitmapHeight">170dp</dimen>
+    <dimen name="bitmapWidth">165dp</dimen>
+    <dimen name="bitmapHeight">165dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information
