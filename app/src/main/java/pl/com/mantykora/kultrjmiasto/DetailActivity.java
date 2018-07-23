@@ -10,11 +10,16 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -168,19 +173,39 @@ public class DetailActivity extends AppCompatActivity {
             Picasso.get().load(event.getAttachments().get(0).getFileName()).into(imageView);
         }
        placeTv.setText(String.valueOf(event.getPlace().getName()));
-       dateTv.setText(event.getStartDate());
+
+       DateTime dateTime = new DateTime(event.getStartDate());
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
+        String dateString = dateTime.toString(dateTimeFormatter);
+       dateTv.setText(dateString);
        //TODO set endTicket
 
 
-       if (startTicket != null) {
-           priceTv.setText(startTicket);
-       }
-       if (endTicket != null) {
-           priceEndTv.setText("- " + endTicket);
-       }
-       if (startTicket == null && endTicket == null) {
-           ticket_iv.setVisibility(View.GONE);
-       }
+        String ticketType = event.getTickets().getType();
+
+        switch (ticketType) {
+            case "free":
+                priceTv.setText("darmowe");
+                break;
+            case "unknown":
+                ticket_iv.setVisibility(View.GONE);
+                break;
+            case "tickets":
+                priceTv.setText(startTicket);
+                if (endTicket != null) {
+                    priceEndTv.setText("- " + endTicket);
+                }
+                break;
+        }
+//       if (startTicket != null) {
+//           priceTv.setText(startTicket);
+//       }
+//       if (endTicket != null) {
+//           priceEndTv.setText("- " + endTicket);
+//       }
+//       if (startTicket == null && endTicket == null) {
+//           ticket_iv.setVisibility(View.GONE);
+//       }
 
        String eventString = event.getDescLong();
 

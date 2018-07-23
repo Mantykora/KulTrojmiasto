@@ -18,6 +18,9 @@ public interface FavoriteDao {
     @Query("SELECT * FROM favorite")
     LiveData<List<FavoriteEntry>> loadAllFavorites();
 
+    @Query("SELECT * FROM favorite")
+    List<FavoriteEntry> loadFavWidget();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFavorite(FavoriteEntry favoriteEntry);
 
@@ -29,5 +32,7 @@ public interface FavoriteDao {
 
     @Query("SELECT * FROM favorite WHERE id = :id")
     FavoriteEntry loadTaskByIdWithoutLiveData(int id);
+
+
 
 }

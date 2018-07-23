@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -68,43 +69,59 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
 
         Call<List<Event>> call = service.getAllEvents();
 
-        call.enqueue(new Callback<List<Event>>() {
+
+
+
+        class ResponseTask extends AsyncTask<Void, Void, Void> {
+
             @Override
-            public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
-                progressDialog.dismiss();
-                eventList = response.body();
+            protected Void doInBackground(Void... voids) {
+
+                call.enqueue(new Callback<List<Event>>()
+
+                             {
+                                 @Override
+                                 public void onResponse
+                                         (Call<List<Event>> call, Response<List<Event>> response) {
+                                     progressDialog.dismiss();
+                                     eventList = response.body();
 
 
+                                     Log.d("MainActivity", "" + response.body());
 
-                Log.d("MainActivity", "" + response.body());
+                                     Bundle bundle = new Bundle();
+                                     bundle.putSerializable("eventList", (Serializable) eventList);
+                                     bundle.putSerializable("locationList", (Serializable) locationList);
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("eventList", (Serializable)eventList);
-                bundle.putSerializable("locationList", (Serializable) locationList);
+                                     FragmentManager fragmentManager = getFragmentManager();
+                                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                     EventListFragment fragment = new EventListFragment();
+                                     if (fragment.isAdded()) {
 
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                EventListFragment fragment = new EventListFragment();
-                if (fragment.isAdded()) {
+                                     } else {
+                                         fragment.setArguments(bundle);
 
-                } else {
-                    fragment.setArguments(bundle);
+                                         fragmentTransaction.add(R.id.fragment_container, fragment);
+                                         fragmentTransaction.commit();
+                                     }
 
-                    fragmentTransaction.add(R.id.fragment_container, fragment);
-                    fragmentTransaction.commit();
-                }
+                                 }
+
+                                 @Override
+                                 public void onFailure(Call<List<Event>> call, Throwable t) {
+                                     progressDialog.dismiss();
+                                     Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                                 }
+                             }
+
+                );
+            return null;
+            }
+
 
             }
 
-            @Override
-            public void onFailure(Call<List<Event>> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
+            new ResponseTask().execute();
 
 
 

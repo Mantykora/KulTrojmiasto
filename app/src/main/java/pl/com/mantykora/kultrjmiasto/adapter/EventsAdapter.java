@@ -164,10 +164,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
     }
 
-    public void getHour() {
-//       SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-//       String date = dateFormat.format(eventList.get(position).getStartDate())
-    }
+
+
+
 
     @Override
     public int getItemCount() {
