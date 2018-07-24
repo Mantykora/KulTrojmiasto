@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.google.common.io.Resources;
+
 import pl.com.mantykora.kultrjmiasto.R;
 
 public class IconsAdapter extends BaseAdapter {
@@ -15,6 +17,23 @@ public class IconsAdapter extends BaseAdapter {
 
     public IconsAdapter(Context context) {
         this.context = context;
+        contentDescriptions = new String[]{
+
+                context.getResources().getString(R.string.theater),
+                context.getResources().getString(R.string.cinema),
+                context.getResources().getString(R.string.art),
+                context.getResources().getString(R.string.music),
+                context.getResources().getString(R.string.science),
+                context.getResources().getString(R.string.literature),
+                context.getResources().getString(R.string.entertainment),
+                context.getResources().getString(R.string.recreation),
+                context.getResources().getString(R.string.other),
+                context.getResources().getString(R.string.all)
+
+
+
+
+        };
     }
 
     @Override
@@ -44,6 +63,7 @@ public class IconsAdapter extends BaseAdapter {
         }
 
         imageView.setImageResource(imageIds[position]);
+        imageView.setContentDescription(contentDescriptions[position]);
         return imageView;
     }
 
@@ -59,4 +79,8 @@ public class IconsAdapter extends BaseAdapter {
             R.drawable.baseline_more_black_48,
             R.drawable.baseline_select_all_black_48
     };
+
+    private String[] contentDescriptions;
+
+
 }

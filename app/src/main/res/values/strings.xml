@@ -6,4 +6,20 @@
     <string name="title_activity_maps">Map</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="map">map</string>
+    <string name="favorites">favorites</string>
+    <string name="theater">theater</string>
+    <string name="cinema">cinema</string>
+    <string name="art">art</string>
+    <string name="music">music</string>
+    <string name="science">science</string>
+    <string name="literature">literature</string>
+    <string name="entertainment">entertainment</string>
+    <string name="recreation">recreation</string>
+    <string name="other">other</string>
+    <string name="all">all</string>
+    <string name="location">location</string>
+    <string name="date">date</string>
+    <string name="tickets">tickets</string>
+    <string name="image_associated_with_content">image associated with content</string>
 </resources>

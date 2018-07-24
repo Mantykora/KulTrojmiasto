@@ -181,7 +181,6 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
 
     @Override
     public void onIconSelected(int position) {
-        Toast.makeText(this, "Position clicked = " + position, Toast.LENGTH_SHORT).show();
         EventListFragment eventListFragment = (EventListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
         eventListFragment.updateArticleView(position);
 

@@ -77,9 +77,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
             Log.d("EventsAdapter", "" + singleEvent.getName());
 
-           // Bundle bundle = new Bundle();
-           // bundle.putSerializable("singleEvent",  singleEvent);
-          // bundle.putParcelable("singleEvent", singleEvent);
             intent.putExtra("singleEvent", singleEvent);
 
             itemView.getContext().startActivity(intent);
@@ -130,12 +127,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
 
         if (enumValue == null) {
-            // TODO: log error
+            Log.d("EventAdapter", "enmu value is null");
             return;
         }
-
-       // SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-//        String date = dateFormat.format(eventList.get(position).getStartDate());
 
         DateTime dateTime = new DateTime(eventList.get(position).getStartDate());
         org.joda.time.format.DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("HH:mm");
