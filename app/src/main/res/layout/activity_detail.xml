@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"  android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+<android.support.v7.widget.Toolbar
+    android:id="@+id/my_toolbar_detail"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    android:elevation="4dp"
+    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,10 +26,10 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="368dp"
+        android:layout_width="0dp"
         android:layout_height="178dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -30,14 +44,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:textSize="23sp"
             tools:text="New books!" />
+
         <com.like.LikeButton
-            android:layout_gravity="end"
-            app:icon_type="heart"
-            app:icon_size="25dp"
             android:id="@+id/heart_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            app:icon_size="25dp"
+            app:icon_type="heart" />
     </FrameLayout>
 
 
@@ -106,9 +125,12 @@
 
     <TextView
         android:id="@+id/detail_description_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ticket_iv"
         tools:text="New books in libraries! Come and see!" />
@@ -138,3 +160,4 @@
 
 </android.support.constraint.ConstraintLayout>
 </ScrollView>
+</LinearLayout>

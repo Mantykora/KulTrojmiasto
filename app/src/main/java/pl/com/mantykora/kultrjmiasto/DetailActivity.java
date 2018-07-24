@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +57,9 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.heart_button)
     LikeButton likeButton;
 
+    @BindView(R.id.detail_title_tv)
+    TextView titleTv;
+
     private AppDatabase mDb;
     private String startTicket;
     private String endTicket;
@@ -70,7 +74,8 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar_detail);
+        setSupportActionBar(myToolbar);
         ButterKnife.bind(this);
 
 
@@ -172,20 +177,21 @@ public class DetailActivity extends AppCompatActivity {
         if (event.getAttachments().size() > 0) {
             Picasso.get().load(event.getAttachments().get(0).getFileName()).into(imageView);
         }
+
+        titleTv.setText(event.getName());
        placeTv.setText(String.valueOf(event.getPlace().getName()));
 
        DateTime dateTime = new DateTime(event.getStartDate());
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
         String dateString = dateTime.toString(dateTimeFormatter);
        dateTv.setText(dateString);
-       //TODO set endTicket
 
 
         String ticketType = event.getTickets().getType();
 
         switch (ticketType) {
             case "free":
-                priceTv.setText("darmowe");
+                priceTv.setText(R.string.darmowe);
                 break;
             case "unknown":
                 ticket_iv.setVisibility(View.GONE);
@@ -197,20 +203,11 @@ public class DetailActivity extends AppCompatActivity {
                 }
                 break;
         }
-//       if (startTicket != null) {
-//           priceTv.setText(startTicket);
-//       }
-//       if (endTicket != null) {
-//           priceEndTv.setText("- " + endTicket);
-//       }
-//       if (startTicket == null && endTicket == null) {
-//           ticket_iv.setVisibility(View.GONE);
-//       }
 
        String eventString = event.getDescLong();
 
 
-       if (eventString.contains("<p>")) {
+       if (eventString.contains("<p>") || eventString.contains("&nbsp;")) {
            descriptionTv.setText(Html.fromHtml(eventString));
        } else {
            descriptionTv.setText(eventString);

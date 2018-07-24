@@ -14,27 +14,34 @@
         android:layout_height="@dimen/bitmapHeight"
         android:scaleType="center"
         android:adjustViewBounds="true"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimaryLight"
         />
+
     <TextView
         android:id="@+id/event_hour_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="8:00"
         android:layout_gravity="start"
-        />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        tools:text="8:00" />
 
     <TextView
         android:id="@+id/event_category_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="literature"
         android:layout_gravity="end"
-        android:layout_marginTop="26dp"/>
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="26dp"
+        tools:text="literature" />
+
     <TextView
         android:id="@+id/event_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="New books in library"
-        android:layout_gravity="bottom"/>
+        android:layout_gravity="bottom"
+        android:paddingBottom="8dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        tools:text="New books in library" />
 </FrameLayout>
