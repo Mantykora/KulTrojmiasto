@@ -31,6 +31,10 @@ import pl.com.mantykora.kultrjmiasto.model.Event;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    /**
+     * https://developers.google.com/maps/documentation/android-sdk/start
+     * I used this tutorial for implementing maps
+     */
     private GoogleMap mMap;
     private boolean mLocationPermissionGranted;
     private static final String TAG = MapsActivity.class.getSimpleName();
@@ -46,7 +50,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<Event> eventList;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +63,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         //locationList = (List<Location>) getIntent().getExtras().getSerializable("locationList");
-        Bundle bundle =  getIntent().getExtras();
-       eventList = (List<Event>) bundle.getSerializable("eventList");
-
+        Bundle bundle = getIntent().getExtras();
+        eventList = (List<Event>) bundle.getSerializable("eventList");
 
 
         Log.d("MapsActivity", "" + eventList.toString());
@@ -98,7 +100,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         if (eventList != null) {
-            for(Event e: eventList) {
+            for (Event e : eventList) {
                 Log.d("MapsActivity", e.getLocation().getName());
                 pl.com.mantykora.kultrjmiasto.model.Location location = e.getLocation();
                 Address address = location.getAddress();
@@ -108,28 +110,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (address.getLat() != null && address.getLng() != null) {
                     double lat = Double.parseDouble(address.getLat());
                     double lng = Double.parseDouble(address.getLng());
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(e.getName()).snippet(location.getName())).setTag(e);
+                    googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(e.getName()).snippet(location.getName())).setTag(e);
 
-            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                @Override
-                public void onInfoWindowClick(Marker marker) {
-                   // int tag = (int) marker.getTag();
-                    Intent intent = new Intent(MapsActivity.this, DetailActivity.class);
-                    intent.putExtra("singleEvent",(Event) marker.getTag());
-                    startActivity(intent);
-                    //TODO onInfoWindowClick
-                }
-            });
+                    googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+                            // int tag = (int) marker.getTag();
+                            Intent intent = new Intent(MapsActivity.this, DetailActivity.class);
+                            intent.putExtra("singleEvent", (Event) marker.getTag());
+                            startActivity(intent);
+                            //TODO onInfoWindowClick
+                        }
+                    });
 
                 }
             }
         }
-        // Add a marker in Sydney and move the camera
-       // LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-        // Do other setup activities here too, as described elsewhere in this tutorial.
 
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
@@ -169,7 +165,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mLastKnownLocation = null;
                 getLocationPermission();
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
@@ -200,11 +196,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 });
             }
-        } catch(SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
-
 
 
 }

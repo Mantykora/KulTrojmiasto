@@ -28,13 +28,11 @@ import pl.com.mantykora.kultrjmiasto.model.Location;
 public class EventListFragment extends Fragment {
 
 
-
     private RecyclerView recyclerView;
     private EventsAdapter adapter;
     private List<Event> eventList;
     private List<Location> locationList;
     List<Event> litToShort;
-
 
 
     @Nullable
@@ -58,12 +56,11 @@ public class EventListFragment extends Fragment {
         display.getMetrics(metrics);
         float pixelValue = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 175, getResources().getDisplayMetrics());
 
-        int spanCount = Math.round(metrics.widthPixels/pixelValue);
+        int spanCount = Math.round(metrics.widthPixels / pixelValue);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), spanCount);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
 
 
         return view;
@@ -71,7 +68,7 @@ public class EventListFragment extends Fragment {
 
     public void updateArticleView(int position) {
         if (position == 0) {
-           cutListView(19);
+            cutListView(19);
         }
         if (position == 1) {
             cutListView(1);
@@ -99,7 +96,8 @@ public class EventListFragment extends Fragment {
         }
         if (position == 9) {
             adapter = new EventsAdapter(getActivity(), eventList);
-        recyclerView.setAdapter(adapter);}
+            recyclerView.setAdapter(adapter);
+        }
 
     }
 
@@ -107,10 +105,10 @@ public class EventListFragment extends Fragment {
 
 
         litToShort = new ArrayList<>(eventList);
-        Iterator<Event> eventIterator =  litToShort.iterator();
-        while(eventIterator.hasNext()) {
-            Event e = eventIterator.next();
-            if (e.getCategoryId() != categoryId) {
+        Iterator<Event> eventIterator = litToShort.iterator();
+        while (eventIterator.hasNext()) {
+            Event event = eventIterator.next();
+            if (event.getCategoryId() != categoryId) {
                 eventIterator.remove();
             }
         }

@@ -13,21 +13,16 @@ import pl.com.mantykora.kultrjmiasto.R;
 
 /**
  * Implementation of App Widget functionality.
+ * Code for widget from this site: https://android.googlesource.com/platform/development/+/master/samples/StackWidget/src/com/example/android/stackwidget
  */
 public class KulWidget extends AppWidgetProvider {
     public static final String TOAST_ACTION = "pl.com.mantykora.kultrjmiasto.widget.TOAST_ACTION";
     public static final String EXTRA_ITEM = "pl.com.mantykora.kultrjmiasto.widget.EXTRA_ITEM";
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
 
-//        CharSequence widgetText = context.getString(R.string.appwidget_text);
-//        // Construct the RemoteViews object
-//        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.kul_widget);
-//        views.setTextViewText(R.id.appwidget_text, widgetText);
-//
-//        // Instruct the widget manager to update the widget
-//        appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     @Override
@@ -41,6 +36,7 @@ public class KulWidget extends AppWidgetProvider {
         }
         super.onReceive(context, intent);
     }
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
@@ -53,16 +49,6 @@ public class KulWidget extends AppWidgetProvider {
 
             RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.kul_widget);
             rv.setRemoteAdapter(appWidgetId, R.id.wiget_lv, intent);
-            //rv.setEmptyView(R.id.wiget_lv, R.id.empty_view);
-
-
-//            Intent toastIntent = new Intent(context, KulWidget.class);
-//            toastIntent.setAction(KulWidget.TOAST_ACTION);
-//            toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-//            toastIntent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-//            PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent,
-//                    PendingIntent.FLAG_UPDATE_CURRENT);
-//            rv.setPendingIntentTemplate(R.id.wiget_lv, toastPendingIntent);
 
             appWidgetManager.updateAppWidget(appWidgetId, rv);
 

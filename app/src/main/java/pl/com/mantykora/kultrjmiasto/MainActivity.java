@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements Icons_Fragment.OnIconSelectedListener{
+public class MainActivity extends AppCompatActivity implements Icons_Fragment.OnIconSelectedListener {
 
     ProgressDialog progressDialog;
     Bundle locationBundle;
@@ -59,9 +59,6 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
                 Log.d("MainActivity", "" + response.body());
 
                 locationList = response.body();
-              //  locationBundle = new Bundle();
-               // locationBundle.putSerializable("locationList", (Serializable) response.body());
-
 
             }
 
@@ -72,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
         });
 
         Call<List<Event>> call = service.getAllEvents();
-
-
 
 
         class ResponseTask extends AsyncTask<Void, Void, Void> {
@@ -120,17 +115,13 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
                              }
 
                 );
-            return null;
+                return null;
             }
 
 
-            }
+        }
 
-            new ResponseTask().execute();
-
-
-
-
+        new ResponseTask().execute();
 
 
     }
@@ -144,41 +135,40 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       switch (item.getItemId()) {
-           case  R.id.map_menu_item:
-               Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-           for (Event x: eventList) {
-               int placeId = x.getPlace().getId();
-               for (Location y: locationList) {
-                   if (y.getId() == placeId) {
-                       //Log.d("MainActivity","" +y.getId());
+        switch (item.getItemId()) {
+            case R.id.map_menu_item:
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                for (Event x : eventList) {
+                    int placeId = x.getPlace().getId();
+                    for (Location y : locationList) {
+                        if (y.getId() == placeId) {
 
-                       x.setLocation(y);
+                            x.setLocation(y);
 
-                       Log.d("MainActivity", x.getLocation().getName());
+                            Log.d("MainActivity", x.getLocation().getName());
 
-                   }
-
-
-               }
+                        }
 
 
+                    }
 
-           }
-           Bundle bundle = new Bundle();
-           //bundle.putSerializable("locationList", (Serializable) locationList);
-           bundle.putSerializable("eventList", (Serializable) eventList);
-           intent.putExtras(bundle);
-           startActivity(intent);
-           return true;
 
-           case R.id.favorites_menu_item:
+                }
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("eventList", (Serializable) eventList);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                return true;
 
-               Intent intent1 = new Intent(MainActivity.this, Favorites_Activity.class);
-               startActivity(intent1);
-               return true;
+            case R.id.favorites_menu_item:
 
-       default: return super.onOptionsItemSelected(item); }
+                Intent intent1 = new Intent(MainActivity.this, Favorites_Activity.class);
+                startActivity(intent1);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

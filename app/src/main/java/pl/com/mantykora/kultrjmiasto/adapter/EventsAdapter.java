@@ -41,7 +41,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         this.eventList = dataList;
     }
 
-    public static class EventsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class EventsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final View view;
 
@@ -50,7 +50,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         TextView hourTextView;
         ImageView imageIv;
 
-         EventsViewHolder.ViewHolderClick clickListener;
+        EventsViewHolder.ViewHolderClick clickListener;
 
         public EventsViewHolder(View itemView, ViewHolderClick viewHolderClick) {
             super(itemView);
@@ -66,6 +66,12 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
         }
 
+        /*
+          OnClick in RecyclerView from: https://stackoverflow.com/a/24933117/8131467
+
+
+
+         */
         @Override
         public void onClick(View view) {
             clickListener.onEventListItem(view);
@@ -80,9 +86,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             intent.putExtra("singleEvent", singleEvent);
 
             itemView.getContext().startActivity(intent);
-
-
-
 
 
             Log.d("EventsAdapter", "" + position);
@@ -119,11 +122,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         List<Attachment> attachments = event.getAttachments();
 
 
-
         CategoryEnum enumValue = CategoryEnum.forCode(categoryId);
-
-
-
 
 
         if (enumValue == null) {
@@ -145,21 +144,17 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
             if (attachments.size() > 1) {
                 imageLinkString = attachments.get(1).getFileName();
-            }
-           else {
+            } else {
                 imageLinkString = attachments.get(0).getFileName();
             }
             Transformation transformation = new ImageTransformation();
             Picasso.get().load(imageLinkString)
                     .transform(transformation)
                     .into(holder.imageIv);
-    }
+        }
 
 
     }
-
-
-
 
 
     @Override

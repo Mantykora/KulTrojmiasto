@@ -34,5 +34,4 @@ public interface FavoriteDao {
     FavoriteEntry loadTaskByIdWithoutLiveData(int id);
 
 
-
 }

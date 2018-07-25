@@ -31,8 +31,6 @@ public class IconsAdapter extends BaseAdapter {
                 context.getResources().getString(R.string.all)
 
 
-
-
         };
     }
 
@@ -48,7 +46,7 @@ public class IconsAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-            return 0;
+        return 0;
     }
 
     @Override

@@ -30,15 +30,14 @@ public class KulWidgetViewsService extends RemoteViewsService {
 }
 
 class KulRemotViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-     private Context context;
-     private Intent intent;
-     //private ArrayList<FavoriteEntry> favorites;
+    private Context context;
+    private Intent intent;
     List<FavoriteEntry> favorites;
-     private int appWidgetId;
+    private int appWidgetId;
     private AppDatabase mDb;
 
 
-    public KulRemotViewsFactory(Context context , Intent intent) {
+    public KulRemotViewsFactory(Context context, Intent intent) {
         this.context = context;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -56,22 +55,10 @@ class KulRemotViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-//        mDb = AppDatabase.getInstance(context);
-//        favorites = mDb.favoriteDao().loadFavWidget();
+
 
     }
 
-    //LiveData<FavoriteEntry> likedEntry =  mDb.favoriteDao().loadTaskById(event.getId());
-//       likedEntry.observe(this, new Observer<FavoriteEntry>() {
-//           @Override
-//           public void onChanged(@Nullable FavoriteEntry favoriteEntry) {
-//               if (favoriteEntry != null) {
-//                   if (favoriteEntry.getIsLiked()) {
-//                       likeButton.setLiked(true);
-//                   }
-//               }
-//           }
-//       });
 
     @Override
     public void onDataSetChanged() {
@@ -93,8 +80,7 @@ class KulRemotViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public RemoteViews getViewAt(int position) {
-       // favorites = mDb.favoriteDao().loadAllFavorites();
-       // favorites = mDb.favoriteDao().loadFavWidget();
+
 
         FavoriteEntry favorite = favorites.get(position);
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_item);

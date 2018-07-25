@@ -4,7 +4,9 @@ import android.os.Looper;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
 import android.os.Handler;
+
 import java.util.logging.LogRecord;
 
 import io.reactivex.annotations.NonNull;
@@ -50,7 +52,9 @@ public class AppExecutors {
         private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
         @Override
-        public void execute(@NonNull Runnable command) {mainThreadHandler.post(command);}
+        public void execute(@NonNull Runnable command) {
+            mainThreadHandler.post(command);
+        }
 
 
     }

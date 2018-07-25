@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,23 +27,23 @@ public class Favorites_Activity extends AppCompatActivity {
     RecyclerView favoritesRv;
 
     private FavoritesAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
         ButterKnife.bind(this);
-       mDb = AppDatabase.getInstance(getApplicationContext());
+        mDb = AppDatabase.getInstance(getApplicationContext());
 
 
         adapter = new FavoritesAdapter(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         favoritesRv.setLayoutManager(layoutManager);
+        favoritesRv.addItemDecoration(new DividerItemDecoration(favoritesRv.getContext(), DividerItemDecoration.VERTICAL));
 
-       // LiveData<List<FavoriteEntry>> favorites = mDb.favoriteDao().loadAllFavorites();
 
         setupViewModel();
 
-        //adapter.setFavorites(mDb.favoriteDao().loadAllFavorites());
         favoritesRv.setAdapter(adapter);
 
 

@@ -16,7 +16,7 @@ import pl.com.mantykora.kultrjmiasto.adapter.IconsAdapter;
 public class Icons_Fragment extends Fragment {
     OnIconSelectedListener listener;
 
-    public interface  OnIconSelectedListener {
+    public interface OnIconSelectedListener {
         public void onIconSelected(int position);
     }
 
@@ -30,6 +30,7 @@ public class Icons_Fragment extends Fragment {
             throw new ClassCastException(context.toString() + " must implement OnIconSelectedListener");
         }
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +47,6 @@ public class Icons_Fragment extends Fragment {
         });
 
 
-
-return view;    }
+        return view;
+    }
 }

@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.List;
 
 import pl.com.mantykora.kultrjmiasto.R;
@@ -15,16 +19,13 @@ import pl.com.mantykora.kultrjmiasto.database.FavoriteEntry;
 import pl.com.mantykora.kultrjmiasto.model.Event;
 
 
-
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder> {
     private static List<FavoriteEntry> eventList;
     private static Context context;
 
 
-
     public FavoritesAdapter(Context context) {
         this.context = context;
-        //this.eventList = dataList;
     }
 
     public static class FavoritesViewHolder extends RecyclerView.ViewHolder {
@@ -42,6 +43,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
         }
     }
+
     @NonNull
     @Override
     public FavoritesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,9 +56,14 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     public void onBindViewHolder(@NonNull FavoritesAdapter.FavoritesViewHolder holder, int position) {
         FavoriteEntry favoriteEntry = eventList.get(position);
 
+        DateTime dateTime = new DateTime(favoriteEntry.getDate());
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
+        String dateString = dateTime.toString(dateTimeFormatter);
+
+
         holder.nameTextView.setText(favoriteEntry.getTitle());
         holder.placeTextView.setText(favoriteEntry.getPlace());
-        holder.dateTextView.setText(favoriteEntry.getDate());
+        holder.dateTextView.setText(dateString);
 
     }
 
@@ -68,7 +75,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         return eventList.size();
 
 
-    }    public void setFavorites(List<FavoriteEntry> eventList) {
+    }
+
+    public void setFavorites(List<FavoriteEntry> eventList) {
         this.eventList = eventList;
         notifyDataSetChanged();
     }

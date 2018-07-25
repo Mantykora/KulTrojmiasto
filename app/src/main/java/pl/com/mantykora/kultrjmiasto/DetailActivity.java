@@ -52,7 +52,7 @@ public class DetailActivity extends AppCompatActivity {
     ImageView imageView;
 
     @BindView(R.id.ticket_iv)
-     ImageView ticket_iv;
+    ImageView ticket_iv;
 
     @BindView(R.id.heart_button)
     LikeButton likeButton;
@@ -70,6 +70,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
     Event event;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,45 +80,29 @@ public class DetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-       // Bundle bundle = getIntent().getBundleExtra("bundle");
-       // Event event = bundle.getParcelable("sindleEvent");
         event = getIntent().getParcelableExtra("singleEvent");
         Log.d("DetailActivity", event.getName());
 
-         startTicket = event.getTickets().getStartTicket();
-         endTicket = event.getTickets().getEndTicket();
+        startTicket = event.getTickets().getStartTicket();
+        endTicket = event.getTickets().getEndTicket();
         populateUi();
 
         mDb = AppDatabase.getInstance(getApplicationContext());
 
 
-       //LiveData<FavoriteEntry> likedEntry =  mDb.favoriteDao().loadTaskById(event.getId());
-//       likedEntry.observe(this, new Observer<FavoriteEntry>() {
-//           @Override
-//           public void onChanged(@Nullable FavoriteEntry favoriteEntry) {
-//               if (favoriteEntry != null) {
-//                   if (favoriteEntry.getIsLiked()) {
-//                       likeButton.setLiked(true);
-//                   }
-//               }
-//           }
-//       });
-
         favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
 
-        //TODO bug bug bug bug bug bug bug
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-               likedEntryWithoutLiveData = mDb.favoriteDao().loadTaskByIdWithoutLiveData(event.getId());
+                likedEntryWithoutLiveData = mDb.favoriteDao().loadTaskByIdWithoutLiveData(event.getId());
 
                 if (likedEntryWithoutLiveData != null) {
                     if (likedEntryWithoutLiveData.getIsLiked()) {
                         likeButton.setLiked(true);
                     } else likeButton.setLiked(false);
                 }
-
 
 
             }
@@ -131,7 +116,7 @@ public class DetailActivity extends AppCompatActivity {
                 isLiked = true;
                 favoriteEntry.setIsLiked(isLiked);
                 if (event.getAttachments().size() > 0) {
-                   fileName = event.getAttachments().get(0).getFileName();
+                    fileName = event.getAttachments().get(0).getFileName();
                 }
                 addFavoriteToDatabase();
                 likeButton.setLiked(isLiked);
@@ -140,7 +125,6 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void unLiked(LikeButton likeButton) {
                 isLiked = false;
-                //TODO delete not on main thread
                 removeFavoriteFromDatabase();
                 likeButton.setLiked(false);
 
@@ -148,22 +132,19 @@ public class DetailActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     public void addFavoriteToDatabase() {
-        //favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
-         AppExecutors.getInstance().diskIO().execute(new Runnable() {
-             @Override
-             public void run() {
-                 mDb.favoriteDao().insertFavorite(favoriteEntry);
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.favoriteDao().insertFavorite(favoriteEntry);
 
-             }
-         });
+            }
+        });
     }
 
     public void removeFavoriteFromDatabase() {
-       // favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
@@ -172,6 +153,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
+
     public void populateUi() {
 
         if (event.getAttachments().size() > 0) {
@@ -179,12 +161,12 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         titleTv.setText(event.getName());
-       placeTv.setText(String.valueOf(event.getPlace().getName()));
+        placeTv.setText(String.valueOf(event.getPlace().getName()));
 
-       DateTime dateTime = new DateTime(event.getStartDate());
+        DateTime dateTime = new DateTime(event.getStartDate());
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
         String dateString = dateTime.toString(dateTimeFormatter);
-       dateTv.setText(dateString);
+        dateTv.setText(dateString);
 
 
         String ticketType = event.getTickets().getType();
@@ -204,14 +186,14 @@ public class DetailActivity extends AppCompatActivity {
                 break;
         }
 
-       String eventString = event.getDescLong();
+        String eventString = event.getDescLong();
 
 
-       if (eventString.contains("<p>") || eventString.contains("&nbsp;")) {
-           descriptionTv.setText(Html.fromHtml(eventString));
-       } else {
-           descriptionTv.setText(eventString);
-       }
-       linklTv.setText(event.getUrls().getWww());
+        if (eventString.contains("<p>") || eventString.contains("&nbsp;")) {
+            descriptionTv.setText(Html.fromHtml(eventString));
+        } else {
+            descriptionTv.setText(eventString);
+        }
+        linklTv.setText(event.getUrls().getWww());
     }
 }
