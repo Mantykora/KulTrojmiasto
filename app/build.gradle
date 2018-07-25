@@ -10,10 +10,26 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+
+
+    }
+
+    signingConfigs {
+
+
+        release {
+
+            storeFile file('../kulUdacity.jks')
+            storePassword 'kulUdacityPassword'
+            keyAlias 'kulUdacity'
+            keyPassword 'kulUdacityPassword'
+        }
 
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -63,6 +79,8 @@ dependencies {
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 
     implementation  'joda-time:joda-time:2.10'
+    implementation 'com.android.support:multidex:1.0.3'
+
 
 
 }
