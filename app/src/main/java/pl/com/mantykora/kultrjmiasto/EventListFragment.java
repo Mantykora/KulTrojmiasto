@@ -33,6 +33,7 @@ public class EventListFragment extends Fragment {
     private List<Event> eventList;
     private List<Location> locationList;
     List<Event> litToShort;
+    private int iconPosition;
 
 
     @Nullable
@@ -43,6 +44,7 @@ public class EventListFragment extends Fragment {
         Bundle bundle = this.getArguments();
         eventList = (List<Event>) bundle.getSerializable("eventList");
         locationList = (List<Location>) bundle.getSerializable("locationList");
+
 
 
         Log.d("EventsListFragment.java", "" + eventList);
@@ -61,40 +63,59 @@ public class EventListFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), spanCount);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
+        if (savedInstanceState != null) {
+            iconPosition = savedInstanceState.getInt("iconPosition");
+            updateArticleView(iconPosition);
+        }
 
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("iconPosition", iconPosition);
+    }
+
     public void updateArticleView(int position) {
         if (position == 0) {
+            iconPosition = 0;
             cutListView(19);
         }
         if (position == 1) {
+            iconPosition = 1;
             cutListView(1);
         }
         if (position == 2) {
+            iconPosition = 2;
             cutListView(51);
         }
         if (position == 3) {
+            iconPosition = 3;
             cutListView(35);
         }
         if (position == 4) {
+            iconPosition = 4;
             cutListView(83);
         }
         if (position == 5) {
+            iconPosition = 5;
             cutListView(61);
         }
         if (position == 6) {
+            iconPosition = 6;
             cutListView(69);
         }
         if (position == 7) {
+            iconPosition = 7;
             cutListView(77);
         }
         if (position == 8) {
+            iconPosition = 8;
             cutListView(96);
         }
         if (position == 9) {
+            iconPosition = 9;
             adapter = new EventsAdapter(getActivity(), eventList);
             recyclerView.setAdapter(adapter);
         }

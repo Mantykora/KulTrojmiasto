@@ -32,7 +32,7 @@ public class KulWidget extends AppWidgetProvider {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
             int viewIndex = intent.getIntExtra(EXTRA_ITEM, 0);
-            Toast.makeText(context, "Touched view " + viewIndex, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.touched) + viewIndex, Toast.LENGTH_SHORT).show();
         }
         super.onReceive(context, intent);
     }

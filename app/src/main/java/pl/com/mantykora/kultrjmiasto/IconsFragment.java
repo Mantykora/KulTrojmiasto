@@ -13,7 +13,7 @@ import android.widget.GridView;
 import pl.com.mantykora.kultrjmiasto.adapter.IconsAdapter;
 
 
-public class Icons_Fragment extends Fragment {
+public class IconsFragment extends Fragment {
     OnIconSelectedListener listener;
 
     public interface OnIconSelectedListener {

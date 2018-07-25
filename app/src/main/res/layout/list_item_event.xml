@@ -15,6 +15,7 @@
         android:scaleType="center"
         android:adjustViewBounds="true"
         android:background="@color/colorPrimaryLight"
+        android:contentDescription="@string/image_associated_with_content"
         />
 
     <TextView

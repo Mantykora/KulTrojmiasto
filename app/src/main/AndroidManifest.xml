@@ -46,7 +46,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.com.mantykora.kultrjmiasto.MainActivity" />
         </activity>
-        <activity android:name=".Favorites_Activity" />
+        <activity android:name=".FavoritesActivity" />
 
         <receiver android:name=".widget.KulWidget">
             <intent-filter>

@@ -20,7 +20,7 @@ import pl.com.mantykora.kultrjmiasto.adapter.FavoritesAdapter;
 import pl.com.mantykora.kultrjmiasto.database.AppDatabase;
 import pl.com.mantykora.kultrjmiasto.database.FavoriteEntry;
 
-public class Favorites_Activity extends AppCompatActivity {
+public class FavoritesActivity extends AppCompatActivity {
     AppDatabase mDb;
 
     @BindView(R.id.favorites_rv)

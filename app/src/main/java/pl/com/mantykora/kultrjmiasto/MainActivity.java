@@ -21,14 +21,13 @@ import java.util.List;
 
 import pl.com.mantykora.kultrjmiasto.model.Event;
 import pl.com.mantykora.kultrjmiasto.model.Location;
-import pl.com.mantykora.kultrjmiasto.model.Place;
 import pl.com.mantykora.kultrjmiasto.network.GetDataService;
 import pl.com.mantykora.kultrjmiasto.network.RetrofitClientInstance;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements Icons_Fragment.OnIconSelectedListener {
+public class MainActivity extends AppCompatActivity implements IconsFragment.OnIconSelectedListener {
 
     ProgressDialog progressDialog;
     Bundle locationBundle;
@@ -110,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
                                  @Override
                                  public void onFailure(Call<List<Event>> call, Throwable t) {
                                      progressDialog.dismiss();
-                                     Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                                     Toast.makeText(MainActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
                                  }
                              }
 
@@ -162,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements Icons_Fragment.On
 
             case R.id.favorites_menu_item:
 
-                Intent intent1 = new Intent(MainActivity.this, Favorites_Activity.class);
+                Intent intent1 = new Intent(MainActivity.this, FavoritesActivity.class);
                 startActivity(intent1);
                 return true;
 

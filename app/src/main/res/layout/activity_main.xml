@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/fragment_icons"
-        android:name="pl.com.mantykora.kultrjmiasto.Icons_Fragment"
+        android:name="pl.com.mantykora.kultrjmiasto.IconsFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

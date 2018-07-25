@@ -23,4 +23,6 @@
     <string name="tickets">tickets</string>
     <string name="image_associated_with_content">image associated with content</string>
     <string name="darmowe">darmowe</string>
+    <string name="something">Something went wrong...Please try later!</string>
+    <string name="touched">Touched view</string>
 </resources>
