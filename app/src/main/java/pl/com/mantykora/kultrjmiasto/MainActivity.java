@@ -70,60 +70,47 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         Call<List<Event>> call = service.getAllEvents();
 
 
-        class ResponseTask extends AsyncTask<Void, Void, Void> {
+        call.enqueue(new Callback<List<Event>>()
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-
-                call.enqueue(new Callback<List<Event>>()
-
-                             {
-                                 @Override
-                                 public void onResponse
-                                         (Call<List<Event>> call, Response<List<Event>> response) {
-                                     progressDialog.dismiss();
-                                     eventList = response.body();
+                     {
+                         @Override
+                         public void onResponse
+                                 (Call<List<Event>> call, Response<List<Event>> response) {
+                             progressDialog.dismiss();
+                             eventList = response.body();
 
 
-                                     Log.d("MainActivity", "" + response.body());
+                             Log.d("MainActivity", "" + response.body());
 
-                                     Bundle bundle = new Bundle();
-                                     bundle.putSerializable("eventList", (Serializable) eventList);
-                                     bundle.putSerializable("locationList", (Serializable) locationList);
+                             Bundle bundle = new Bundle();
+                             bundle.putSerializable("eventList", (Serializable) eventList);
+                             bundle.putSerializable("locationList", (Serializable) locationList);
 
-                                     FragmentManager fragmentManager = getFragmentManager();
-                                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                     Fragment eventFragment = fragmentManager.findFragmentById(R.id.fragment_container);
-                                     EventListFragment fragment = new EventListFragment();
-                                     if (eventFragment == null) {
-                                         fragment.setArguments(bundle);
+                             FragmentManager fragmentManager = getFragmentManager();
+                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                             Fragment eventFragment = fragmentManager.findFragmentById(R.id.fragment_container);
+                             EventListFragment fragment = new EventListFragment();
+                             if (eventFragment == null) {
+                                 fragment.setArguments(bundle);
 
-                                         fragmentTransaction.add(R.id.fragment_container, fragment);
-                                         fragmentTransaction.commit();
-                                     } else {
+                                 fragmentTransaction.add(R.id.fragment_container, fragment);
+                                 fragmentTransaction.commit();
+                             } else {
 
-                                     }
-
-                                 }
-
-                                 @Override
-                                 public void onFailure(Call<List<Event>> call, Throwable t) {
-                                     progressDialog.dismiss();
-                                     Toast.makeText(MainActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
-                                 }
                              }
 
-                );
-                return null;
-            }
+                         }
 
+                         @Override
+                         public void onFailure(Call<List<Event>> call, Throwable t) {
+                             progressDialog.dismiss();
+                             Toast.makeText(MainActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+                         }
+                     }
 
-        }
-
-        new ResponseTask().execute();
-
-
+        );
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
