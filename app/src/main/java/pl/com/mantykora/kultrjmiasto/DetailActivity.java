@@ -70,6 +70,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
     Event event;
+    FavoriteEntry fav;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,33 +82,45 @@ public class DetailActivity extends AppCompatActivity {
 
 
         event = getIntent().getParcelableExtra("singleEvent");
-        Log.d("DetailActivity", event.getName());
+        fav = getIntent().getParcelableExtra("singleFavorite");
 
-        startTicket = event.getTickets().getStartTicket();
-        endTicket = event.getTickets().getEndTicket();
-        populateUi();
+        if (event != null) {
+            Log.d("DetailActivity", event.getName());
 
-        mDb = AppDatabase.getInstance(getApplicationContext());
-
-
-        favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
+            startTicket = event.getTickets().getStartTicket();
+            endTicket = event.getTickets().getEndTicket();
+            populateUi();
 
 
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                likedEntryWithoutLiveData = mDb.favoriteDao().loadTaskByIdWithoutLiveData(event.getId());
+            mDb = AppDatabase.getInstance(getApplicationContext());
 
-                if (likedEntryWithoutLiveData != null) {
-                    if (likedEntryWithoutLiveData.getIsLiked()) {
-                        likeButton.setLiked(true);
-                    } else likeButton.setLiked(false);
-                }
-
-
+            if (event.getAttachments().size() > 0) {
+                fileName = event.getAttachments().get(0).getFileName();
             }
-        });
+            favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
 
+
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    likedEntryWithoutLiveData = mDb.favoriteDao().loadTaskByIdWithoutLiveData(event.getId());
+
+                    if (likedEntryWithoutLiveData != null) {
+                        if (likedEntryWithoutLiveData.getIsLiked()) {
+                            likeButton.setLiked(true);
+                        } else likeButton.setLiked(false);
+                    }
+
+
+                }
+            });
+        }
+        else {
+
+            populateUiFromFavs();
+
+
+        }
 
         likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
@@ -115,9 +128,7 @@ public class DetailActivity extends AppCompatActivity {
 
                 isLiked = true;
                 favoriteEntry.setIsLiked(isLiked);
-                if (event.getAttachments().size() > 0) {
-                    fileName = event.getAttachments().get(0).getFileName();
-                }
+
                 addFavoriteToDatabase();
                 likeButton.setLiked(isLiked);
             }
@@ -195,5 +206,23 @@ public class DetailActivity extends AppCompatActivity {
             descriptionTv.setText(eventString);
         }
         linklTv.setText(event.getUrls().getWww());
+    }
+
+    public void populateUiFromFavs() {
+        titleTv.setText(fav.getTitle());
+        placeTv.setText(fav.getPlace());
+
+        DateTime dateTime = new DateTime(fav.getDate());
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
+        String dateString = dateTime.toString(dateTimeFormatter);
+        dateTv.setText(dateString);
+
+        descriptionTv.setText(fav.getDescription());
+        linklTv.setText(fav.getLink());
+        Picasso.get().load(fav.getImage()).into(imageView);
+
+
+
+
     }
 }

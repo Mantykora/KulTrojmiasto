@@ -1,8 +1,11 @@
 package pl.com.mantykora.kultrjmiasto.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +15,10 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.io.Serializable;
 import java.util.List;
 
+import pl.com.mantykora.kultrjmiasto.DetailActivity;
 import pl.com.mantykora.kultrjmiasto.R;
 import pl.com.mantykora.kultrjmiasto.database.FavoriteEntry;
 import pl.com.mantykora.kultrjmiasto.model.Event;
@@ -28,20 +33,46 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         this.context = context;
     }
 
-    public static class FavoritesViewHolder extends RecyclerView.ViewHolder {
+    public static class FavoritesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView nameTextView;
         TextView placeTextView;
         TextView dateTextView;
 
-        public FavoritesViewHolder(View itemView) {
+        FavoritesViewHolder.FavoritesViewHolderClick clickListener;
+
+        public FavoritesViewHolder(View itemView, FavoritesViewHolderClick viewHolderClick) {
             super(itemView);
+            clickListener = viewHolderClick;
+
 
             nameTextView = itemView.findViewById(R.id.fav_title_tv);
             placeTextView = itemView.findViewById(R.id.fav_place_tv);
             dateTextView = itemView.findViewById(R.id.fav_date_tv);
 
-        }
+            nameTextView.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View view) {
+            clickListener.onFavoriteListItem(view);
+
+            int position = (int) view.getTag();
+
+            Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
+
+            FavoriteEntry favoriteEntry = eventList.get(position);
+
+            intent.putExtra("singleFavorite", (Parcelable) favoriteEntry);
+
+            itemView.getContext().startActivity(intent);
+
+    }
+
+    public interface FavoritesViewHolderClick {
+            void onFavoriteListItem(View view);
+    }
     }
 
     @NonNull
@@ -49,12 +80,18 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     public FavoritesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.list_item_favorite, parent, false);
-        return new FavoritesViewHolder(view);
+        return new FavoritesViewHolder(view, new FavoritesViewHolder.FavoritesViewHolderClick() {
+
+            public void onFavoriteListItem(View view) {
+                Log.d("FavoritesAdapter", "click");
+            }
+        });
     }
 
     @Override
     public void onBindViewHolder(@NonNull FavoritesAdapter.FavoritesViewHolder holder, int position) {
         FavoriteEntry favoriteEntry = eventList.get(position);
+        holder.nameTextView.setTag(position);
 
         DateTime dateTime = new DateTime(favoriteEntry.getDate());
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");

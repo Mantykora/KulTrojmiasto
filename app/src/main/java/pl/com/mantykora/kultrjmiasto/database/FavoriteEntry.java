@@ -2,9 +2,11 @@ package pl.com.mantykora.kultrjmiasto.database;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 @Entity(tableName = "favorite")
-public class FavoriteEntry {
+public class FavoriteEntry implements Parcelable {
 
     @PrimaryKey
     private int id;
@@ -111,4 +113,48 @@ public class FavoriteEntry {
     public void setIsLiked(boolean isLiked) {
         this.isLiked = isLiked;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.place);
+        dest.writeString(this.startTicket);
+        dest.writeString(this.endTicket);
+        dest.writeString(this.date);
+        dest.writeString(this.description);
+        dest.writeString(this.link);
+        dest.writeString(this.image);
+        dest.writeByte(this.isLiked ? (byte) 1 : (byte) 0);
+    }
+
+    protected FavoriteEntry(Parcel in) {
+        this.id = in.readInt();
+        this.title = in.readString();
+        this.place = in.readString();
+        this.startTicket = in.readString();
+        this.endTicket = in.readString();
+        this.date = in.readString();
+        this.description = in.readString();
+        this.link = in.readString();
+        this.image = in.readString();
+        this.isLiked = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<FavoriteEntry> CREATOR = new Parcelable.Creator<FavoriteEntry>() {
+        @Override
+        public FavoriteEntry createFromParcel(Parcel source) {
+            return new FavoriteEntry(source);
+        }
+
+        @Override
+        public FavoriteEntry[] newArray(int size) {
+            return new FavoriteEntry[size];
+        }
+    };
 }
