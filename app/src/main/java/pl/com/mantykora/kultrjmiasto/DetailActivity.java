@@ -84,6 +84,9 @@ public class DetailActivity extends AppCompatActivity {
         event = getIntent().getParcelableExtra("singleEvent");
         fav = getIntent().getParcelableExtra("singleFavorite");
 
+        mDb = AppDatabase.getInstance(getApplicationContext());
+
+
         if (event != null) {
             Log.d("DetailActivity", event.getName());
 
@@ -92,7 +95,7 @@ public class DetailActivity extends AppCompatActivity {
             populateUi();
 
 
-            mDb = AppDatabase.getInstance(getApplicationContext());
+            //mDb = AppDatabase.getInstance(getApplicationContext());
 
             if (event.getAttachments().size() > 0) {
                 fileName = event.getAttachments().get(0).getFileName();
@@ -117,6 +120,8 @@ public class DetailActivity extends AppCompatActivity {
         }
         else {
 
+            likeButton.setLiked(true);
+            favoriteEntry = new FavoriteEntry(fav.getId(), fav.getTitle(), fav.getPlace(), fav.getStartTicket(), fav.getEndTicket(), fav.getDate(), fav.getDescription(), fav.getLink(), fav.getImage(), fav.getIsLiked());
             populateUiFromFavs();
 
 
