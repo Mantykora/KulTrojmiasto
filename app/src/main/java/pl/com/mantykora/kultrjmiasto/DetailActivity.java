@@ -67,6 +67,7 @@ public class DetailActivity extends AppCompatActivity {
     FavoriteEntry favoriteEntry;
     String fileName;
     FavoriteEntry likedEntryWithoutLiveData;
+    private String ticketType;
 
 
     Event event;
@@ -100,7 +101,7 @@ public class DetailActivity extends AppCompatActivity {
             if (event.getAttachments().size() > 0) {
                 fileName = event.getAttachments().get(0).getFileName();
             }
-            favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked);
+            favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked, event.getTickets().getType());
 
 
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -121,7 +122,7 @@ public class DetailActivity extends AppCompatActivity {
         else {
 
             likeButton.setLiked(true);
-            favoriteEntry = new FavoriteEntry(fav.getId(), fav.getTitle(), fav.getPlace(), fav.getStartTicket(), fav.getEndTicket(), fav.getDate(), fav.getDescription(), fav.getLink(), fav.getImage(), fav.getIsLiked());
+            favoriteEntry = new FavoriteEntry(fav.getId(), fav.getTitle(), fav.getPlace(), fav.getStartTicket(), fav.getEndTicket(), fav.getDate(), fav.getDescription(), fav.getLink(), fav.getImage(), fav.getIsLiked(), fav.getTicketType());
             populateUiFromFavs();
 
 
@@ -185,22 +186,24 @@ public class DetailActivity extends AppCompatActivity {
         dateTv.setText(dateString);
 
 
-        String ticketType = event.getTickets().getType();
+//        String ticketType = event.getTickets().getType();
+//
+//        switch (ticketType) {
+//            case "free":
+//                priceTv.setText(R.string.darmowe);
+//                break;
+//            case "unknown":
+//                ticket_iv.setVisibility(View.GONE);
+//                break;
+//            case "tickets":
+//                priceTv.setText(startTicket);
+//                if (endTicket != null) {
+//                    priceEndTv.setText("- " + endTicket);
+//                }
+//                break;
+//        }
 
-        switch (ticketType) {
-            case "free":
-                priceTv.setText(R.string.darmowe);
-                break;
-            case "unknown":
-                ticket_iv.setVisibility(View.GONE);
-                break;
-            case "tickets":
-                priceTv.setText(startTicket);
-                if (endTicket != null) {
-                    priceEndTv.setText("- " + endTicket);
-                }
-                break;
-        }
+        getTicketType(event.getTickets().getType());
 
         String eventString = event.getDescLong();
 
@@ -221,6 +224,7 @@ public class DetailActivity extends AppCompatActivity {
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
         String dateString = dateTime.toString(dateTimeFormatter);
         dateTv.setText(dateString);
+        getTicketType(fav.getTicketType());
 
         descriptionTv.setText(fav.getDescription());
         linklTv.setText(fav.getLink());
@@ -229,5 +233,24 @@ public class DetailActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void getTicketType(String type) {
+       // String ticketType = event.getTickets().getType();
+
+        switch (type) {
+            case "free":
+                priceTv.setText(R.string.darmowe);
+                break;
+            case "unknown":
+                ticket_iv.setVisibility(View.GONE);
+                break;
+            case "tickets":
+                priceTv.setText(startTicket);
+                if (endTicket != null) {
+                    priceEndTv.setText("- " + endTicket);
+                }
+                break;
+        }
     }
 }

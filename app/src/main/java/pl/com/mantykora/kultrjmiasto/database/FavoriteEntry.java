@@ -19,9 +19,10 @@ public class FavoriteEntry implements Parcelable {
     private String link;
     private String image;
     private boolean isLiked;
+    private String ticketType;
 
 
-    public FavoriteEntry(int id, String title, String place, String startTicket, String endTicket, String date, String description, String link, String image, boolean isLiked) {
+    public FavoriteEntry(int id, String title, String place, String startTicket, String endTicket, String date, String description, String link, String image, boolean isLiked, String ticketType) {
         this.id = id;
         this.title = title;
         this.place = place;
@@ -32,6 +33,7 @@ public class FavoriteEntry implements Parcelable {
         this.link = link;
         this.image = image;
         this.isLiked = isLiked;
+        this.ticketType = ticketType;
     }
 
     public int getId() {
@@ -56,6 +58,14 @@ public class FavoriteEntry implements Parcelable {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public String getTicketType() {
+        return ticketType;
+    }
+
+    public void setTicketType(String ticketType) {
+        this.ticketType = ticketType;
     }
 
     public String getStartTicket() {
@@ -131,6 +141,7 @@ public class FavoriteEntry implements Parcelable {
         dest.writeString(this.link);
         dest.writeString(this.image);
         dest.writeByte(this.isLiked ? (byte) 1 : (byte) 0);
+        dest.writeString(this.ticketType);
     }
 
     protected FavoriteEntry(Parcel in) {
@@ -144,9 +155,10 @@ public class FavoriteEntry implements Parcelable {
         this.link = in.readString();
         this.image = in.readString();
         this.isLiked = in.readByte() != 0;
+        this.ticketType = in.readString();
     }
 
-    public static final Parcelable.Creator<FavoriteEntry> CREATOR = new Parcelable.Creator<FavoriteEntry>() {
+    public static final Creator<FavoriteEntry> CREATOR = new Creator<FavoriteEntry>() {
         @Override
         public FavoriteEntry createFromParcel(Parcel source) {
             return new FavoriteEntry(source);
