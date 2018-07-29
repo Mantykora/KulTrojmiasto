@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/bitmapWidth"
     android:layout_height="@dimen/bitmapHeight"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginEnd="8dp"
-    android:layout_marginBottom="8dp">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardCornerRadius="4dp"
+    android:layout_marginBottom="16dp"
+    card_view:cardBackgroundColor="@color/colorPrimaryLight">
+<!--<FrameLayout-->
+    <!--android:layout_width="@dimen/bitmapWidth"-->
+    <!--android:layout_height="@dimen/bitmapHeight"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:layout_marginBottom="8dp">-->
 
 
     <ImageView
@@ -14,8 +22,8 @@
         android:layout_height="@dimen/bitmapHeight"
         android:scaleType="center"
         android:adjustViewBounds="true"
-        android:background="@color/colorPrimaryLight"
         android:contentDescription="@string/image_associated_with_content"
+
         />
 
     <TextView
@@ -45,4 +53,5 @@
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
         tools:text="New books in library" />
-</FrameLayout>
+<!--</FrameLayout>-->
+</android.support.v7.widget.CardView>

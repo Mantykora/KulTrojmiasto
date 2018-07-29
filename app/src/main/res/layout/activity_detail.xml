@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"  android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    >
 <android.support.v7.widget.Toolbar
     android:id="@+id/my_toolbar_detail"
     android:layout_width="match_parent"
@@ -24,11 +26,11 @@
     android:layout_height="wrap_content">
 
 
-    <FrameLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/frameLayout"
         android:layout_width="0dp"
         android:layout_height="178dp"
-        android:background="@color/colorPrimary"
+        card_view:cardBackgroundColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -57,7 +59,7 @@
             android:layout_gravity="end"
             app:icon_size="25dp"
             app:icon_type="heart" />
-    </FrameLayout>
+    </android.support.v7.widget.CardView>
 
 
     <ImageView

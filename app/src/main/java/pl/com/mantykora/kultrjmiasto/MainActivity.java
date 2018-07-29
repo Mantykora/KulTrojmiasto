@@ -30,11 +30,36 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements IconsFragment.OnIconSelectedListener {
 
     ProgressDialog progressDialog;
+    boolean isStateSaved;
+    boolean isDialogShowed;
     Bundle locationBundle;
     List<Location> locationList;
     List<Event> eventList;
     ArrayList<Event> newList;
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isStateSaved = true;
+
+
+            if ((progressDialog != null) && progressDialog.isShowing())
+                progressDialog.dismiss();
+            progressDialog = null;
+
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        isStateSaved = false;
+        if (isDialogShowed) {
+            isDialogShowed = false;
+
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +101,10 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                          @Override
                          public void onResponse
                                  (Call<List<Event>> call, Response<List<Event>> response) {
-                             progressDialog.dismiss();
+
+                             if ((progressDialog != null) && progressDialog.isShowing()) {
+                                 progressDialog.dismiss();
+                             }
                              eventList = response.body();
 
 
@@ -94,9 +122,16 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                                  fragment.setArguments(bundle);
 
                                  fragmentTransaction.add(R.id.fragment_container, fragment);
-                                 fragmentTransaction.commit();
-                             } else {
+                                 if (isStateSaved) {
+                                     isDialogShowed = true;
+                                 } else  {
+                                     fragmentTransaction.commit();
 
+                                 }
+                             } else {
+                                 fragmentTransaction.detach(fragment);
+                                 fragmentTransaction.add(R.id.fragment_container, fragment);
+                                 fragmentTransaction.commit();
                              }
 
                          }
