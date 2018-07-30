@@ -25,15 +25,17 @@
         android:contentDescription="@string/image_associated_with_content"
 
         />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape"/>
     <TextView
-        android:id="@+id/event_hour_tv"
+        android:id="@+id/event_date_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        tools:text="8:00" />
+        tools:text="dziś"/>
+
+
 
     <TextView
         android:id="@+id/event_category_tv"
