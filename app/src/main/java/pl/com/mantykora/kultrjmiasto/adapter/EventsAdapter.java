@@ -49,6 +49,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         TextView categoryTv;
         TextView hourTextView;
         ImageView imageIv;
+        TextView dateTv;
 
         EventsViewHolder.ViewHolderClick clickListener;
 
@@ -61,6 +62,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             categoryTv = view.findViewById(R.id.event_category_tv);
             hourTextView = view.findViewById(R.id.event_hour_tv);
             imageIv = view.findViewById(R.id.event_iv);
+            dateTv = view.findViewById(R.id.event_date_tv);
+
 
             imageIv.setOnClickListener(this);
 
@@ -131,15 +134,23 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         }
 
         DateTime dateTime = new DateTime(eventList.get(position).getStartDate());
-        org.joda.time.format.DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("HH:mm");
-        String sss = dateTime.toString(dateTimeFormatter);
+        org.joda.time.format.DateTimeFormatter hourFormatter = DateTimeFormat.forPattern("HH:mm");
+        String eventHour = dateTime.toString(hourFormatter);
+
+        org.joda.time.format.DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("dd.MM");
+        String eventDate = dateTime.toString(dateFormatter);
 
 //
 
+        String eventName = eventList.get(position).getName();
+        if(eventName.length() > 45) {
+            eventName = eventName.substring(0, 45) + "...";
+        }
 
-        holder.nameTv.setText(eventList.get(position).getName());
+        holder.nameTv.setText(eventName);
         holder.categoryTv.setText(enumValue.getName());
-        holder.hourTextView.setText(sss);
+        holder.hourTextView.setText(eventHour);
+        holder.dateTv.setText(eventDate);
         if (attachments.size() > 0) {
 
             if (attachments.size() > 1) {
