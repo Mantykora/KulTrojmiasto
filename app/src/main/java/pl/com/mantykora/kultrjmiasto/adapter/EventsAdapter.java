@@ -2,6 +2,7 @@ package pl.com.mantykora.kultrjmiasto.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.Serializable;
@@ -50,6 +52,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         TextView hourTextView;
         ImageView imageIv;
         TextView dateTv;
+        ImageView eventCategoryIv;
 
         EventsViewHolder.ViewHolderClick clickListener;
 
@@ -63,6 +66,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             hourTextView = view.findViewById(R.id.event_hour_tv);
             imageIv = view.findViewById(R.id.event_iv);
             dateTv = view.findViewById(R.id.event_date_tv);
+            eventCategoryIv = view.findViewById(R.id.event_category_iv);
 
 
             imageIv.setOnClickListener(this);
@@ -133,12 +137,31 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             return;
         }
 
+
+
+
+
         DateTime dateTime = new DateTime(eventList.get(position).getStartDate());
         org.joda.time.format.DateTimeFormatter hourFormatter = DateTimeFormat.forPattern("HH:mm");
         String eventHour = dateTime.toString(hourFormatter);
 
         org.joda.time.format.DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("dd.MM");
         String eventDate = dateTime.toString(dateFormatter);
+
+        if (dateTime.toLocalDate().equals(new LocalDate())) {
+
+            holder.dateTv.setText("dzisiaj");
+        }
+        else if(dateTime.toLocalDate().equals(new LocalDate().plusDays(1))) {
+
+            holder.dateTv.setText("jutro");
+        }
+        else {
+            holder.dateTv.setText(eventDate);
+        }
+
+//        org.joda.time.format.DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("dd.MM");
+//        String eventDate = dateTime.toString(dateFormatter);
 
 //
 
@@ -149,8 +172,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
         holder.nameTv.setText(eventName);
         holder.categoryTv.setText(enumValue.getName());
+
+
+        int drawable =  enumValue.getDrawable();
+        holder.eventCategoryIv.setImageResource(drawable);
+       // holder.eventCategoryIv.setImageDrawable(enumValue.getDrawable()));
         holder.hourTextView.setText(eventHour);
-        holder.dateTv.setText(eventDate);
+       // holder.dateTv.setText(eventDate);
         if (attachments.size() > 0) {
 
             if (attachments.size() > 1) {

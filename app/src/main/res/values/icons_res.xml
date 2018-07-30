@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer-array name = "icons">
+        <item>@drawable/baseline_theaters_black_48</item>
+        <item>@drawable/baseline_videocam_black_48</item>
+        <item>@drawable/baseline_portrait_black_48</item>
+        <item>@drawable/baseline_music_note_black_48</item>
+        <item>@drawable/baseline_hdr_strong_black_48</item>
+        <item>@drawable/baseline_local_library_black_48</item>
+        <item>@drawable/baseline_local_bar_black_48</item>
+        <item>@drawable/baseline_terrain_black_48</item>
+        <item>@drawable/baseline_more_black_48</item>
+        <item>@drawable/baseline_select_all_black_48</item>
+    </integer-array>
+</resources>

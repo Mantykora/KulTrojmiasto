@@ -1,19 +1,22 @@
 package pl.com.mantykora.kultrjmiasto.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Icon;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.google.common.io.Resources;
+
 
 import pl.com.mantykora.kultrjmiasto.R;
 
 public class IconsAdapter extends BaseAdapter {
 
     private Context context;
+    private TypedArray icons;
 
     public IconsAdapter(Context context) {
         this.context = context;
@@ -36,7 +39,7 @@ public class IconsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return imageIds.length;
+        return 10;
     }
 
     @Override
@@ -60,23 +63,21 @@ public class IconsAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        imageView.setImageResource(imageIds[position]);
+        //TypedArray icons = res.obtainTypedArray(R.array.icons);
+
+
+
+
+
+
+        icons = context.getResources().obtainTypedArray(R.array.icons);
+        int def = 0;
+        imageView.setImageResource(icons.getResourceId(position, def));
         imageView.setContentDescription(contentDescriptions[position]);
         return imageView;
     }
 
-    private Integer[] imageIds = {
-            R.drawable.baseline_theaters_black_48,
-            R.drawable.baseline_videocam_black_48,
-            R.drawable.baseline_portrait_black_48,
-            R.drawable.baseline_music_note_black_48,
-            R.drawable.baseline_hdr_strong_black_48,
-            R.drawable.baseline_local_library_black_48,
-            R.drawable.baseline_local_bar_black_48,
-            R.drawable.baseline_terrain_black_48,
-            R.drawable.baseline_more_black_48,
-            R.drawable.baseline_select_all_black_48
-    };
+
 
     private String[] contentDescriptions;
 
