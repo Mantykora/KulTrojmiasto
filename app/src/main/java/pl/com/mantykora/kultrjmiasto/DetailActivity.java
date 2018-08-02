@@ -60,6 +60,9 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.detail_title_tv)
     TextView titleTv;
 
+    @BindView(R.id.detail_title_tv2)
+    TextView titleTv2;
+
     private AppDatabase mDb;
     private String startTicket;
     private String endTicket;
@@ -175,6 +178,9 @@ public class DetailActivity extends AppCompatActivity {
 
         if (event.getAttachments().size() > 0) {
             Picasso.get().load(event.getAttachments().get(0).getFileName()).into(imageView);
+            titleTv2.setText(event.getName());
+           // titleTv.setVisibility(View.GONE);
+            titleTv2.setVisibility(View.GONE);
         }
 
         titleTv.setText(event.getName());
@@ -186,22 +192,7 @@ public class DetailActivity extends AppCompatActivity {
         dateTv.setText(dateString);
 
 
-//        String ticketType = event.getTickets().getType();
-//
-//        switch (ticketType) {
-//            case "free":
-//                priceTv.setText(R.string.darmowe);
-//                break;
-//            case "unknown":
-//                ticket_iv.setVisibility(View.GONE);
-//                break;
-//            case "tickets":
-//                priceTv.setText(startTicket);
-//                if (endTicket != null) {
-//                    priceEndTv.setText("- " + endTicket);
-//                }
-//                break;
-//        }
+
 
         getTicketType(event.getTickets().getType());
 
