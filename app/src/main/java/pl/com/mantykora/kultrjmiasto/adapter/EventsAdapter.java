@@ -62,7 +62,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             clickListener = viewHolderClick;
 
             nameTv = view.findViewById(R.id.event_title_tv);
-            categoryTv = view.findViewById(R.id.event_category_tv);
+//            categoryTv = view.findViewById(R.id.event_category_tv);
             hourTextView = view.findViewById(R.id.event_hour_tv);
             imageIv = view.findViewById(R.id.event_iv);
             dateTv = view.findViewById(R.id.event_date_tv);
@@ -168,7 +168,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         }
 
         holder.nameTv.setText(eventName);
-        holder.categoryTv.setText(enumValue.getName());
+//        holder.categoryTv.setText(enumValue.getName());
 
 
         int drawable =  enumValue.getDrawable();
