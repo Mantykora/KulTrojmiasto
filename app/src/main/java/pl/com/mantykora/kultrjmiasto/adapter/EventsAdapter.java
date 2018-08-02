@@ -120,6 +120,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
     @Override
     public void onBindViewHolder(@NonNull EventsViewHolder holder, int position) {
+
+        //TODO lighter onBind
         Event event = eventList.get(position);
         holder.imageIv.setTag(position);
         String imageLinkString;
@@ -160,11 +162,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             holder.dateTv.setText(eventDate);
         }
 
-//        org.joda.time.format.DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("dd.MM");
-//        String eventDate = dateTime.toString(dateFormatter);
-
-//
-
         String eventName = eventList.get(position).getName();
         if(eventName.length() > 45) {
             eventName = eventName.substring(0, 45) + "...";
@@ -176,9 +173,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
         int drawable =  enumValue.getDrawable();
         holder.eventCategoryIv.setImageResource(drawable);
-       // holder.eventCategoryIv.setImageDrawable(enumValue.getDrawable()));
         holder.hourTextView.setText(eventHour);
-       // holder.dateTv.setText(eventDate);
         if (attachments.size() > 0) {
 
             if (attachments.size() > 1) {

@@ -62,6 +62,8 @@ public class EventListFragment extends Fragment {
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), spanCount);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+
         recyclerView.setAdapter(adapter);
         if (savedInstanceState != null) {
             iconPosition = savedInstanceState.getInt("iconPosition");

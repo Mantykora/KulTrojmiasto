@@ -208,7 +208,7 @@ public class DetailActivity extends AppCompatActivity {
         String eventString = event.getDescLong();
 
 
-        if (eventString.contains("<p>") || eventString.contains("&nbsp;")) {
+        if (eventString.contains("<p>") || eventString.contains("&nbsp;") || eventString.contains("b") || eventString.contains("br")) {
             descriptionTv.setText(Html.fromHtml(eventString));
         } else {
             descriptionTv.setText(eventString);

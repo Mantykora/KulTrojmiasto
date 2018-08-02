@@ -6,6 +6,8 @@ import android.graphics.Matrix;
 
 import com.squareup.picasso.Transformation;
 
+import java.io.OutputStream;
+
 import pl.com.mantykora.kultrjmiasto.R;
 
 public class ImageTransformation implements Transformation {
@@ -39,6 +41,7 @@ public class ImageTransformation implements Transformation {
 
 
         } else result = Bitmap.createBitmap(source, 0, 0, x, y);
+
         return result;
     }
 
