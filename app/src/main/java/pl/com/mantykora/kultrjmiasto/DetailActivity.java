@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -177,7 +179,10 @@ public class DetailActivity extends AppCompatActivity {
     public void populateUi() {
 
         if (event.getAttachments().size() > 0) {
-            Picasso.get().load(event.getAttachments().get(0).getFileName()).into(imageView);
+            DisplayMetrics displaymetrics = getResources().getDisplayMetrics();
+            int width = displaymetrics.widthPixels;
+            int height = getResources().getDimensionPixelOffset(R.dimen.cardview_height);
+            Picasso.get().load(event.getAttachments().get(0).getFileName()).resize(width, height).centerCrop().into(imageView);
             titleTv2.setText(event.getName());
            // titleTv.setVisibility(View.GONE);
             titleTv2.setVisibility(View.GONE);
@@ -219,7 +224,11 @@ public class DetailActivity extends AppCompatActivity {
 
         descriptionTv.setText(fav.getDescription());
         linklTv.setText(fav.getLink());
-        Picasso.get().load(fav.getImage()).into(imageView);
+
+        DisplayMetrics displaymetrics = getResources().getDisplayMetrics();
+        int width = displaymetrics.widthPixels;
+        int height = getResources().getDimensionPixelOffset(R.dimen.cardview_height);
+        Picasso.get().load(fav.getImage()).resize(width, height).centerCrop().into(imageView);
 
 
 
