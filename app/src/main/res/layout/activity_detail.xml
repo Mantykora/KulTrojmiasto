@@ -59,8 +59,7 @@
             android:paddingRight="16dp"
             android:paddingLeft="16dp"
             android:textSize="23sp"
-            tools:text="New books!"
-            android:elevation="8dp"/>
+            tools:text="New books!" />
 
         <com.like.LikeButton
             android:id="@+id/heart_button"
