@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
                             x.setLocation(y);
 
-                            Log.d("MainActivity", x.getLocation().getName());
+                          //  Log.d("MainActivity", x.getLocation().getName());
 
                         }
 

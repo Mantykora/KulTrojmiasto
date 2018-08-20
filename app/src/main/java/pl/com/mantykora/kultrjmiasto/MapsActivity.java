@@ -101,10 +101,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (eventList != null) {
             for (Event e : eventList) {
-                Log.d("MapsActivity", e.getLocation().getName());
+                //Log.d("MapsActivity", e.getLocation().getName());
                 pl.com.mantykora.kultrjmiasto.model.Location location = e.getLocation();
                 Address address = location.getAddress();
-                Log.d("MapsActivity", "" + address.getLat());
+                //Log.d("MapsActivity", "" + address.getLat());
 
 
                 if (address.getLat() != null && address.getLng() != null) {
