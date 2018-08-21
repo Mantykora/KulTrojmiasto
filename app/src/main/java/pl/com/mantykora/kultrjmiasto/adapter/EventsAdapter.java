@@ -184,6 +184,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             Transformation transformation = new ImageTransformation();
             Picasso.get().load(imageLinkString)
                     .transform(transformation)
+                    //.placeholder( R.drawable.progress_animation )
                     .into(holder.imageIv);
         }
 

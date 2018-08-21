@@ -65,6 +65,9 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.detail_title_tv2)
     TextView titleTv2;
 
+    @BindView(R.id.detail_ticket_iv)
+    ImageView placeIv;
+
     private AppDatabase mDb;
     private String startTicket;
     private String endTicket;
@@ -189,7 +192,15 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         titleTv.setText(event.getName());
-        placeTv.setText(String.valueOf(event.getPlace().getName()));
+        String placeString = (String.valueOf(event.getPlace().getName()));
+
+        if (placeString.contains("null")) {
+            placeIv.setVisibility(View.GONE);
+
+        }
+        else  {
+            placeTv.setText(String.valueOf(event.getPlace().getName()));        }
+        //placeTv.setText(String.valueOf(event.getPlace().getName()));
 
         DateTime dateTime = new DateTime(event.getStartDate());
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
@@ -204,7 +215,7 @@ public class DetailActivity extends AppCompatActivity {
         String eventString = event.getDescLong();
 
 
-        if (eventString.contains("<p>") || eventString.contains("&nbsp;") || eventString.contains("b") || eventString.contains("br")) {
+        if (eventString.contains("<p>") || eventString.contains("&nbsp;") || eventString.contains("b") || eventString.contains("br") || eventString.contains("[embed]")) {
             descriptionTv.setText(Html.fromHtml(eventString));
         } else {
             descriptionTv.setText(eventString);
@@ -214,7 +225,11 @@ public class DetailActivity extends AppCompatActivity {
 
     public void populateUiFromFavs() {
         titleTv.setText(fav.getTitle());
-        placeTv.setText(fav.getPlace());
+        if (fav.getPlace().contains(null)) {
+            placeIv.setVisibility(View.GONE);}
+        else  {
+            placeTv.setText(fav.getPlace());;
+        }
 
         DateTime dateTime = new DateTime(fav.getDate());
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
