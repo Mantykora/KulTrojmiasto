@@ -8,9 +8,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.transition.Slide;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -88,6 +90,10 @@ public class DetailActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar_detail);
         setSupportActionBar(myToolbar);
         ButterKnife.bind(this);
+
+        Slide slide = new Slide(Gravity.BOTTOM);
+        //slide.addTarget(R.id.)
+
 
 
         event = getIntent().getParcelableExtra("singleEvent");

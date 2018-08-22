@@ -1,10 +1,15 @@
 package pl.com.mantykora.kultrjmiasto.adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +58,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         ImageView imageIv;
         TextView dateTv;
         ImageView eventCategoryIv;
+        CardView cardView;
 
         EventsViewHolder.ViewHolderClick clickListener;
 
@@ -67,6 +73,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             imageIv = view.findViewById(R.id.event_iv);
             dateTv = view.findViewById(R.id.event_date_tv);
             eventCategoryIv = view.findViewById(R.id.event_category_iv);
+            cardView = view.findViewById(R.id.list_item_cv);
 
 
             imageIv.setOnClickListener(this);
@@ -86,14 +93,32 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
             Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
 
+
+           // Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(itemView.getContext(), )
+
+//            Intent intent = new Intent(this, DetailsActivity.class);
+//// Pass data object in the bundle and populate details activity.
+//            intent.putExtra(DetailsActivity.EXTRA_CONTACT, contact);
+//            ActivityOptionsCompat options = ActivityOptionsCompat.
+//                    makeSceneTransitionAnimation(this, (View)ivProfile, "profile");
+//            startActivity(intent, options.toBundle());
+
             Event singleEvent = eventList.get(position);
 
             Log.d("EventsAdapter", "" + singleEvent.getName());
 
             intent.putExtra("singleEvent", singleEvent);
 
-            itemView.getContext().startActivity(intent);
-
+           itemView.getContext().startActivity(intent);
+            //TODO check android version
+            //TODO first it shows background and than image - that's wrong
+//            ActivityOptions options = ActivityOptions.
+//                    makeSceneTransitionAnimation((Activity) itemView.getContext(),
+//                            cardView,
+//                            ViewCompat.getTransitionName(cardView));
+//            itemView.getContext().startActivity(intent, options.toBundle());
+//            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((Activity)itemView.getContext()).toBundle();
+//            itemView.getContext().startActivity(intent, bundle);
 
             Log.d("EventsAdapter", "" + position);
         }

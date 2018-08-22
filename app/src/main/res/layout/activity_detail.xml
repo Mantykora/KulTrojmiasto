@@ -28,6 +28,8 @@
 
 
     <android.support.v7.widget.CardView
+        android:transitionName="event_image"
+
         android:id="@+id/frameLayout"
         android:layout_width="0dp"
         android:layout_height="@dimen/cardview_height"
@@ -66,9 +68,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:layout_marginRight="24dp"
             app:icon_size="25dp"
             app:icon_type="heart" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@null"
+            app:srcCompat="@drawable/baseline_share_black_36"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="8dp"
+            android:paddingTop="18dp"/>
     </android.support.v7.widget.CardView>
+
 
     <TextView
         android:id="@+id/detail_title_tv2"
@@ -114,12 +129,14 @@
 
     <TextView
         android:id="@+id/detail_place_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/detail_ticket_iv"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+        app:layout_constraintTop_toTopOf="@+id/detail_ticket_iv"
         tools:text="Polish Academy of Sciences" />
 
     <TextView
