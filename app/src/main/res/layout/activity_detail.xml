@@ -8,15 +8,8 @@
     android:orientation="vertical"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     >
-<android.support.v7.widget.Toolbar
-    android:id="@+id/my_toolbar_detail"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:background="?attr/colorPrimary"
-    android:elevation="4dp"
-    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-<ScrollView
+
+    <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -51,15 +44,16 @@
 
         <TextView
             android:id="@+id/detail_title_tv"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="16dp"
             android:background="#99FFFFFF"
+            android:fontFamily="@font/lato"
             android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:paddingRight="16dp"
             android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
             android:textSize="23sp"
             tools:text="New books!" />
 
@@ -77,11 +71,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="@null"
-            app:srcCompat="@drawable/image_button_selector"
-            android:layout_marginLeft="16dp"
             android:layout_marginEnd="8dp"
-            android:paddingTop="18dp"/>
+            android:layout_marginLeft="16dp"
+            android:background="@null"
+            android:paddingTop="18dp"
+            app:srcCompat="@drawable/image_button_selector" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar_detail"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ToolbarTheme"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     </android.support.v7.widget.CardView>
 
 
@@ -173,6 +176,7 @@
 
     <TextView
         android:id="@+id/detail_link_tv"
+        android:autoLink="web"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
