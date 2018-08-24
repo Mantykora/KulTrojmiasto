@@ -2,6 +2,7 @@ package pl.com.mantykora.kultrjmiasto;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -69,6 +71,9 @@ public class DetailActivity extends AppCompatActivity {
 
     @BindView(R.id.detail_ticket_iv)
     ImageView placeIv;
+
+    @BindView(R.id.shareButton)
+    ImageButton shareButton;
 
     private AppDatabase mDb;
     private String startTicket;
@@ -162,6 +167,25 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, event.getName());
+                shareIntent.putExtra(Intent.EXTRA_TEXT, event.getDescShort() + " " + event.getUrls().getWww());
+                startActivity(Intent.createChooser(shareIntent, "Share your event"));
+            }
+        });
+
+//        EditText content = (EditText) findViewById(R.id.editText1);
+//        String shareBody = content.getText().toString();
+//        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+//        sharingIntent.setType("text/plain");
+//        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "\n\n");
+//        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+//        startActivity(Intent.createChooser(sharingIntent,  getResources().getString(R.string.a5)));
+
 
     }
 
@@ -231,7 +255,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public void populateUiFromFavs() {
         titleTv.setText(fav.getTitle());
-        if (fav.getPlace().contains(null)) {
+        if (fav.getPlace().contains("null")) {
             placeIv.setVisibility(View.GONE);}
         else  {
             placeTv.setText(fav.getPlace());;
