@@ -94,6 +94,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar_detail);
         setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         ButterKnife.bind(this);
 
         Slide slide = new Slide(Gravity.BOTTOM);
@@ -267,7 +268,13 @@ public class DetailActivity extends AppCompatActivity {
         dateTv.setText(dateString);
         getTicketType(fav.getTicketType());
 
-        descriptionTv.setText(fav.getDescription());
+        String describtionString = fav.getDescription();
+        if(describtionString.contains("<p>") || describtionString.contains("&nbsp;") || describtionString.contains("b") || describtionString.contains("[embed]")) {
+            descriptionTv.setText(Html.fromHtml(describtionString));
+
+        } else {
+            descriptionTv.setText(describtionString);
+        }
         linklTv.setText(fav.getLink());
 
         DisplayMetrics displaymetrics = getResources().getDisplayMetrics();

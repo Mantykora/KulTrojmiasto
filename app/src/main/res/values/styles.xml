@@ -13,7 +13,20 @@
         <item name="android:windowExitTransition">@transition/grid_exit</item>
     </style>
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <!--<item name="android:fontFamily">@font/dancing_script_bold</item>-->
+        <!--<item name="android:textSize">30sp</item>-->
+        <!--<item name="android:windowTitleStyle">@style/TitleStyle</item>-->
+        <item name="android:textAppearance">@style/TextAppeareance</item>
+
+    </style>
+    <style name="TitleStyle" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textAppearance">@style/TextAppeareance</item>
+    </style>
+    <style name="TextAppeareance" parent="@android:style/TextAppearance.DialogWindowTitle">
         <item name="android:fontFamily">@font/dancing_script_bold</item>
+
+        <item name="android:textColor">#ffff0000</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
 </resources>
