@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         setContentView(R.layout.activity_main);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setMessage("Loading....");
