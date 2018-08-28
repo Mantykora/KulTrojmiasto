@@ -97,9 +97,15 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
         String dateString = dateTime.toString(dateTimeFormatter);
 
+        String placeString = favoriteEntry.getPlace();
+
+
+        if (placeString.length() > 35 ) {
+            placeString = placeString.substring(0, 35) + "...";
+        }
 
         holder.nameTextView.setText(favoriteEntry.getTitle());
-        holder.placeTextView.setText(favoriteEntry.getPlace());
+        holder.placeTextView.setText(placeString);
         holder.dateTextView.setText(dateString);
 
     }
