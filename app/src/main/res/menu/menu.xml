@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item android:title="@string/map"
-      android:id="@+id/map_menu_item"/>
+      android:id="@+id/map_menu_item"
+      android:fontFamily="@font/lato"/>
   <item android:title="@string/favorites"
-    android:id="@+id/favorites_menu_item"/>
+    android:id="@+id/favorites_menu_item"
+      android:fontFamily="@font/lato"/>
 </menu>
