@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -210,13 +211,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             Transformation transformation = new ImageTransformation();
             Picasso.get().load(imageLinkString)
                     .transform(transformation)
-                    .error(R.drawable.baseline_credit_card_24)
+                    .error(R.color.transparent)
                     .placeholder( R.drawable.progress_animation )
                     .into(holder.imageIv);  }
                     else  {
             holder.imageIv.setImageDrawable(null);
         }
-    
+
 
     }
 
