@@ -199,7 +199,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         int drawable =  enumValue.getDrawable();
         holder.eventCategoryIv.setImageResource(drawable);
         holder.hourTextView.setText(eventHour);
-        if (attachments.size() > 0) {
+
+        if (attachments.size() > 0 ) {
 
             if (attachments.size() > 1) {
                 imageLinkString = attachments.get(1).getFileName();
@@ -209,10 +210,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             Transformation transformation = new ImageTransformation();
             Picasso.get().load(imageLinkString)
                     .transform(transformation)
-                    //.placeholder( R.drawable.progress_animation )
-                    .into(holder.imageIv);
+                    .error(R.drawable.baseline_credit_card_24)
+                    .placeholder( R.drawable.progress_animation )
+                    .into(holder.imageIv);  }
+                    else  {
+            holder.imageIv.setImageDrawable(null);
         }
-
+    
 
     }
 
@@ -220,5 +224,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
     @Override
     public int getItemCount() {
         return eventList.size();
+    }
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 }
