@@ -173,8 +173,13 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, event.getName());
-                shareIntent.putExtra(Intent.EXTRA_TEXT, event.getDescShort() + " " + event.getUrls().getWww());
+                if (event != null) {
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, event.getName());
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, event.getDescShort() + " " + event.getUrls().getWww());
+                } else {
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, fav.getTitle());
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, fav.getDescription() + " " + fav.getLink());
+                }
                 startActivity(Intent.createChooser(shareIntent, "Share your event"));
             }
         });
