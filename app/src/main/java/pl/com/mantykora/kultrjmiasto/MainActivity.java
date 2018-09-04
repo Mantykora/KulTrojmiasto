@@ -17,7 +17,9 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import pl.com.mantykora.kultrjmiasto.model.Event;
 import pl.com.mantykora.kultrjmiasto.model.Location;
@@ -158,6 +160,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Map<Integer, Event> map = new HashMap<>();
+        ArrayList<Event> toMapsList = new ArrayList<>();
+
         switch (item.getItemId()) {
             case R.id.map_menu_item:
                 Intent intent = new Intent(MainActivity.this, MapsActivity.class);
@@ -175,10 +180,18 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
                     }
 
-
+                    map.put(placeId, x);
+                    
+//                    toMapsList = new ArrayList<>(map.values());
+//                    toMapsList = map.values();
+                    Log.d("arrayList", toMapsList.toString());
                 }
+
+
+                toMapsList.addAll(map.values());
+
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("eventList", (Serializable) eventList);
+                bundle.putSerializable("eventList", toMapsList);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 return true;
