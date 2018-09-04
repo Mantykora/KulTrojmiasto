@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -12,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import java.util.List;
 
@@ -26,6 +28,9 @@ public class FavoritesActivity extends AppCompatActivity {
 
     @BindView(R.id.favorites_rv)
     RecyclerView favoritesRv;
+
+    @BindView(R.id.empty_view_favs)
+    ConstraintLayout constraintLayout;
 
     private FavoritesAdapter adapter;
 
@@ -46,6 +51,9 @@ public class FavoritesActivity extends AppCompatActivity {
         favoritesRv.setLayoutManager(layoutManager);
         favoritesRv.addItemDecoration(new DividerItemDecoration(favoritesRv.getContext(), DividerItemDecoration.VERTICAL));
 
+        favoritesRv.setVisibility(View.GONE);
+        constraintLayout.setVisibility(View.VISIBLE);
+
 
         setupViewModel();
 
@@ -60,6 +68,9 @@ public class FavoritesActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<FavoriteEntry> favoriteEntries) {
                 Log.d("FavoritesActivity", "Receiving database update from LiveData in ViewModel");
+                if ( favoriteEntries.size() > 0 ) {
+                favoritesRv.setVisibility(View.VISIBLE);
+                constraintLayout.setVisibility(View.GONE);}
                 adapter.setFavorites(favoriteEntries);
             }
         });

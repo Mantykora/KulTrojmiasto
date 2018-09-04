@@ -97,10 +97,6 @@ public class DetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         ButterKnife.bind(this);
 
-        Slide slide = new Slide(Gravity.BOTTOM);
-        //slide.addTarget(R.id.)
-
-
 
         event = getIntent().getParcelableExtra("singleEvent");
         fav = getIntent().getParcelableExtra("singleFavorite");
