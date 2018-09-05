@@ -12,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 
@@ -52,6 +53,27 @@ public class FavoritesActivity extends AppCompatActivity {
         favoritesRv.addItemDecoration(new DividerItemDecoration(favoritesRv.getContext(), DividerItemDecoration.VERTICAL));
 
         favoritesRv.setVisibility(View.GONE);
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+                int position = viewHolder.getAdapterPosition();
+
+                FavoriteEntry favoriteEntry = adapter.getFavorite(position);
+                removeFavoriteFromDatabase(favoriteEntry);
+
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(favoritesRv);
         constraintLayout.setVisibility(View.VISIBLE);
 
 
@@ -68,10 +90,21 @@ public class FavoritesActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<FavoriteEntry> favoriteEntries) {
                 Log.d("FavoritesActivity", "Receiving database update from LiveData in ViewModel");
-                if ( favoriteEntries.size() > 0 ) {
-                favoritesRv.setVisibility(View.VISIBLE);
-                constraintLayout.setVisibility(View.GONE);}
+                if (favoriteEntries.size() > 0) {
+                    favoritesRv.setVisibility(View.VISIBLE);
+                    constraintLayout.setVisibility(View.GONE);
+                }
                 adapter.setFavorites(favoriteEntries);
+            }
+        });
+    }
+
+    public void removeFavoriteFromDatabase(FavoriteEntry favoriteEntry) {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.favoriteDao().deleteTask(favoriteEntry);
+
             }
         });
     }

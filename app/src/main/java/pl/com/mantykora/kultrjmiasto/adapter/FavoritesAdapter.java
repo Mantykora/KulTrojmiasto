@@ -15,13 +15,11 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.io.Serializable;
 import java.util.List;
 
 import pl.com.mantykora.kultrjmiasto.DetailActivity;
 import pl.com.mantykora.kultrjmiasto.R;
 import pl.com.mantykora.kultrjmiasto.database.FavoriteEntry;
-import pl.com.mantykora.kultrjmiasto.model.Event;
 
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder> {
@@ -123,6 +121,10 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     public void setFavorites(List<FavoriteEntry> eventList) {
         this.eventList = eventList;
         notifyDataSetChanged();
+    }
+
+    public FavoriteEntry getFavorite(int position) {
+        return eventList.get(position);
     }
 
     public List<FavoriteEntry> getFavorites() {
