@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +37,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         TextView nameTextView;
         TextView placeTextView;
         TextView dateTextView;
+        ConstraintLayout backgroundLayout;
+        public ConstraintLayout foregroundLayout;
 
         FavoritesViewHolder.FavoritesViewHolderClick clickListener;
 
@@ -47,6 +50,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
             nameTextView = itemView.findViewById(R.id.fav_title_tv);
             placeTextView = itemView.findViewById(R.id.fav_place_tv);
             dateTextView = itemView.findViewById(R.id.fav_date_tv);
+            backgroundLayout = itemView.findViewById(R.id.background);
+            foregroundLayout = itemView.findViewById(R.id.foreground);
 
             nameTextView.setOnClickListener(this);
 

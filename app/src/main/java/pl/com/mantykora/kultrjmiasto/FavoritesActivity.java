@@ -3,6 +3,7 @@ package pl.com.mantykora.kultrjmiasto;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -54,10 +55,40 @@ public class FavoritesActivity extends AppCompatActivity {
 
         favoritesRv.setVisibility(View.GONE);
 
+
+
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
+            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+               if (viewHolder != null) {
+                   final View foreground = ((FavoritesAdapter.FavoritesViewHolder)viewHolder).foregroundLayout;
+
+                   getDefaultUIUtil().onSelected(foreground);
+               }
+            }
+
+            @Override
+            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                final View foreground = ((FavoritesAdapter.FavoritesViewHolder)viewHolder).foregroundLayout;
+                getDefaultUIUtil().clearView(foreground);
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                final View foregroundView = ((FavoritesAdapter.FavoritesViewHolder)viewHolder).foregroundLayout;
+
+                getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
+            }
+
+            @Override
+            public void onChildDrawOver(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                final View foreground = ((FavoritesAdapter.FavoritesViewHolder)viewHolder).foregroundLayout;
+                getDefaultUIUtil().onDrawOver(c, recyclerView, foreground, dX, dY, actionState, isCurrentlyActive);
+            }
+
+            @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
+                return true;
             }
 
             @Override
