@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import butterknife.BindView;
 import pl.com.mantykora.kultrjmiasto.adapter.EventsAdapter;
 import pl.com.mantykora.kultrjmiasto.model.Attachment;
 import pl.com.mantykora.kultrjmiasto.model.Event;
@@ -36,6 +38,7 @@ public class EventListFragment extends Fragment {
     private int iconPosition;
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class EventListFragment extends Fragment {
         Bundle bundle = this.getArguments();
         eventList = (List<Event>) bundle.getSerializable("eventList");
         locationList = (List<Location>) bundle.getSerializable("locationList");
+
 
 
 

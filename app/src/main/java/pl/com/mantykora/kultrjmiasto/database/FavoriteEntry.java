@@ -20,9 +20,18 @@ public class FavoriteEntry implements Parcelable {
     private String image;
     private boolean isLiked;
     private String ticketType;
+    private String shortDescription;
 
 
-    public FavoriteEntry(int id, String title, String place, String startTicket, String endTicket, String date, String description, String link, String image, boolean isLiked, String ticketType) {
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public FavoriteEntry(int id, String title, String place, String startTicket, String endTicket, String date, String description, String link, String image, boolean isLiked, String ticketType, String shortDescription) {
         this.id = id;
         this.title = title;
         this.place = place;
@@ -34,6 +43,7 @@ public class FavoriteEntry implements Parcelable {
         this.image = image;
         this.isLiked = isLiked;
         this.ticketType = ticketType;
+        this.shortDescription = shortDescription;
     }
 
     public int getId() {
@@ -142,6 +152,7 @@ public class FavoriteEntry implements Parcelable {
         dest.writeString(this.image);
         dest.writeByte(this.isLiked ? (byte) 1 : (byte) 0);
         dest.writeString(this.ticketType);
+        dest.writeString(this.shortDescription);
     }
 
     protected FavoriteEntry(Parcel in) {
@@ -156,6 +167,7 @@ public class FavoriteEntry implements Parcelable {
         this.image = in.readString();
         this.isLiked = in.readByte() != 0;
         this.ticketType = in.readString();
+        this.shortDescription = in.readString();
     }
 
     public static final Creator<FavoriteEntry> CREATOR = new Creator<FavoriteEntry>() {

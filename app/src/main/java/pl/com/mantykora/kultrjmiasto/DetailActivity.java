@@ -117,7 +117,7 @@ public class DetailActivity extends AppCompatActivity {
             if (event.getAttachments().size() > 0) {
                 fileName = event.getAttachments().get(0).getFileName();
             }
-            favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked, event.getTickets().getType());
+            favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked, event.getTickets().getType(), event.getDescShort());
 
 
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -138,7 +138,7 @@ public class DetailActivity extends AppCompatActivity {
         else {
 
             likeButton.setLiked(true);
-            favoriteEntry = new FavoriteEntry(fav.getId(), fav.getTitle(), fav.getPlace(), fav.getStartTicket(), fav.getEndTicket(), fav.getDate(), fav.getDescription(), fav.getLink(), fav.getImage(), fav.getIsLiked(), fav.getTicketType());
+            favoriteEntry = new FavoriteEntry(fav.getId(), fav.getTitle(), fav.getPlace(), fav.getStartTicket(), fav.getEndTicket(), fav.getDate(), fav.getDescription(), fav.getLink(), fav.getImage(), fav.getIsLiked(), fav.getTicketType(), fav.getShortDescription());
             populateUiFromFavs();
 
 
@@ -174,7 +174,7 @@ public class DetailActivity extends AppCompatActivity {
                     shareIntent.putExtra(Intent.EXTRA_TEXT, event.getDescShort() + " " + event.getUrls().getWww());
                 } else {
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT, fav.getTitle());
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, fav.getDescription() + " " + fav.getLink());
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, fav.getShortDescription() + " " + fav.getLink());
                 }
                 startActivity(Intent.createChooser(shareIntent, "Share your event"));
             }

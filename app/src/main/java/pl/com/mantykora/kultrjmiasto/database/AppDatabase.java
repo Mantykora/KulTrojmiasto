@@ -10,7 +10,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-@Database(entities = {FavoriteEntry.class}, version = 2, exportSchema = false)
+@Database(entities = {FavoriteEntry.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public static final String LOG_TAG = AppDatabase.class.getSimpleName();
