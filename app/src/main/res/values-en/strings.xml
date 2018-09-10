@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KulTrójmiasto</string>
+    <string name="add_widget">Add widget</string>
+    <string name="something">No internet connection</string>
+    <string name="darmowe">free</string>
+    <string name="other">other</string>
+    <string name="cinema">cinema</string>
+    <string name="literature">literature</string>
+    <string name="map">events map</string>
+    <string name="music">music</string>
+    <string name="science">science</string>
+    <string name="recreation">recreation</string>
+    <string name="entertainment">entertainment</string>
+    <string name="art">art</string>
+    <string name="theater">theater</string>
+    <string name="favorites">favorites</string>
+    <string name="all">all</string>
+</resources>
