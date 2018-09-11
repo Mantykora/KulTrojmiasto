@@ -1,5 +1,5 @@
 
-package pl.com.mantykora.kultrjmiasto.model; ;
+package pl.com.mantykora.kultrjmiasto.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -34,7 +34,7 @@ public class Attachment implements Parcelable {
     public Attachment() {
     }
 
-    protected Attachment(Parcel in) {
+    Attachment(Parcel in) {
         this.fileName = in.readString();
     }
 

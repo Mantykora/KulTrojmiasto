@@ -7,8 +7,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 public class Address implements Parcelable {
 
     @SerializedName("street")
@@ -27,7 +25,7 @@ public class Address implements Parcelable {
     @Expose
     private String lng;
 
-    protected Address(Parcel in) {
+    Address(Parcel in) {
         street = in.readString();
         zipcode = in.readString();
         city = in.readString();

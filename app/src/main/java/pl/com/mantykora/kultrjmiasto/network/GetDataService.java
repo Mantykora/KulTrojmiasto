@@ -2,7 +2,6 @@ package pl.com.mantykora.kultrjmiasto.network;
 
 import java.util.List;
 
-import pl.com.mantykora.kultrjmiasto.model.Attachment;
 import pl.com.mantykora.kultrjmiasto.model.Event;
 import pl.com.mantykora.kultrjmiasto.model.Location;
 import retrofit2.Call;

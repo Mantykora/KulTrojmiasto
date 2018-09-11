@@ -25,7 +25,7 @@ import pl.com.mantykora.kultrjmiasto.database.FavoriteEntry;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder> {
     private static List<FavoriteEntry> eventList;
-    private static Context context;
+    private Context context;
 
 
     public FavoritesAdapter(Context context) {
@@ -34,15 +34,15 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     public static class FavoritesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView nameTextView;
-        TextView placeTextView;
-        TextView dateTextView;
-        ConstraintLayout backgroundLayout;
-        public ConstraintLayout foregroundLayout;
+        final TextView nameTextView;
+        final TextView placeTextView;
+        final TextView dateTextView;
+        final ConstraintLayout backgroundLayout;
+        public final ConstraintLayout foregroundLayout;
 
-        FavoritesViewHolder.FavoritesViewHolderClick clickListener;
+        final FavoritesViewHolder.FavoritesViewHolderClick clickListener;
 
-        public FavoritesViewHolder(View itemView, FavoritesViewHolderClick viewHolderClick) {
+        FavoritesViewHolder(View itemView, FavoritesViewHolderClick viewHolderClick) {
             super(itemView);
             clickListener = viewHolderClick;
 
@@ -67,13 +67,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
             FavoriteEntry favoriteEntry = eventList.get(position);
 
-            intent.putExtra("singleFavorite", (Parcelable) favoriteEntry);
+            intent.putExtra("singleFavorite", favoriteEntry);
 
             itemView.getContext().startActivity(intent);
 
     }
 
-    public interface FavoritesViewHolderClick {
+    interface FavoritesViewHolderClick {
             void onFavoriteListItem(View view);
     }
     }
@@ -83,12 +83,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     public FavoritesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.list_item_favorite, parent, false);
-        return new FavoritesViewHolder(view, new FavoritesViewHolder.FavoritesViewHolderClick() {
-
-            public void onFavoriteListItem(View view) {
-                Log.d("FavoritesAdapter", "click");
-            }
-        });
+        return new FavoritesViewHolder(view, view1 -> Log.d("FavoritesAdapter", "click"));
     }
 
     @Override
@@ -124,7 +119,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     }
 
     public void setFavorites(List<FavoriteEntry> eventList) {
-        this.eventList = eventList;
+        FavoritesAdapter.eventList = eventList;
         notifyDataSetChanged();
     }
 

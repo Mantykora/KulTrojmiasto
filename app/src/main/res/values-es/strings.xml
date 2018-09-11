@@ -6,7 +6,7 @@
     <string name="other">otro</string>
     <string name="cinema">cine</string>
     <string name="literature">literatura</string>
-    <string name="music">musica</string>
+    <string name="music">música</string>
     <string name="science">ciencia</string>
     <string name="recreation">recreación</string>
     <string name="entertainment">entretamiento</string>
@@ -14,5 +14,6 @@
     <string name="theater">teatro</string>
     <string name="favorites">favoritos</string>
     <string name="all">todo</string>
-    <string name="add_widget">añade</string>
+    <string name="dzisiaj">hoy</string>
+    <string name="jutro">mañana</string>
 </resources>

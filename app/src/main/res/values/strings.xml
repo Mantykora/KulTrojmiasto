@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">KulTrójmiasto</string>
     <string name="title_activity_maps" translatable="false">Map</string>
-    <string name="appwidget_text" translatable="false">EXAMPLE</string>
-    <string name="add_widget">Dodaj widget</string>
     <string name="map">mapa wydarzeń</string>
     <string name="favorites">ulubione</string>
     <string name="theater">teatr</string>
@@ -20,6 +18,8 @@
     <string name="image_associated_with_content" translatable="false">image associated with content</string>
     <string name="darmowe">darmowe</string>
     <string name="something">Brak połączenia z internetem</string>
-    <string name="touched" translatable="false">Touched view</string>
     <string name="location">location</string>
+    <string name="polub_co">polub coś!</string>
+    <string name="dzisiaj">dzisiaj</string>
+    <string name="jutro">jutro</string>
 </resources>

@@ -11,8 +11,8 @@ import java.util.List;
 import pl.com.mantykora.kultrjmiasto.database.AppDatabase;
 import pl.com.mantykora.kultrjmiasto.database.FavoriteEntry;
 
-public class MainViewModel extends AndroidViewModel {
-    private LiveData<List<FavoriteEntry>> favorites;
+class MainViewModel extends AndroidViewModel {
+    private final LiveData<List<FavoriteEntry>> favorites;
 
     public MainViewModel(@NonNull Application application) {
         super(application);

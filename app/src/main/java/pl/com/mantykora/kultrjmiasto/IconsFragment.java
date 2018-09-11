@@ -14,10 +14,10 @@ import pl.com.mantykora.kultrjmiasto.adapter.IconsAdapter;
 
 
 public class IconsFragment extends Fragment {
-    OnIconSelectedListener listener;
+    private OnIconSelectedListener listener;
 
     public interface OnIconSelectedListener {
-        public void onIconSelected(int position);
+         void onIconSelected(int position);
     }
 
     @Override
@@ -39,12 +39,7 @@ public class IconsFragment extends Fragment {
         IconsAdapter adapter = new IconsAdapter(getActivity());
         iconsGridView.setAdapter(adapter);
 
-        iconsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listener.onIconSelected(position);
-            }
-        });
+        iconsGridView.setOnItemClickListener((parent, view1, position, id) -> listener.onIconSelected(position));
 
 
         return view;

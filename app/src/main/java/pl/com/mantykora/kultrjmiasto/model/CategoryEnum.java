@@ -1,7 +1,5 @@
 package pl.com.mantykora.kultrjmiasto.model;
 
-import android.graphics.drawable.Drawable;
-
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -21,11 +19,11 @@ public enum CategoryEnum {
     KINO(1, "kino", R.drawable.baseline_videocam_black_24),
     LITERATURA(61, "literatura", R.drawable.baseline_local_library_black_24);
 
-    static List<CategoryEnum> enumValues;
+    static final List<CategoryEnum> enumValues;
 
 
 
-    private static Map<Integer, CategoryEnum> map = new HashMap<>();
+    private static final Map<Integer, CategoryEnum> map = new HashMap<>();
     static {
         enumValues = new ArrayList<>(EnumSet.allOf(CategoryEnum.class));
         for (CategoryEnum value : enumValues) {

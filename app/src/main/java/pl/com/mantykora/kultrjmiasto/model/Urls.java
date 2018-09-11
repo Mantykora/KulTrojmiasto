@@ -1,5 +1,5 @@
 
-package pl.com.mantykora.kultrjmiasto.model; ;
+package pl.com.mantykora.kultrjmiasto.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -58,7 +58,7 @@ public class Urls implements Parcelable {
     public Urls() {
     }
 
-    protected Urls(Parcel in) {
+    Urls(Parcel in) {
         this.www = in.readString();
         this.fb = in.readString();
         this.tickets = in.readString();

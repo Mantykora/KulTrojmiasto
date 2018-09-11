@@ -1,15 +1,8 @@
 package pl.com.mantykora.kultrjmiasto.adapter;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,10 +19,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 import pl.com.mantykora.kultrjmiasto.DetailActivity;
@@ -42,28 +31,25 @@ import pl.com.mantykora.kultrjmiasto.utils.ImageTransformation;
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsViewHolder> {
 
     private static List<Event> eventList;
-    private Context context;
 
-    public EventsAdapter(Context context, List<Event> dataList) {
-        this.context = context;
-        this.eventList = dataList;
+    public EventsAdapter(List<Event> dataList) {
+        eventList = dataList;
     }
 
     public static class EventsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public final View view;
+        final View view;
 
-        TextView nameTv;
-        TextView categoryTv;
-        TextView hourTextView;
-        ImageView imageIv;
-        TextView dateTv;
-        ImageView eventCategoryIv;
-        CardView cardView;
+        final TextView nameTv;
+        final TextView hourTextView;
+        final ImageView imageIv;
+        final TextView dateTv;
+        final ImageView eventCategoryIv;
+        final CardView cardView;
 
-        EventsViewHolder.ViewHolderClick clickListener;
+        final EventsViewHolder.ViewHolderClick clickListener;
 
-        public EventsViewHolder(View itemView, ViewHolderClick viewHolderClick) {
+        EventsViewHolder(View itemView, ViewHolderClick viewHolderClick) {
             super(itemView);
             view = itemView;
             clickListener = viewHolderClick;
@@ -124,7 +110,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             Log.d("EventsAdapter", "" + position);
         }
 
-        public interface ViewHolderClick {
+        interface ViewHolderClick {
             void onEventListItem(View view);
         }
     }
@@ -134,13 +120,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
     public EventsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.list_item_event, parent, false);
-        return new EventsViewHolder(view, new EventsViewHolder.ViewHolderClick() {
-            public void onEventListItem(View view) {
-
-                Log.d("EventsAdapter", "onclick");
-
-            }
-        });
+        return new EventsViewHolder(view, view1 -> Log.d("EventsAdapter", "onclick"));
 
     }
 
@@ -178,11 +158,11 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
         if (dateTime.toLocalDate().equals(new LocalDate())) {
 
-            holder.dateTv.setText("dzisiaj");
+            holder.dateTv.setText(R.string.dzisiaj);
         }
         else if(dateTime.toLocalDate().equals(new LocalDate().plusDays(1))) {
 
-            holder.dateTv.setText("jutro");
+            holder.dateTv.setText(R.string.jutro);
         }
         else {
             holder.dateTv.setText(eventDate);

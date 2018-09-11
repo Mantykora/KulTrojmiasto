@@ -1,23 +1,16 @@
 package pl.com.mantykora.kultrjmiasto;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.transition.Slide;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.like.LikeButton;
@@ -79,20 +72,20 @@ public class DetailActivity extends AppCompatActivity {
     private String startTicket;
     private String endTicket;
     private boolean isLiked = false;
-    FavoriteEntry favoriteEntry;
-    String fileName;
-    FavoriteEntry likedEntryWithoutLiveData;
+    private FavoriteEntry favoriteEntry;
+    private String fileName;
+    private FavoriteEntry likedEntryWithoutLiveData;
     private String ticketType;
 
 
-    Event event;
-    FavoriteEntry fav;
+    private Event event;
+    private FavoriteEntry fav;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar_detail);
+        Toolbar myToolbar =  findViewById(R.id.my_toolbar_detail);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         ButterKnife.bind(this);
@@ -120,19 +113,16 @@ public class DetailActivity extends AppCompatActivity {
             favoriteEntry = new FavoriteEntry(event.getId(), event.getName(), event.getPlace().getName(), startTicket, endTicket, event.getStartDate(), event.getDescLong(), event.getUrls().getWww(), fileName, isLiked, event.getTickets().getType(), event.getDescShort());
 
 
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    likedEntryWithoutLiveData = mDb.favoriteDao().loadTaskByIdWithoutLiveData(event.getId());
+            AppExecutors.getInstance().diskIO().execute(() -> {
+                likedEntryWithoutLiveData = mDb.favoriteDao().loadTaskByIdWithoutLiveData(event.getId());
 
-                    if (likedEntryWithoutLiveData != null) {
-                        if (likedEntryWithoutLiveData.getIsLiked()) {
-                            likeButton.setLiked(true);
-                        } else likeButton.setLiked(false);
-                    }
-
-
+                if (likedEntryWithoutLiveData != null) {
+                    if (likedEntryWithoutLiveData.getIsLiked()) {
+                        likeButton.setLiked(true);
+                    } else likeButton.setLiked(false);
                 }
+
+
             });
         }
         else {
@@ -164,20 +154,17 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                if (event != null) {
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, event.getName());
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, event.getDescShort() + " " + event.getUrls().getWww());
-                } else {
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, fav.getTitle());
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, fav.getShortDescription() + " " + fav.getLink());
-                }
-                startActivity(Intent.createChooser(shareIntent, "Share your event"));
+        shareButton.setOnClickListener(v -> {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            if (event != null) {
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, event.getName());
+                shareIntent.putExtra(Intent.EXTRA_TEXT, event.getDescShort() + " " + event.getUrls().getWww());
+            } else {
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, fav.getTitle());
+                shareIntent.putExtra(Intent.EXTRA_TEXT, fav.getShortDescription() + " " + fav.getLink());
             }
+            startActivity(Intent.createChooser(shareIntent, "Share your event"));
         });
 
 //        EditText content = (EditText) findViewById(R.id.editText1);
@@ -191,27 +178,15 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    public void addFavoriteToDatabase() {
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                mDb.favoriteDao().insertFavorite(favoriteEntry);
-
-            }
-        });
+    private void addFavoriteToDatabase() {
+        AppExecutors.getInstance().diskIO().execute(() -> mDb.favoriteDao().insertFavorite(favoriteEntry));
     }
 
-    public void removeFavoriteFromDatabase() {
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                mDb.favoriteDao().deleteTask(favoriteEntry);
-
-            }
-        });
+    private void removeFavoriteFromDatabase() {
+        AppExecutors.getInstance().diskIO().execute(() -> mDb.favoriteDao().deleteTask(favoriteEntry));
     }
 
-    public void populateUi() {
+    private void populateUi() {
 
         if (event.getAttachments().size() > 0) {
             DisplayMetrics displaymetrics = getResources().getDisplayMetrics();
@@ -255,12 +230,12 @@ public class DetailActivity extends AppCompatActivity {
         linklTv.setText(event.getUrls().getWww());
     }
 
-    public void populateUiFromFavs() {
+    private void populateUiFromFavs() {
         titleTv.setText(fav.getTitle());
         if (fav.getPlace().contains("null")) {
             placeIv.setVisibility(View.GONE);}
         else  {
-            placeTv.setText(fav.getPlace());;
+            placeTv.setText(fav.getPlace());
         }
 
         DateTime dateTime = new DateTime(fav.getDate());
@@ -288,7 +263,7 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    public void getTicketType(String type) {
+    private void getTicketType(String type) {
        // String ticketType = event.getTickets().getType();
 
         switch (type) {
@@ -301,7 +276,7 @@ public class DetailActivity extends AppCompatActivity {
             case "tickets":
                 priceTv.setText(startTicket);
                 if (endTicket != null) {
-                    priceEndTv.setText("- " + endTicket);
+                    priceEndTv.setText(new StringBuilder().append("- ").append(endTicket).toString());
                 }
                 break;
         }

@@ -1,5 +1,5 @@
 
-package pl.com.mantykora.kultrjmiasto.model; ;
+package pl.com.mantykora.kultrjmiasto.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -48,7 +48,7 @@ public class Place implements Parcelable {
     public Place() {
     }
 
-    protected Place(Parcel in) {
+    Place(Parcel in) {
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.name = in.readString();
     }

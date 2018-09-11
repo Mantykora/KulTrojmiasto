@@ -1,13 +1,9 @@
 package pl.com.mantykora.kultrjmiasto;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -21,9 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import butterknife.BindView;
 import pl.com.mantykora.kultrjmiasto.adapter.EventsAdapter;
-import pl.com.mantykora.kultrjmiasto.model.Attachment;
 import pl.com.mantykora.kultrjmiasto.model.Event;
 import pl.com.mantykora.kultrjmiasto.model.Location;
 
@@ -33,8 +27,7 @@ public class EventListFragment extends Fragment {
     private RecyclerView recyclerView;
     private EventsAdapter adapter;
     private List<Event> eventList;
-    private List<Location> locationList;
-    List<Event> litToShort;
+    private List<Event> litToShort;
     private int iconPosition;
 
 
@@ -46,7 +39,7 @@ public class EventListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
         Bundle bundle = this.getArguments();
         eventList = (List<Event>) bundle.getSerializable("eventList");
-        locationList = (List<Location>) bundle.getSerializable("locationList");
+        List<Location> locationList = (List<Location>) bundle.getSerializable("locationList");
 
 
 
@@ -55,7 +48,7 @@ public class EventListFragment extends Fragment {
         Log.d("EventListFragment.java", "" + locationList);
 
         recyclerView = view.findViewById(R.id.events_rv);
-        adapter = new EventsAdapter(getActivity(), eventList);
+        adapter = new EventsAdapter(eventList);
 
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
@@ -123,13 +116,13 @@ public class EventListFragment extends Fragment {
         }
         if (position == 9) {
             iconPosition = 9;
-            adapter = new EventsAdapter(getActivity(), eventList);
+            adapter = new EventsAdapter(eventList);
             recyclerView.setAdapter(adapter);
         }
 
     }
 
-    public void cutListView(int categoryId) {
+    private void cutListView(int categoryId) {
 
 
         litToShort = new ArrayList<>(eventList);
@@ -140,7 +133,9 @@ public class EventListFragment extends Fragment {
                 eventIterator.remove();
             }
         }
-        adapter = new EventsAdapter(getActivity() , litToShort);
+
+        adapter = new EventsAdapter(litToShort);
+        adapter = new EventsAdapter(litToShort);
         recyclerView.setAdapter(adapter);
 
 

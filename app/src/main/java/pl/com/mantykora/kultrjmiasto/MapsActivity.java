@@ -3,7 +3,6 @@ package pl.com.mantykora.kultrjmiasto;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -113,15 +112,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     double lng = Double.parseDouble(address.getLng());
                     googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(e.getName()).snippet(location.getName())).setTag(e);
 
-                    googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                        @Override
-                        public void onInfoWindowClick(Marker marker) {
-                            // int tag = (int) marker.getTag();
-                            Intent intent = new Intent(MapsActivity.this, DetailActivity.class);
-                            intent.putExtra("singleEvent", (Event) marker.getTag());
-                            startActivity(intent);
-                            //TODO onInfoWindowClick
-                        }
+                    googleMap.setOnInfoWindowClickListener(marker -> {
+                        // int tag = (int) marker.getTag();
+                        Intent intent = new Intent(MapsActivity.this, DetailActivity.class);
+                        intent.putExtra("singleEvent", (Event) marker.getTag());
+                        startActivity(intent);
+                        //TODO onInfoWindowClick
                     });
 
                 }
@@ -179,21 +175,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             if (mLocationPermissionGranted) {
                 Task locationResult = mFusedLocationProviderClient.getLastLocation();
-                locationResult.addOnCompleteListener(this, new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            // Set the map's camera position to the current location of the device.
-                            mLastKnownLocation = (Location) task.getResult();
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(mLastKnownLocation.getLatitude(),
-                                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                        } else {
-                            Log.d(TAG, "Current location is null. Using defaults.");
-                            Log.e(TAG, "Exception: %s", task.getException());
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                        }
+                locationResult.addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Set the map's camera position to the current location of the device.
+                        mLastKnownLocation = (Location) task.getResult();
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                new LatLng(mLastKnownLocation.getLatitude(),
+                                        mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                    } else {
+                        Log.d(TAG, "Current location is null. Using defaults.");
+                        Log.e(TAG, "Exception: %s", task.getException());
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+                        mMap.getUiSettings().setMyLocationButtonEnabled(false);
                     }
                 });
             }

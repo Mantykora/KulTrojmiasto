@@ -14,5 +14,6 @@
     <string name="theater">Theater</string>
     <string name="favorites">Favorit</string>
     <string name="all">alle</string>
-    <string name="add_widget">hinzufüge Widget</string>
+    <string name="dzisiaj">heute</string>
+    <string name="jutro">morgen</string>
 </resources>

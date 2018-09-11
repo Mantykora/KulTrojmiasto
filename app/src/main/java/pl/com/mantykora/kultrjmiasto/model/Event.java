@@ -1,5 +1,5 @@
 
-package pl.com.mantykora.kultrjmiasto.model; ;
+package pl.com.mantykora.kultrjmiasto.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -194,13 +194,13 @@ public class Event implements Parcelable {
     public Event() {
     }
 
-    protected Event(Parcel in) {
+    private Event(Parcel in) {
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.place = in.readParcelable(Place.class.getClassLoader());
         this.endDate = in.readString();
         this.name = in.readString();
         this.urls = in.readParcelable(Urls.class.getClassLoader());
-        this.attachments = new ArrayList<Attachment>();
+        this.attachments = new ArrayList<>();
         in.readList(this.attachments, Attachment.class.getClassLoader());
         this.descLong = in.readString();
         this.categoryId = (Integer) in.readValue(Integer.class.getClassLoader());

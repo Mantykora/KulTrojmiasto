@@ -1,5 +1,5 @@
 
-package pl.com.mantykora.kultrjmiasto.model; ;
+package pl.com.mantykora.kultrjmiasto.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -58,7 +58,7 @@ public class Tickets implements Parcelable {
     public Tickets() {
     }
 
-    protected Tickets(Parcel in) {
+    Tickets(Parcel in) {
         this.type = in.readString();
         this.startTicket = in.readString();
         this.endTicket = in.readString();

@@ -6,8 +6,6 @@ import android.graphics.Matrix;
 
 import com.squareup.picasso.Transformation;
 
-import java.io.OutputStream;
-
 import pl.com.mantykora.kultrjmiasto.R;
 
 public class ImageTransformation implements Transformation {

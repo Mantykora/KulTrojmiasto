@@ -1,5 +1,5 @@
 
-package pl.com.mantykora.kultrjmiasto.model; ;
+package pl.com.mantykora.kultrjmiasto.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -46,7 +46,7 @@ public class Organizer implements Parcelable {
     public Organizer() {
     }
 
-    protected Organizer(Parcel in) {
+    Organizer(Parcel in) {
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.designation = in.readString();
     }

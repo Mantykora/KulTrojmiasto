@@ -7,8 +7,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 public class Location  implements Parcelable {
 
     @SerializedName("id")
@@ -75,7 +73,7 @@ public class Location  implements Parcelable {
         dest.writeString(this.subname);
     }
 
-    protected Location(Parcel in) {
+    Location(Parcel in) {
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.address = in.readParcelable(Address.class.getClassLoader());
         this.name = in.readString();

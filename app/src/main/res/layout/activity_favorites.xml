@@ -67,7 +67,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="polub coś!"
+            android:text="@string/polub_co"
             android:textSize="18sp"
             android:textStyle="bold|italic"
             app:layout_constraintEnd_toEndOf="parent"

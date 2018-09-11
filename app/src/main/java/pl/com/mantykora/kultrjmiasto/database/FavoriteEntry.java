@@ -155,7 +155,7 @@ public class FavoriteEntry implements Parcelable {
         dest.writeString(this.shortDescription);
     }
 
-    protected FavoriteEntry(Parcel in) {
+    FavoriteEntry(Parcel in) {
         this.id = in.readInt();
         this.title = in.readString();
         this.place = in.readString();

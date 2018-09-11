@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">KulTrójmiasto</string>
-    <string name="add_widget">Add widget</string>
     <string name="something">No internet connection</string>
     <string name="darmowe">free</string>
     <string name="other">other</string>
@@ -16,4 +15,6 @@
     <string name="theater">theater</string>
     <string name="favorites">favorites</string>
     <string name="all">all</string>
+    <string name="dzisiaj">today</string>
+    <string name="jutro">tomorrow</string>
 </resources>

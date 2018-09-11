@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import pl.com.mantykora.kultrjmiasto.model.Event;
 import pl.com.mantykora.kultrjmiasto.model.Location;
@@ -31,12 +31,12 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements IconsFragment.OnIconSelectedListener {
 
-    ProgressDialog progressDialog;
-    boolean isStateSaved;
-    boolean isDialogShowed;
+    private ProgressDialog progressDialog;
+    private boolean isStateSaved;
+    private boolean isDialogShowed;
     Bundle locationBundle;
-    List<Location> locationList;
-    List<Event> eventList;
+    private List<Location> locationList;
+    private List<Event> eventList;
     ArrayList<Event> newList;
 
 
@@ -67,9 +67,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
 
         progressDialog = new ProgressDialog(MainActivity.this);

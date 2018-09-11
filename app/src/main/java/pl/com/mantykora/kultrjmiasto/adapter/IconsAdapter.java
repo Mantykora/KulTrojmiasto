@@ -1,5 +1,6 @@
 package pl.com.mantykora.kultrjmiasto.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.view.LayoutInflater;
@@ -14,8 +15,7 @@ import pl.com.mantykora.kultrjmiasto.R;
 
 public class IconsAdapter extends BaseAdapter {
 
-    private Context context;
-    private TypedArray icons;
+    private final Context context;
 
     public IconsAdapter(Context context) {
         this.context = context;
@@ -51,6 +51,7 @@ public class IconsAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
@@ -73,7 +74,7 @@ public class IconsAdapter extends BaseAdapter {
         //imageView.setLayoutParams(new ViewGroup.LayoutParams(85, 85));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        icons = context.getResources().obtainTypedArray(R.array.icons);
+        TypedArray icons = context.getResources().obtainTypedArray(R.array.icons);
         int def = 0;
         imageView.setImageResource(icons.getResourceId(position, def));
         imageView.setContentDescription(contentDescriptions[position]);
@@ -83,7 +84,7 @@ public class IconsAdapter extends BaseAdapter {
 
 
 
-    private String[] contentDescriptions;
+    private final String[] contentDescriptions;
 
 
 }
