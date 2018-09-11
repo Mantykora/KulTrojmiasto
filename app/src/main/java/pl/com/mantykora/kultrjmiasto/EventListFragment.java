@@ -62,7 +62,8 @@ public class EventListFragment extends Fragment {
         display.getMetrics(metrics);
         float pixelValue = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 175, getResources().getDisplayMetrics());
 
-        int spanCount = Math.round(metrics.widthPixels / pixelValue);
+        double spanCountDouble = Math.floor(metrics.widthPixels / pixelValue);
+        int spanCount = (int) spanCountDouble;
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), spanCount);
         recyclerView.setLayoutManager(layoutManager);
@@ -139,7 +140,7 @@ public class EventListFragment extends Fragment {
                 eventIterator.remove();
             }
         }
-        adapter = new EventsAdapter(getActivity(), litToShort);
+        adapter = new EventsAdapter(getActivity() , litToShort);
         recyclerView.setAdapter(adapter);
 
 
