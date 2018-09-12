@@ -63,15 +63,10 @@ public class IconsAdapter extends BaseAdapter {
 
         }
 
-        //TypedArray icons = res.obtainTypedArray(R.array.icons);
-
-
-
 
         imageView = convertView.findViewById(R.id.icon_iv);
         titleDescriptionTv = convertView.findViewById(R.id.icon_tv);
 
-        //imageView.setLayoutParams(new ViewGroup.LayoutParams(85, 85));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         TypedArray icons = context.getResources().obtainTypedArray(R.array.icons);
@@ -81,7 +76,6 @@ public class IconsAdapter extends BaseAdapter {
         titleDescriptionTv.setText(contentDescriptions[position]);
         return convertView;
     }
-
 
 
     private final String[] contentDescriptions;

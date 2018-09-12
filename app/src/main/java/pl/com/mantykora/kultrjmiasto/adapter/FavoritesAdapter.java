@@ -55,10 +55,10 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
             nameTextView.setOnClickListener(this);
 
-    }
+        }
 
-    @Override
-    public void onClick(View view) {
+        @Override
+        public void onClick(View view) {
             clickListener.onFavoriteListItem(view);
 
             int position = (int) view.getTag();
@@ -71,11 +71,11 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
             itemView.getContext().startActivity(intent);
 
-    }
+        }
 
-    interface FavoritesViewHolderClick {
+        interface FavoritesViewHolderClick {
             void onFavoriteListItem(View view);
-    }
+        }
     }
 
     @NonNull
@@ -98,7 +98,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         String placeString = favoriteEntry.getPlace();
 
 
-        if (placeString.length() > 35 ) {
+        if (placeString.length() > 35) {
             placeString = placeString.substring(0, 35) + "...";
         }
 

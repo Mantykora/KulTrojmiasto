@@ -16,4 +16,6 @@
     <string name="all">alle</string>
     <string name="dzisiaj">heute</string>
     <string name="jutro">morgen</string>
+    <string name="o_programie">o programie</string>
+    <string name="about_text">about text</string>
 </resources>

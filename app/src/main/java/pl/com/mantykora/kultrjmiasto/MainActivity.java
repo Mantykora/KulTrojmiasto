@@ -202,6 +202,15 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 startActivity(intent1);
                 return true;
 
+            case R.id.about_menu_item:
+
+                Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(aboutIntent);
+                return true;
+
+
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }

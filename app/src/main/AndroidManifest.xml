@@ -13,11 +13,11 @@
 
     <application
         android:allowBackup="true"
+        android:autoMirrored="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:autoMirrored="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -50,8 +50,7 @@
                 android:value="pl.com.mantykora.kultrjmiasto.MainActivity" />
         </activity>
         <activity android:name=".FavoritesActivity" />
-
-
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>

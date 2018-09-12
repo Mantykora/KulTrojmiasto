@@ -55,7 +55,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             clickListener = viewHolderClick;
 
             nameTv = view.findViewById(R.id.event_title_tv);
-//            categoryTv = view.findViewById(R.id.event_category_tv);
             hourTextView = view.findViewById(R.id.event_hour_tv);
             imageIv = view.findViewById(R.id.event_iv);
             dateTv = view.findViewById(R.id.event_date_tv);
@@ -81,31 +80,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
 
 
-           // Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(itemView.getContext(), )
-
-//            Intent intent = new Intent(this, DetailsActivity.class);
-//// Pass data object in the bundle and populate details activity.
-//            intent.putExtra(DetailsActivity.EXTRA_CONTACT, contact);
-//            ActivityOptionsCompat options = ActivityOptionsCompat.
-//                    makeSceneTransitionAnimation(this, (View)ivProfile, "profile");
-//            startActivity(intent, options.toBundle());
-
             Event singleEvent = eventList.get(position);
 
             Log.d("EventsAdapter", "" + singleEvent.getName());
 
             intent.putExtra("singleEvent", singleEvent);
 
-           itemView.getContext().startActivity(intent);
-            //TODO check android version
-            //TODO first it shows background and than image - that's wrong
-//            ActivityOptions options = ActivityOptions.
-//                    makeSceneTransitionAnimation((Activity) itemView.getContext(),
-//                            cardView,
-//                            ViewCompat.getTransitionName(cardView));
-//            itemView.getContext().startActivity(intent, options.toBundle());
-//            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((Activity)itemView.getContext()).toBundle();
-//            itemView.getContext().startActivity(intent, bundle);
+            itemView.getContext().startActivity(intent);
 
             Log.d("EventsAdapter", "" + position);
         }
@@ -121,13 +102,11 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.list_item_event, parent, false);
         return new EventsViewHolder(view, view1 -> Log.d("EventsAdapter", "onclick"));
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull EventsViewHolder holder, int position) {
 
-        //TODO lighter onBind
         Event event = eventList.get(position);
         holder.imageIv.setTag(position);
         String imageLinkString;
@@ -146,9 +125,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         }
 
 
-
-
-
         DateTime dateTime = new DateTime(eventList.get(position).getStartDate());
         org.joda.time.format.DateTimeFormatter hourFormatter = DateTimeFormat.forPattern("HH:mm");
         String eventHour = dateTime.toString(hourFormatter);
@@ -159,29 +135,25 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         if (dateTime.toLocalDate().equals(new LocalDate())) {
 
             holder.dateTv.setText(R.string.dzisiaj);
-        }
-        else if(dateTime.toLocalDate().equals(new LocalDate().plusDays(1))) {
+        } else if (dateTime.toLocalDate().equals(new LocalDate().plusDays(1))) {
 
             holder.dateTv.setText(R.string.jutro);
-        }
-        else {
+        } else {
             holder.dateTv.setText(eventDate);
         }
 
         String eventName = eventList.get(position).getName();
-        if(eventName.length() > 45) {
+        if (eventName.length() > 45) {
             eventName = eventName.substring(0, 45) + "...";
         }
 
         holder.nameTv.setText(eventName);
-//        holder.categoryTv.setText(enumValue.getName());
 
-
-        int drawable =  enumValue.getDrawable();
+        int drawable = enumValue.getDrawable();
         holder.eventCategoryIv.setImageResource(drawable);
         holder.hourTextView.setText(eventHour);
 
-        if (attachments.size() > 0 ) {
+        if (attachments.size() > 0) {
 
             if (attachments.size() > 1) {
                 imageLinkString = attachments.get(1).getFileName();
@@ -192,9 +164,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             Picasso.get().load(imageLinkString)
                     .transform(transformation)
                     .error(R.color.transparent)
-                    .placeholder( R.drawable.progress_animation )
-                    .into(holder.imageIv);  }
-                    else  {
+                    .placeholder(R.drawable.progress_animation)
+                    .into(holder.imageIv);
+        } else {
             holder.imageIv.setImageDrawable(null);
         }
 
@@ -206,6 +178,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
     public int getItemCount() {
         return eventList.size();
     }
+
     @Override
     public long getItemId(int position) {
         return position;

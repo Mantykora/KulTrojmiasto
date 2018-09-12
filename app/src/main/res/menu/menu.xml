@@ -11,5 +11,9 @@
       android:icon="@drawable/ic_favorite_black_36dp"
       android:title="@string/favorites"
       app:showAsAction="ifRoom" />
- 
+ <item
+     android:id="@+id/about_menu_item"
+     android:title="@string/o_programie"
+     app:showAsAction="ifRoom"/>
+
 </menu>
