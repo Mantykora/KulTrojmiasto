@@ -86,7 +86,6 @@ public class Address implements Parcelable {
     }
 
 
-
     public Address() {
     }
 

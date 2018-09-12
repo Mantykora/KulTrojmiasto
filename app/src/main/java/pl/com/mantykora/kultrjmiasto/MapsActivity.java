@@ -101,10 +101,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (eventList != null) {
             for (Event e : eventList) {
-                //Log.d("MapsActivity", e.getLocation().getName());
                 pl.com.mantykora.kultrjmiasto.model.Location location = e.getLocation();
                 Address address = location.getAddress();
-                //Log.d("MapsActivity", "" + address.getLat());
 
 
                 if (address.getLat() != null && address.getLng() != null) {
@@ -113,11 +111,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(e.getName()).snippet(location.getName())).setTag(e);
 
                     googleMap.setOnInfoWindowClickListener(marker -> {
-                        // int tag = (int) marker.getTag();
                         Intent intent = new Intent(MapsActivity.this, DetailActivity.class);
                         intent.putExtra("singleEvent", (Event) marker.getTag());
                         startActivity(intent);
-                        //TODO onInfoWindowClick
                     });
 
                 }

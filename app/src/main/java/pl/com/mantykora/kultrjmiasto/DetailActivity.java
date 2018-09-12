@@ -75,9 +75,6 @@ public class DetailActivity extends AppCompatActivity {
     private FavoriteEntry favoriteEntry;
     private String fileName;
     private FavoriteEntry likedEntryWithoutLiveData;
-    private String ticketType;
-
-
     private Event event;
     private FavoriteEntry fav;
 
@@ -85,7 +82,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        Toolbar myToolbar =  findViewById(R.id.my_toolbar_detail);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar_detail);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         ButterKnife.bind(this);
@@ -104,9 +101,6 @@ public class DetailActivity extends AppCompatActivity {
             endTicket = event.getTickets().getEndTicket();
             populateUi();
 
-
-            //mDb = AppDatabase.getInstance(getApplicationContext());
-
             if (event.getAttachments().size() > 0) {
                 fileName = event.getAttachments().get(0).getFileName();
             }
@@ -124,8 +118,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
             });
-        }
-        else {
+        } else {
 
             likeButton.setLiked(true);
             favoriteEntry = new FavoriteEntry(fav.getId(), fav.getTitle(), fav.getPlace(), fav.getStartTicket(), fav.getEndTicket(), fav.getDate(), fav.getDescription(), fav.getLink(), fav.getImage(), fav.getIsLiked(), fav.getTicketType(), fav.getShortDescription());
@@ -167,15 +160,6 @@ public class DetailActivity extends AppCompatActivity {
             startActivity(Intent.createChooser(shareIntent, "Share your event"));
         });
 
-//        EditText content = (EditText) findViewById(R.id.editText1);
-//        String shareBody = content.getText().toString();
-//        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-//        sharingIntent.setType("text/plain");
-//        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "\n\n");
-//        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-//        startActivity(Intent.createChooser(sharingIntent,  getResources().getString(R.string.a5)));
-
-
     }
 
     private void addFavoriteToDatabase() {
@@ -194,7 +178,6 @@ public class DetailActivity extends AppCompatActivity {
             int height = getResources().getDimensionPixelOffset(R.dimen.cardview_height);
             Picasso.get().load(event.getAttachments().get(0).getFileName()).resize(width, height).centerCrop().into(imageView);
             titleTv2.setText(event.getName());
-           // titleTv.setVisibility(View.GONE);
             titleTv2.setVisibility(View.GONE);
         }
 
@@ -204,17 +187,14 @@ public class DetailActivity extends AppCompatActivity {
         if (placeString.contains("null")) {
             placeIv.setVisibility(View.GONE);
 
+        } else {
+            placeTv.setText(String.valueOf(event.getPlace().getName()));
         }
-        else  {
-            placeTv.setText(String.valueOf(event.getPlace().getName()));        }
-        //placeTv.setText(String.valueOf(event.getPlace().getName()));
 
         DateTime dateTime = new DateTime(event.getStartDate());
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
         String dateString = dateTime.toString(dateTimeFormatter);
         dateTv.setText(dateString);
-
-
 
 
         getTicketType(event.getTickets().getType());
@@ -233,8 +213,8 @@ public class DetailActivity extends AppCompatActivity {
     private void populateUiFromFavs() {
         titleTv.setText(fav.getTitle());
         if (fav.getPlace().contains("null")) {
-            placeIv.setVisibility(View.GONE);}
-        else  {
+            placeIv.setVisibility(View.GONE);
+        } else {
             placeTv.setText(fav.getPlace());
         }
 
@@ -245,7 +225,7 @@ public class DetailActivity extends AppCompatActivity {
         getTicketType(fav.getTicketType());
 
         String describtionString = fav.getDescription();
-        if(describtionString.contains("<p>") || describtionString.contains("&nbsp;") || describtionString.contains("b") || describtionString.contains("[embed]")) {
+        if (describtionString.contains("<p>") || describtionString.contains("&nbsp;") || describtionString.contains("b") || describtionString.contains("[embed]")) {
             descriptionTv.setText(Html.fromHtml(describtionString));
 
         } else {
@@ -259,12 +239,9 @@ public class DetailActivity extends AppCompatActivity {
         Picasso.get().load(fav.getImage()).resize(width, height).centerCrop().into(imageView);
 
 
-
-
     }
 
     private void getTicketType(String type) {
-       // String ticketType = event.getTickets().getType();
 
         switch (type) {
             case "free":

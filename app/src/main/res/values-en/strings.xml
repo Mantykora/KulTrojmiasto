@@ -17,6 +17,7 @@
     <string name="all">all</string>
     <string name="dzisiaj">today</string>
     <string name="jutro">tomorrow</string>
-    <string name="o_programie">o programie</string>
-    <string name="about_text">about text</string>
+    <string name="o_programie">about app</string>
+    <string name="about_text">App was created based on planer.info.pl data. \n\nIcon made by Freepik from www.flaticon.com</string>
+    <string name="author">Author: Róża Kazenas \nE-mail: roza.kazenas@gmail.com</string>
 </resources>

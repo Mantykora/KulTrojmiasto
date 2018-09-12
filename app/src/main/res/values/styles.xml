@@ -9,7 +9,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <style name="AppTheme.Home">
-        <item name="android:windowExitTransition">@transition/grid_exit</item>
     </style>
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
         <!--<item name="android:fontFamily">@font/dancing_script_bold</item>-->

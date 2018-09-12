@@ -31,7 +31,6 @@ public class EventListFragment extends Fragment {
     private int iconPosition;
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -40,8 +39,6 @@ public class EventListFragment extends Fragment {
         Bundle bundle = this.getArguments();
         eventList = (List<Event>) bundle.getSerializable("eventList");
         List<Location> locationList = (List<Location>) bundle.getSerializable("locationList");
-
-
 
 
         Log.d("EventsListFragment.java", "" + eventList);

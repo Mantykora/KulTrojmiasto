@@ -34,10 +34,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private ProgressDialog progressDialog;
     private boolean isStateSaved;
     private boolean isDialogShowed;
-    Bundle locationBundle;
     private List<Location> locationList;
     private List<Event> eventList;
-    ArrayList<Event> newList;
 
 
     @Override
@@ -46,9 +44,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         isStateSaved = true;
 
 
-            if ((progressDialog != null) && progressDialog.isShowing())
-                progressDialog.dismiss();
-            progressDialog = null;
+        if ((progressDialog != null) && progressDialog.isShowing())
+            progressDialog.dismiss();
+        progressDialog = null;
 
     }
 
@@ -128,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                                  fragmentTransaction.add(R.id.fragment_container, fragment);
                                  if (isStateSaved) {
                                      isDialogShowed = true;
-                                 } else  {
+                                 } else {
                                      fragmentTransaction.commit();
 
                                  }
@@ -173,7 +171,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
                             x.setLocation(y);
 
-                          //  Log.d("MainActivity", x.getLocation().getName());
 
                         }
 
@@ -181,9 +178,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                     }
 
                     map.put(placeId, x);
-                    
-//                    toMapsList = new ArrayList<>(map.values());
-//                    toMapsList = map.values();
+
                     Log.d("arrayList", toMapsList.toString());
                 }
 
@@ -207,8 +202,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
                 startActivity(aboutIntent);
                 return true;
-
-
 
 
             default:

@@ -17,7 +17,7 @@ public class IconsFragment extends Fragment {
     private OnIconSelectedListener listener;
 
     public interface OnIconSelectedListener {
-         void onIconSelected(int position);
+        void onIconSelected(int position);
     }
 
     @Override

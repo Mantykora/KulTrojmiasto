@@ -54,33 +54,32 @@ public class FavoritesActivity extends AppCompatActivity {
         favoritesRv.setVisibility(View.GONE);
 
 
-
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-               if (viewHolder != null) {
-                   final View foreground = ((FavoritesAdapter.FavoritesViewHolder)viewHolder).foregroundLayout;
+                if (viewHolder != null) {
+                    final View foreground = ((FavoritesAdapter.FavoritesViewHolder) viewHolder).foregroundLayout;
 
-                   getDefaultUIUtil().onSelected(foreground);
-               }
+                    getDefaultUIUtil().onSelected(foreground);
+                }
             }
 
             @Override
             public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                final View foreground = ((FavoritesAdapter.FavoritesViewHolder)viewHolder).foregroundLayout;
+                final View foreground = ((FavoritesAdapter.FavoritesViewHolder) viewHolder).foregroundLayout;
                 getDefaultUIUtil().clearView(foreground);
             }
 
             @Override
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                final View foregroundView = ((FavoritesAdapter.FavoritesViewHolder)viewHolder).foregroundLayout;
+                final View foregroundView = ((FavoritesAdapter.FavoritesViewHolder) viewHolder).foregroundLayout;
 
                 getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
             }
 
             @Override
             public void onChildDrawOver(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                final View foreground = ((FavoritesAdapter.FavoritesViewHolder)viewHolder).foregroundLayout;
+                final View foreground = ((FavoritesAdapter.FavoritesViewHolder) viewHolder).foregroundLayout;
                 getDefaultUIUtil().onDrawOver(c, recyclerView, foreground, dX, dY, actionState, isCurrentlyActive);
             }
 

@@ -18,5 +18,4 @@ public interface GetDataService {
     Call<List<Location>> getAllLocations();
 
 
-
 }

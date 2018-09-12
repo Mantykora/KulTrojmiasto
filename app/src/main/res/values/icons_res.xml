@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <integer-array name = "icons">
         <item>@drawable/baseline_theaters_black_36</item>
         <item>@drawable/baseline_videocam_black_36</item>
