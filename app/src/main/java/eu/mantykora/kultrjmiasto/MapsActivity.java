@@ -67,8 +67,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Bundle bundle = getIntent().getExtras();
         eventList = (List<eu.mantykora.kultrjmiasto.model.Event>) bundle.getSerializable("eventList");
 
-
-        Log.d("MapsActivity", "" + eventList.toString());
     }
 
     @Override
@@ -161,7 +159,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 getLocationPermission();
             }
         } catch (SecurityException e) {
-            Log.e("Exception: %s", e.getMessage());
         }
     }
 
@@ -181,15 +178,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 new LatLng(mLastKnownLocation.getLatitude(),
                                         mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                     } else {
-                        Log.d(TAG, "Current location is null. Using defaults.");
-                        Log.e(TAG, "Exception: %s", task.getException());
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
                         mMap.getUiSettings().setMyLocationButtonEnabled(false);
                     }
                 });
             }
         } catch (SecurityException e) {
-            Log.e("Exception: %s", e.getMessage());
         }
     }
 

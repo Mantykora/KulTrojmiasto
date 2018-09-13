@@ -17,7 +17,6 @@ class MainViewModel extends AndroidViewModel {
     public MainViewModel(@NonNull Application application) {
         super(application);
         eu.mantykora.kultrjmiasto.database.AppDatabase database = eu.mantykora.kultrjmiasto.database.AppDatabase.getInstance(this.getApplication());
-        Log.d("MainViewModel", "Retrieving tasks from database");
         favorites = database.favoriteDao().loadAllFavorites();
     }
 

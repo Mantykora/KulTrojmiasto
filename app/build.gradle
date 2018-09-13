@@ -17,18 +17,10 @@ android {
 
 
     }
-    signingConfigs {
-        release {
-            storeFile file('../kulUdacity.jks')
-            storePassword 'kulUdacityPassword'
-            keyAlias 'kulUdacity'
-            keyPassword 'kulUdacityPassword'
-        }
-    }
+
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

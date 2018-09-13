@@ -88,8 +88,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         locationCall.enqueue(new Callback<List<Location>>() {
             @Override
             public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
-                Log.d("MainActivity", "" + response.body());
-
                 locationList = response.body();
 
             }
@@ -114,9 +112,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                                  progressDialog.dismiss();
                              }
                              eventList = response.body();
-
-
-                             Log.d("MainActivity", "" + response.body());
 
                              Bundle bundle = new Bundle();
                              bundle.putSerializable("eventList", (Serializable) eventList);
@@ -185,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
                     map.put(placeId, x);
 
-                    Log.d("arrayList", toMapsList.toString());
                 }
 
 

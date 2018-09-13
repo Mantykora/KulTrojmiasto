@@ -118,7 +118,6 @@ public class FavoritesActivity extends AppCompatActivity {
     private void setupViewModel() {
         MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         viewModel.getFavorites().observe(this, favoriteEntries -> {
-            Log.d("FavoritesActivity", "Receiving database update from LiveData in ViewModel");
             if (favoriteEntries.size() > 0) {
                 favoritesRv.setVisibility(View.VISIBLE);
                 constraintLayout.setVisibility(View.GONE);

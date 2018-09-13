@@ -41,10 +41,6 @@ public class EventListFragment extends Fragment {
         eventList = (List<Event>) bundle.getSerializable("eventList");
         List<Location> locationList = (List<Location>) bundle.getSerializable("locationList");
 
-
-        Log.d("EventsListFragment.java", "" + eventList);
-        Log.d("EventListFragment.java", "" + locationList);
-
         recyclerView = view.findViewById(R.id.events_rv);
         adapter = new EventsAdapter(eventList);
 

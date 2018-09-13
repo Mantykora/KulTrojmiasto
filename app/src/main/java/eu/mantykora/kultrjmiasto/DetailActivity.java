@@ -97,7 +97,6 @@ public class DetailActivity extends AppCompatActivity {
 
 
         if (event != null) {
-            Log.d("DetailActivity", event.getName());
 
             startTicket = event.getTickets().getStartTicket();
             endTicket = event.getTickets().getEndTicket();

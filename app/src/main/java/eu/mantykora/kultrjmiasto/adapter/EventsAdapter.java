@@ -82,13 +82,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
             eu.mantykora.kultrjmiasto.model.Event singleEvent = eventList.get(position);
 
-            Log.d("EventsAdapter", "" + singleEvent.getName());
-
             intent.putExtra("singleEvent", singleEvent);
 
             itemView.getContext().startActivity(intent);
 
-            Log.d("EventsAdapter", "" + position);
         }
 
         interface ViewHolderClick {
