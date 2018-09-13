@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pl.com.mantykora.kultrjmiasto">
+    package="eu.mantykora.kultrjmiasto">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -47,7 +47,7 @@
             android:label="@string/title_activity_maps">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="pl.com.mantykora.kultrjmiasto.MainActivity" />
+                android:value="eu.mantykora.kultrjmiasto.MainActivity" />
         </activity>
         <activity android:name=".FavoritesActivity" />
         <activity android:name=".AboutActivity"></activity>
