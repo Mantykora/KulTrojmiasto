@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="map">mapa</string>
     <string name="app_name">KulTrójmiasto</string>
     <string name="something">No hay conexión de internet</string>
     <string name="darmowe">gratis</string>
@@ -19,4 +20,8 @@
     <string name="o_programie">Sobre la programa</string>
     <string name="about_text">La app esta creado basado en dato de portal planer.info.pl \n\nIcono creado por Freepik de www.flaticon.com</string>
     <string name="author">Autor: Róża Kazenas \nEmail: roza.kazenas@gmail.com</string>
+    <string name="location">locación</string>
+    <string name="polub_co">gustate algo!</string>
+
+
 </resources>
