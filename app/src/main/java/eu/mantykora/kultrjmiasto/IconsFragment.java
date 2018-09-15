@@ -1,5 +1,6 @@
 package eu.mantykora.kultrjmiasto;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -22,6 +23,17 @@ public class IconsFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            listener = (OnIconSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnIconSelectedListener");
+        }
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
@@ -40,9 +52,8 @@ public class IconsFragment extends Fragment {
         IconsAdapter adapter = new IconsAdapter(getActivity());
         iconsGridView.setAdapter(adapter);
 
-        if(listener != null) {
             iconsGridView.setOnItemClickListener((parent, view1, position, id) -> listener.onIconSelected(position));
-        }
+
 
         return view;
     }
