@@ -219,15 +219,15 @@ public class Event implements Parcelable {
         this.location = in.readParcelable(Location.class.getClassLoader());
     }
 
-    public static final Creator<eu.mantykora.kultrjmiasto.model.Event> CREATOR = new Creator<eu.mantykora.kultrjmiasto.model.Event>() {
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
         @Override
-        public eu.mantykora.kultrjmiasto.model.Event createFromParcel(Parcel source) {
-            return new eu.mantykora.kultrjmiasto.model.Event(source);
+        public Event createFromParcel(Parcel source) {
+            return new Event(source);
         }
 
         @Override
-        public eu.mantykora.kultrjmiasto.model.Event[] newArray(int size) {
-            return new eu.mantykora.kultrjmiasto.model.Event[size];
+        public Event[] newArray(int size) {
+            return new Event[size];
         }
     };
 }

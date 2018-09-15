@@ -40,8 +40,9 @@ public class IconsFragment extends Fragment {
         IconsAdapter adapter = new IconsAdapter(getActivity());
         iconsGridView.setAdapter(adapter);
 
-        iconsGridView.setOnItemClickListener((parent, view1, position, id) -> listener.onIconSelected(position));
-
+        if(listener != null) {
+            iconsGridView.setOnItemClickListener((parent, view1, position, id) -> listener.onIconSelected(position));
+        }
 
         return view;
     }
