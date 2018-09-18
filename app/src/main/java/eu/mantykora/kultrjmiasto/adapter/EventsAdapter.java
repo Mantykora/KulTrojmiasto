@@ -31,9 +31,11 @@ import eu.mantykora.kultrjmiasto.utils.ImageTransformation;
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsViewHolder> {
 
     private static List<eu.mantykora.kultrjmiasto.model.Event> eventList;
+    private Context context;
 
-    public EventsAdapter(List<eu.mantykora.kultrjmiasto.model.Event> dataList) {
+    public EventsAdapter(List<eu.mantykora.kultrjmiasto.model.Event> dataList, Context context) {
         eventList = dataList;
+        this.context = context;
     }
 
     public static class EventsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -157,7 +159,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             } else {
                 imageLinkString = attachments.get(0).getFileName();
             }
-            Transformation transformation = new eu.mantykora.kultrjmiasto.utils.ImageTransformation();
+            Transformation transformation = new ImageTransformation(context);
             Picasso.get().load(imageLinkString)
                     .transform(transformation)
                     .error(R.color.transparent)

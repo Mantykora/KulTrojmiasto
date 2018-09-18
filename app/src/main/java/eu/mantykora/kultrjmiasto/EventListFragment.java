@@ -42,7 +42,7 @@ public class EventListFragment extends Fragment {
         List<Location> locationList = (List<Location>) bundle.getSerializable("locationList");
 
         recyclerView = view.findViewById(R.id.events_rv);
-        adapter = new EventsAdapter(eventList);
+        adapter = new EventsAdapter(eventList, getActivity());
 
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
@@ -110,7 +110,7 @@ public class EventListFragment extends Fragment {
         }
         if (position == 9) {
             iconPosition = 9;
-            adapter = new EventsAdapter(eventList);
+            adapter = new EventsAdapter(eventList, getActivity());
             recyclerView.setAdapter(adapter);
         }
 
@@ -128,8 +128,7 @@ public class EventListFragment extends Fragment {
             }
         }
 
-        adapter = new EventsAdapter(litToShort);
-        adapter = new EventsAdapter(litToShort);
+        adapter = new EventsAdapter(litToShort, getActivity());
         recyclerView.setAdapter(adapter);
 
 

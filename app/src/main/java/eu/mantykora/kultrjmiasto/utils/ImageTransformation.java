@@ -1,6 +1,7 @@
 package eu.mantykora.kultrjmiasto.utils;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
@@ -12,14 +13,21 @@ public class ImageTransformation implements Transformation {
 
     /* Example from http://square.github.io/picasso/ */
 
+    private Context context;
+    public ImageTransformation(Context context) {this.context = context;}
+
     @Override
     public Bitmap transform(Bitmap source) {
         int size = Math.min(source.getWidth(), source.getHeight());
         int x = (source.getWidth());
         int y = (source.getHeight());
+        float dpi = context.getResources().getDisplayMetrics().density;
+        float xDp = x / dpi;
+        float yDp = y / dpi;
 
-        int bitmapWidth = R.dimen.bitmapWidth;
-        int bitmapHeight = R.dimen.bitmapHeight;
+
+        int bitmapWidth = 900;
+        int bitmapHeight = 900;
 
         float scaleWidth = 0.5f;
         float scaleHeight = 0.5f;
@@ -28,7 +36,7 @@ public class ImageTransformation implements Transformation {
         matrix.postScale(scaleWidth, scaleHeight);
         Bitmap result;
 
-        if (x > 50 + bitmapWidth && y > 50 + bitmapHeight) {
+        if (xDp > 50 + bitmapWidth && yDp > 50 + bitmapHeight) {
 
             result = Bitmap.createBitmap(source, 50, 50, bitmapWidth, bitmapHeight);
 
