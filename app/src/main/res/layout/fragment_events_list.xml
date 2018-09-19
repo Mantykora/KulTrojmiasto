@@ -19,4 +19,32 @@
 
 
     </android.support.v7.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/golab_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/events_rv"
+        app:srcCompat="@drawable/ic_golabek" />
+
+    <TextView
+        android:id="@+id/golab_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Brak wydarzeń"
+        android:visibility="gone"
+        android:textSize="18sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/golab_iv" />
 </android.support.constraint.ConstraintLayout>

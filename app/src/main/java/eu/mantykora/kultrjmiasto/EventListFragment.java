@@ -12,6 +12,8 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,6 +32,8 @@ public class EventListFragment extends Fragment {
     private List<Event> eventList;
     private List<Event> litToShort;
     private int iconPosition;
+    private ImageView doveIv;
+    private TextView doveTv;
 
 
     @Nullable
@@ -38,6 +42,9 @@ public class EventListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
         Bundle bundle = this.getArguments();
+
+        doveIv = view.findViewById(R.id.golab_iv);
+        doveTv = view.findViewById(R.id.golab_tv);
         eventList = (List<Event>) bundle.getSerializable("eventList");
         List<Location> locationList = (List<Location>) bundle.getSerializable("locationList");
 
@@ -129,6 +136,12 @@ public class EventListFragment extends Fragment {
         }
 
         adapter = new EventsAdapter(litToShort, getActivity());
+        if (adapter.getItemCount() == 0) {
+            doveTv.setVisibility(View.VISIBLE);
+            doveIv.setVisibility(View.VISIBLE);
+
+
+        }
         recyclerView.setAdapter(adapter);
 
 
