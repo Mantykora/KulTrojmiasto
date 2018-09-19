@@ -19,10 +19,10 @@
     <string name="darmowe">darmowe</string>
     <string name="something">Brak połączenia z internetem</string>
     <string name="location">location</string>
-    <string name="polub_co">polub coś!</string>
+    <string name="polub_co">Polub coś!</string>
     <string name="dzisiaj">dzisiaj</string>
     <string name="jutro">jutro</string>
-    <string name="o_programie">o programie</string>
+    <string name="o_programie">O programie</string>
     <string name="about_text">Aplikacja powstała w oparciu o dane z portalu planer.info.pl. \n\nIkona stworzona przez Freepik z www.flaticon.com </string>
     <string name="author">Autor: Róża Kazenas \nE-mail: roza.kazenas@gmail.com</string>
 </resources>
