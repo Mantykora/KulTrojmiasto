@@ -203,6 +203,11 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 startActivity(aboutIntent);
                 return true;
 
+            case R.id.filter_menu_item:
+                Intent filterIntent = new Intent(MainActivity.this, Filtering_Activity.class);
+                startActivity(filterIntent);
+                return true;
+
 
             default:
                 return super.onOptionsItemSelected(item);

@@ -12,8 +12,14 @@
         android:title="@string/favorites"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/filter_menu_item"
+        android:title="@string/filtruj_wydarzenia"
+        android:icon="@drawable/ic_filter_list_black_36dp"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/about_menu_item"
         android:title="@string/o_programie"
         app:showAsAction="ifRoom" />
+
 
 </menu>
