@@ -182,7 +182,6 @@ public class DetailActivity extends AppCompatActivity {
             titleTv2.setVisibility(View.GONE);
         }
 
-        titleTv.setText(event.getName());
         String placeString = (String.valueOf(event.getPlace().getName()));
 
         if (placeString.contains("null")) {
@@ -203,16 +202,20 @@ public class DetailActivity extends AppCompatActivity {
         String eventString = event.getDescLong();
 
 
-        if (eventString.contains("<p>") || eventString.contains("&nbsp;") || eventString.contains("b") || eventString.contains("br") || eventString.contains("[embed]")) {
+        if (eventString.contains("<p>") || eventString.contains("&nbsp;") || eventString.contains("b") || eventString.contains("br") || eventString.contains("[embed]") || eventString.contains("&quot;")) {
             descriptionTv.setText(Html.fromHtml(eventString));
+            titleTv.setText(Html.fromHtml(event.getName()));
+
         } else {
             descriptionTv.setText(eventString);
+            titleTv.setText(event.getName());
+
         }
         linklTv.setText(event.getUrls().getWww());
     }
 
     private void populateUiFromFavs() {
-        titleTv.setText(fav.getTitle());
+
         if (fav.getPlace().contains("null")) {
             placeIv.setVisibility(View.GONE);
         } else {
@@ -226,11 +229,13 @@ public class DetailActivity extends AppCompatActivity {
         getTicketType(fav.getTicketType());
 
         String describtionString = fav.getDescription();
-        if (describtionString.contains("<p>") || describtionString.contains("&nbsp;") || describtionString.contains("b") || describtionString.contains("[embed]")) {
+        if (describtionString.contains("<p>") || describtionString.contains("&nbsp;") || describtionString.contains("b") || describtionString.contains("[embed]") || describtionString.contains("&quot;")) {
             descriptionTv.setText(Html.fromHtml(describtionString));
+            titleTv.setText(Html.fromHtml(fav.getTitle()));
 
         } else {
             descriptionTv.setText(describtionString);
+            titleTv.setText(fav.getTitle());
         }
         linklTv.setText(fav.getLink());
 

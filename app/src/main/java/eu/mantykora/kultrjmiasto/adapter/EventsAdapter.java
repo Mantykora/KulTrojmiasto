@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -146,7 +147,14 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             eventName = eventName.substring(0, 45) + "...";
         }
 
-        holder.nameTv.setText(eventName);
+        if (eventName.contains("<p>") || eventName.contains("&nbsp;") || eventName.contains("b") || eventName.contains("[embed]") || eventName.contains("&quot;")) {
+            holder.nameTv.setText(Html.fromHtml(eventName));
+
+        } else {
+            holder.nameTv.setText(eventName);
+        }
+
+
 
         int drawable = enumValue.getDrawable();
         holder.eventCategoryIv.setImageResource(drawable);
