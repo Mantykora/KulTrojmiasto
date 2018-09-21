@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">KulTrójmiasto</string>
     <string name="title_activity_maps" translatable="false">Map</string>
-    <string name="map">mapa wydarzeń</string>
-    <string name="favorites">ulubione</string>
+    <string name="map">Mapa wydarzeń</string>
+    <string name="favorites">Ulubione</string>
     <string name="theater">teatr</string>
     <string name="cinema">kino</string>
     <string name="art">sztuka</string>

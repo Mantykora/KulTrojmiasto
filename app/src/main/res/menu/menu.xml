@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/map_menu_item"
-        android:icon="@android:drawable/ic_menu_mapmode"
-        android:title="@string/map"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/filter_menu_item"
+        android:title="@string/filtruj_wydarzenia"
+        android:icon="@drawable/ic_filter_list_black_36dp"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/favorites_menu_item"
         android:icon="@drawable/ic_favorite_black_36dp"
         android:title="@string/favorites"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/filter_menu_item"
-        android:title="@string/filtruj_wydarzenia"
-        android:icon="@drawable/ic_filter_list_black_36dp"
-        app:showAsAction="ifRoom"/>
+        android:id="@+id/map_menu_item"
+        android:icon="@android:drawable/ic_menu_mapmode"
+        android:title="@string/map"
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/about_menu_item"
         android:title="@string/o_programie"

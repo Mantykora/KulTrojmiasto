@@ -9,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private boolean isDialogShowed;
     private List<Location> locationList;
     private List<Event> eventList;
+    private Menu menu;
+    private Toolbar myToolbar;
 
 
     @Override
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
@@ -204,8 +208,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 return true;
 
             case R.id.filter_menu_item:
-                Intent filterIntent = new Intent(MainActivity.this, Filtering_Activity.class);
-                startActivity(filterIntent);
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, myToolbar, Gravity.RIGHT);
+                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+                popupMenu.show();
                 return true;
 
 
