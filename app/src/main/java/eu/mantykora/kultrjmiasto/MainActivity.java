@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +15,13 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -46,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private List<Event> eventList;
     private Menu menu;
     private Toolbar myToolbar;
+    private Spinner spinner;
+    private LinearLayout constraintLayout;
 
 
     @Override
@@ -75,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -83,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         progressDialog = new ProgressDialog(eu.mantykora.kultrjmiasto.MainActivity.this);
         progressDialog.setMessage("Loading....");
         progressDialog.show();
+
 
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
 
@@ -158,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+
+        //spinner = (Spinner) findViewById(R.id.popup_city);
         return true;
     }
 
@@ -165,6 +180,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     public boolean onOptionsItemSelected(MenuItem item) {
         Map<Integer, Event> map = new HashMap<>();
         ArrayList<Event> toMapsList = new ArrayList<>();
+
+
+
 
         switch (item.getItemId()) {
             case R.id.map_menu_item:
@@ -208,9 +226,26 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 return true;
 
             case R.id.filter_menu_item:
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, myToolbar, Gravity.RIGHT);
-                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-                popupMenu.show();
+//                PopupMenu popupMenu = new PopupMenu(MainActivity.this, myToolbar, Gravity.RIGHT);
+//                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+//                Spinner spinner = (Spinner) popupMenu.getMenu().findItem(R.id.popup_city).getActionView();
+//                SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.cities_array, android.R.layout.simple_spinner_dropdown_item);
+//
+//
+//                spinner.setAdapter(spinnerAdapter);
+              //  popupMenu.show();
+
+                PopupWindow popupWindow = new PopupWindow(MainActivity.this);
+                View layout = getLayoutInflater().inflate(R.layout.popup_window, null);
+                popupWindow.setContentView(layout);
+
+
+                popupWindow.setOutsideTouchable(true);
+                popupWindow.setFocusable(true);
+
+                popupWindow.showAsDropDown(myToolbar);
+
+
                 return true;
 
 

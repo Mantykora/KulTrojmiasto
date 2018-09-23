@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="cities_array">
+        <item>Gdańsk</item>
+        <item>Sopot</item>
+        <item>Gdynia</item>
+        <item>Inne</item>
+    </string-array>
+
+</resources>

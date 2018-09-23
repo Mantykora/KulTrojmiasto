@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item
-    android:title="title"/>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Filtruj wydarzenia" />
+    <item
+        android:id="@+id/popup_date"
+        android:title="Data" />
+
+    <item
+        android:id="@+id/popup_city"
+        android:title="Miasto"
+        android:actionViewClass="android.widget.Spinner"
+        tools:ignore="AppCompatResource" />
 
 
 </menu>
