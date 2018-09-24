@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +18,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
@@ -56,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private Toolbar myToolbar;
     private Spinner spinner;
     private LinearLayout constraintLayout;
+    private  PopupWindow popupWindow;
+    private  View layout;
+    private ListView listView;
 
 
     @Override
@@ -158,7 +165,10 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
                          @Override
                          public void onFailure(Call<List<Event>> call, Throwable t) {
-                             progressDialog.dismiss();
+                             if(progressDialog != null) {
+                                 progressDialog.dismiss();
+                             }
+
                              Toast.makeText(eu.mantykora.kultrjmiasto.MainActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
                          }
                      }
@@ -171,6 +181,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+
+
+
 
         //spinner = (Spinner) findViewById(R.id.popup_city);
         return true;
@@ -235,19 +248,41 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 //                spinner.setAdapter(spinnerAdapter);
               //  popupMenu.show();
 
-                PopupWindow popupWindow = new PopupWindow(MainActivity.this);
-                View layout = getLayoutInflater().inflate(R.layout.popup_window, null);
+
+
+                popupWindow = new PopupWindow(MainActivity.this);
+                layout = getLayoutInflater().inflate(R.layout.popup_window, null);
                 popupWindow.setContentView(layout);
-
-
+        popupWindow.setHeight(1000);
+        popupWindow.setWidth(500);
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setFocusable(true);
+//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        popupWindow.showAtLocation(myToolbar, Gravity.CENTER, 0, 0);
+//                    }
+//                }, 4000);
 
-                popupWindow.showAsDropDown(myToolbar);
+//                listView = layout.findViewById(R.id.popup_window_city_spinner);
+//
+//                ArrayAdapter<String> adapter= new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, R.array.cities_array);
+//                listView.setAdapter(adapter);
+                popupWindow.showAsDropDown(myToolbar, Gravity.CENTER, 0, 0);
+//                Spinner spinner = layout.findViewById(R.id.popup_window_city_spinner);
+//                SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(MainActivity.this, R.array.cities_array, android.R.layout.simple_spinner_dropdown_item);
+//                spinner.setAdapter(spinnerAdapter);
+//
+//                new Handler().postDelayed(new Runnable(){
+//
+//                    public void run() {
+//                        popupWindow.showAsDropDown(myToolbar, Gravity.CENTER,0,0);
+//                    }
+//
+//                }, 200L);
 
 
                 return true;
-
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -259,7 +294,5 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     public void onIconSelected(int position) {
         EventListFragment eventListFragment = (EventListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
         eventListFragment.updateArticleView(position);
-
-
     }
 }
