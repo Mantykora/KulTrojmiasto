@@ -6,6 +6,8 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.base.Predicate;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -16,7 +18,7 @@ import eu.mantykora.kultrjmiasto.model.Place;
 import eu.mantykora.kultrjmiasto.model.Tickets;
 import eu.mantykora.kultrjmiasto.model.Urls;
 
-public class Event implements Parcelable {
+public class Event implements Parcelable, Predicate<Event> {
 
     @SerializedName("id")
     @Expose
@@ -230,4 +232,9 @@ public class Event implements Parcelable {
             return new Event[size];
         }
     };
+
+    @Override
+    public boolean apply(Event input) {
+        return false;
+    }
 }

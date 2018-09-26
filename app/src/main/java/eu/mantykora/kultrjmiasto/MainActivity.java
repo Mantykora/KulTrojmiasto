@@ -29,8 +29,14 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
     EventListFragment fragment;
     FragmentTransaction fragmentTransaction;
+
+    ArrayList<Event> toFilterList;
+
 
 
     @Override
@@ -190,6 +199,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     }
 
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -204,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     public boolean onOptionsItemSelected(MenuItem item) {
         Map<Integer, Event> map = new HashMap<>();
         ArrayList<Event> toMapsList = new ArrayList<>();
-        ArrayList<Event> toFilterList = new ArrayList<>();
+       // ArrayList<Event> toFilterList;
 
 
         for (Event x : eventList) {
@@ -275,12 +286,24 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 sopotChB = layout.findViewById(R.id.popup_sopot_chb);
                 otherChB = layout.findViewById(R.id.popup_other_chb);
 
+                 Predicate<Event> predicate = new Predicate<Event>(){
+
+                     @Override
+                     public boolean apply(Event input) {
+                         return  "Gdańsk".equals(input.getLocation().getAddress().getCity());
+                     }
+                 };
+
+
 
                 View.OnClickListener listener =
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 if (gdanskChB.isChecked()) {
+                                    toFilterList = new ArrayList<>(Collections2.filter(eventList, predicate));
+                                    Log.d("filterList", toMapsList.toString());
+
 
                                 }
                                 if (gdyniaChB.isChecked()){
@@ -291,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
 
                                 Bundle bundle1 = new Bundle();
-                                bundle1.putSerializable("eventList", (Serializable) eventList);
+                                bundle1.putSerializable("eventList", (Serializable) toFilterList);
                                 // fragmentTransaction.detach(fragment);
                                 //fragmentTransaction.remove(fragment).commit();
                               //  fragment.getArguments().putSerializable("eventList", (Serializable) eventList);
