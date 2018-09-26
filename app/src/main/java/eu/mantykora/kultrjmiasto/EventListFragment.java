@@ -35,6 +35,11 @@ public class EventListFragment extends Fragment {
     private ImageView doveIv;
     private TextView doveTv;
 
+    public EventListFragment() {
+        super();
+        setArguments(new Bundle());
+    }
+
 
     @Nullable
     @Override

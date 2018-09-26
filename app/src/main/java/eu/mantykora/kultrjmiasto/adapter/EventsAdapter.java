@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -140,6 +141,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             holder.dateTv.setText(R.string.jutro);
         } else {
             holder.dateTv.setText(eventDate);
+        }
+
+        if (eventList.get(position).getLocation() != null) {
+            Toast.makeText(context, "adress not null", Toast.LENGTH_SHORT).show();
         }
 
         String eventName = eventList.get(position).getName();

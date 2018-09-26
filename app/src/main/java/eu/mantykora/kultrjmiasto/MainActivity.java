@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -35,6 +36,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import eu.mantykora.kultrjmiasto.AboutActivity;
 import eu.mantykora.kultrjmiasto.EventListFragment;
 import eu.mantykora.kultrjmiasto.FavoritesActivity;
@@ -60,9 +63,18 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private Toolbar myToolbar;
     private Spinner spinner;
     private LinearLayout constraintLayout;
-    private  PopupWindow popupWindow;
-    private  View layout;
+    private PopupWindow popupWindow;
+    private View layout;
     private ListView listView;
+
+
+    private CheckBox gdanskChB;
+    private CheckBox sopotChB;
+    private CheckBox gdyniaChB;
+    private CheckBox otherChB;
+
+    EventListFragment fragment;
+    FragmentTransaction fragmentTransaction;
 
 
     @Override
@@ -142,9 +154,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                              bundle.putSerializable("locationList", (Serializable) locationList);
 
                              FragmentManager fragmentManager = getFragmentManager();
-                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                             fragmentTransaction = fragmentManager.beginTransaction();
                              Fragment eventFragment = fragmentManager.findFragmentById(R.id.fragment_container);
-                             EventListFragment fragment = new EventListFragment();
+                             fragment = new EventListFragment();
                              if (eventFragment == null) {
                                  fragment.setArguments(bundle);
 
@@ -165,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
                          @Override
                          public void onFailure(Call<List<Event>> call, Throwable t) {
-                             if(progressDialog != null) {
+                             if (progressDialog != null) {
                                  progressDialog.dismiss();
                              }
 
@@ -174,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                      }
 
         );
+
     }
 
 
@@ -181,8 +194,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
-
-
 
 
         //spinner = (Spinner) findViewById(R.id.popup_city);
@@ -193,29 +204,30 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     public boolean onOptionsItemSelected(MenuItem item) {
         Map<Integer, Event> map = new HashMap<>();
         ArrayList<Event> toMapsList = new ArrayList<>();
+        ArrayList<Event> toFilterList = new ArrayList<>();
 
 
+        for (Event x : eventList) {
+            int placeId = x.getPlace().getId();
+            for (Location y : locationList) {
+                if (y.getId() == placeId) {
+
+                    x.setLocation(y);
+
+
+                }
+
+
+            }
+
+            map.put(placeId, x);
+
+        }
 
 
         switch (item.getItemId()) {
             case R.id.map_menu_item:
                 Intent intent = new Intent(eu.mantykora.kultrjmiasto.MainActivity.this, MapsActivity.class);
-                for (Event x : eventList) {
-                    int placeId = x.getPlace().getId();
-                    for (Location y : locationList) {
-                        if (y.getId() == placeId) {
-
-                            x.setLocation(y);
-
-
-                        }
-
-
-                    }
-
-                    map.put(placeId, x);
-
-                }
 
 
                 toMapsList.addAll(map.values());
@@ -246,17 +258,57 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 //
 //
 //                spinner.setAdapter(spinnerAdapter);
-              //  popupMenu.show();
-
+                //  popupMenu.show();
 
 
                 popupWindow = new PopupWindow(MainActivity.this);
                 layout = getLayoutInflater().inflate(R.layout.popup_window, null);
                 popupWindow.setContentView(layout);
-        popupWindow.setHeight(1000);
-        popupWindow.setWidth(500);
+                popupWindow.setHeight(1000);
+                popupWindow.setWidth(500);
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setFocusable(true);
+
+
+                gdanskChB = layout.findViewById(R.id.popup_gdansk_chb);
+                gdyniaChB = layout.findViewById(R.id.popup_Gdynia_chb);
+                sopotChB = layout.findViewById(R.id.popup_sopot_chb);
+                otherChB = layout.findViewById(R.id.popup_other_chb);
+
+
+                View.OnClickListener listener =
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (gdanskChB.isChecked()) {
+
+                                }
+                                if (gdyniaChB.isChecked()){
+
+                                }
+                                FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();
+
+
+
+                                Bundle bundle1 = new Bundle();
+                                bundle1.putSerializable("eventList", (Serializable) eventList);
+                                // fragmentTransaction.detach(fragment);
+                                //fragmentTransaction.remove(fragment).commit();
+                              //  fragment.getArguments().putSerializable("eventList", (Serializable) eventList);
+                                fragment = new EventListFragment();
+
+                                 fragment.setArguments(bundle1);
+                                // fragmentTransaction.detach(fragment);
+
+                                fragmentTransaction1.replace(R.id.fragment_container, fragment);
+                                fragmentTransaction1.commit();
+                            }
+                        };
+
+                gdanskChB.setOnClickListener(listener);
+                gdyniaChB.setOnClickListener(listener);
+                sopotChB.setOnClickListener(listener);
+                otherChB.setOnClickListener(listener);
 //                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {
@@ -295,4 +347,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         EventListFragment eventListFragment = (EventListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
         eventListFragment.updateArticleView(position);
     }
+
+
 }

@@ -18,6 +18,7 @@
         <!--app:layout_constraintTop_toTopOf="parent" />-->
     <TextView
         android:id="@+id/textView2"
+        android:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -30,6 +31,7 @@
 
     <CheckBox
         android:id="@+id/popup_gdansk_chb"
+        android:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -40,6 +42,7 @@
 
     <CheckBox
         android:id="@+id/popup_sopot_chb"
+        android:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -50,6 +53,7 @@
 
     <CheckBox
         android:id="@+id/popup_Gdynia_chb"
+        android:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -60,6 +64,7 @@
 
     <CheckBox
         android:id="@+id/popup_other_chb"
+        android:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -69,6 +74,8 @@
         app:layout_constraintTop_toBottomOf="@+id/popup_Gdynia_chb" />
 
     <DatePicker
+        android:textColor="@android:color/white"
+        android:calendarTextColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="212dp"
         android:layout_marginStart="8dp"
@@ -76,5 +83,5 @@
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popup_other_chb"></DatePicker>
+        app:layout_constraintTop_toBottomOf="@+id/popup_other_chb"/>
 </android.support.constraint.ConstraintLayout>
