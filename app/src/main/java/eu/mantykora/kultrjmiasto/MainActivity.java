@@ -82,8 +82,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     EventListFragment fragment;
     FragmentTransaction fragmentTransaction;
 
-    ArrayList<Event> toFilterList;
-
+    private ArrayList<Event> gdanskList;
 
 
     @Override
@@ -199,8 +198,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     }
 
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -215,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     public boolean onOptionsItemSelected(MenuItem item) {
         Map<Integer, Event> map = new HashMap<>();
         ArrayList<Event> toMapsList = new ArrayList<>();
-       // ArrayList<Event> toFilterList;
+        // ArrayList<Event> toFilterList;
 
 
         for (Event x : eventList) {
@@ -275,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 popupWindow = new PopupWindow(MainActivity.this);
                 layout = getLayoutInflater().inflate(R.layout.popup_window, null);
                 popupWindow.setContentView(layout);
-                popupWindow.setHeight(1000);
+               // popupWindow.setHeight(1000);
                 popupWindow.setWidth(500);
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setFocusable(true);
@@ -286,41 +283,43 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 sopotChB = layout.findViewById(R.id.popup_sopot_chb);
                 otherChB = layout.findViewById(R.id.popup_other_chb);
 
-                 Predicate<Event> predicate = new Predicate<Event>(){
+                Predicate<Event> predicate = new Predicate<Event>() {
+                    private boolean filterApplies(CheckBox checkBox, String cityName, Event input) {
+                        return checkBox.isChecked() && cityName.equals(input.getLocation().getAddress().getCity());
+                    }
 
-                     @Override
-                     public boolean apply(Event input) {
-                         return  "Gdańsk".equals(input.getLocation().getAddress().getCity());
-                     }
-                 };
+                    @Override
+                    public boolean apply(Event input) {
+                        boolean gdanskFilter = filterApplies(gdanskChB, "Gdańsk", input);
+                        boolean gdyniaFilter = filterApplies(gdyniaChB, "Gdynia", input);
+                        boolean sopotFilter = filterApplies(sopotChB, "Sopot", input);
 
+                        return gdanskFilter || gdyniaFilter || sopotFilter;
+                    }
+                };
 
 
                 View.OnClickListener listener =
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (gdanskChB.isChecked()) {
-                                    toFilterList = new ArrayList<>(Collections2.filter(eventList, predicate));
-                                    Log.d("filterList", toMapsList.toString());
+                                boolean isAnyCheckboxChecked = gdanskChB.isChecked() || gdyniaChB.isChecked() || sopotChB.isChecked();
+                                ArrayList<Event> toFilterList =
+                                        isAnyCheckboxChecked ?
+                                                new ArrayList<>(Collections2.filter(eventList, predicate)) :
+                                                new ArrayList<>(eventList);
 
-
-                                }
-                                if (gdyniaChB.isChecked()){
-
-                                }
                                 FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();
-
 
 
                                 Bundle bundle1 = new Bundle();
                                 bundle1.putSerializable("eventList", (Serializable) toFilterList);
                                 // fragmentTransaction.detach(fragment);
                                 //fragmentTransaction.remove(fragment).commit();
-                              //  fragment.getArguments().putSerializable("eventList", (Serializable) eventList);
+                                //  fragment.getArguments().putSerializable("eventList", (Serializable) eventList);
                                 fragment = new EventListFragment();
 
-                                 fragment.setArguments(bundle1);
+                                fragment.setArguments(bundle1);
                                 // fragmentTransaction.detach(fragment);
 
                                 fragmentTransaction1.replace(R.id.fragment_container, fragment);
