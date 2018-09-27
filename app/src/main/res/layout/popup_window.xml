@@ -32,7 +32,7 @@
 
     <CheckBox
         android:id="@+id/popup_gdansk_chb"
-        android:textColor="@android:color/white"
+        style="@style/checkBoxStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -43,7 +43,7 @@
 
     <CheckBox
         android:id="@+id/popup_sopot_chb"
-        android:textColor="@android:color/white"
+        style="@style/checkBoxStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -54,7 +54,7 @@
 
     <CheckBox
         android:id="@+id/popup_Gdynia_chb"
-        android:textColor="@android:color/white"
+        style="@style/checkBoxStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -65,7 +65,7 @@
 
     <CheckBox
         android:id="@+id/popup_other_chb"
-        android:textColor="@android:color/white"
+        style="@style/checkBoxStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -95,6 +95,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Filtruj po dacie"
+        android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/popup_other_chb" />
 </android.support.constraint.ConstraintLayout>
