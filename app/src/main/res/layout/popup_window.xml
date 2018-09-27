@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp">
 
     <!--<ListView-->
         <!--android:id="@+id/popup_window_city_spinner"-->
@@ -74,14 +75,26 @@
         app:layout_constraintTop_toBottomOf="@+id/popup_Gdynia_chb" />
 
     <DatePicker
-        android:textColor="@android:color/white"
-        android:calendarTextColor="@android:color/white"
+        android:id="@+id/popup_calendar"
         android:layout_width="wrap_content"
         android:layout_height="212dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:calendarTextColor="@android:color/white"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popup_other_chb"/>
+        app:layout_constraintTop_toBottomOf="@+id/popup_switch" />
+
+    <Switch
+        android:id="@+id/popup_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Filtruj po dacie"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/popup_other_chb" />
 </android.support.constraint.ConstraintLayout>

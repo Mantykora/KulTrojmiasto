@@ -21,12 +21,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.common.base.Predicate;
@@ -78,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private CheckBox sopotChB;
     private CheckBox gdyniaChB;
     private CheckBox otherChB;
+
+    private Switch calendarSwitch;
+    private DatePicker datePicker;
 
     EventListFragment fragment;
     FragmentTransaction fragmentTransaction;
@@ -282,6 +287,23 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 gdyniaChB = layout.findViewById(R.id.popup_Gdynia_chb);
                 sopotChB = layout.findViewById(R.id.popup_sopot_chb);
                 otherChB = layout.findViewById(R.id.popup_other_chb);
+
+                calendarSwitch = layout.findViewById(R.id.popup_switch);
+
+                datePicker = layout.findViewById(R.id.popup_calendar);
+
+                calendarSwitch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (calendarSwitch.isChecked()) {
+                            datePicker.setVisibility(View.VISIBLE);
+                        } else  {
+                            datePicker.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
+
 
                 Predicate<Event> predicate = new Predicate<Event>() {
                     private boolean filterApplies(CheckBox checkBox, String cityName, Event input) {
