@@ -5,8 +5,10 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -297,6 +300,18 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                     public void onClick(View v) {
                         if (calendarSwitch.isChecked()) {
                             datePicker.setVisibility(View.VISIBLE);
+
+
+                            java.util.Calendar calendar = java.util.Calendar.getInstance();
+                            datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+                                @Override
+                                public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                    Toast.makeText(MainActivity.this, String.valueOf(dayOfMonth), Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+
+
                         } else  {
                             datePicker.setVisibility(View.GONE);
                         }
