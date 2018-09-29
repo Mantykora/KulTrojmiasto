@@ -99,9 +99,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private int currentYear;
     private int currentMonth;
     private int currentDay;
+    private String currentDate;
 
     ArrayList<Event> toFilterList;
-
 
 
     @Override
@@ -332,16 +332,13 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
                 Predicate<Event> predicate = new Predicate<Event>() {
                     private boolean filterApplies(CheckBox checkBox, String cityName, Event input, Switch calSwitch) {
-                        String dateString = input.getStartDate().substring(0,10);
-
-                        int monthValue = currentMonth + 1;
-                        String month = monthValue < 10 ? "0" + monthValue : Integer.toString(monthValue);
-                        String day = currentDay < 10 ? "0" + currentDay : Integer.toString(currentDay);
-                        String currentDateString = currentYear + "-"
-                                + month + "-" + day;
-                        return checkBox.isChecked() && cityName.equals(input.getLocation().getAddress().getCity()) || calSwitch.isChecked() && currentDateString.equals(dateString);
+                        return checkBox.isChecked() && cityName.equals(input.getLocation().getAddress().getCity());
                     }
 
+                    private boolean filterAppliesToDate(Event input) {
+                        String dateString = input.getStartDate().substring(0, 10);
+                        return currentDate.equals(dateString);
+                    }
 
                     @Override
                     public boolean apply(Event input) {
@@ -349,7 +346,12 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                         boolean gdyniaFilter = filterApplies(gdyniaChB, "Gdynia", input, calendarSwitch);
                         boolean sopotFilter = filterApplies(sopotChB, "Sopot", input, calendarSwitch);
 
-                        return gdanskFilter || gdyniaFilter || sopotFilter;
+                        boolean cityFilter = gdanskFilter || gdyniaFilter || sopotFilter;
+                        if(isAnyCityCheckboxChecked()) {
+                            return calendarSwitch.isChecked() ? cityFilter && filterAppliesToDate(input) : cityFilter;
+                        } else {
+                            return calendarSwitch.isChecked() && filterAppliesToDate(input);
+                        }
                     }
                 };
 
@@ -363,88 +365,11 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 //                };
 
 
-
-
-                    View.OnClickListener listener =
+                View.OnClickListener listener =
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (calendarSwitch.isChecked()) {
-                                    datePicker.setVisibility(View.VISIBLE);
-
-
-                                    java.util.Calendar calendar = java.util.Calendar.getInstance();
-//                                    DateTime dateTime = new DateTime(calendar.get(Calendar.getInstance()));
-//                                    DateTimeFormatter date = DateTimeFormat.forPattern("YYYY-MM-dd");
-//                                    String now = dateTime.toString(date);
-
-                                    currentYear = calendar.get(Calendar.YEAR);
-                                    currentMonth = calendar.get(Calendar.MONTH);
-                                    currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-                                    datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
-                                        @Override
-                                        public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-
-                                            currentYear = year;
-                                            currentMonth = monthOfYear;
-                                            currentDay = dayOfMonth;
-
-                                            // toFilterList = new ArrayList<>(Collections2.filter(eventList, datePredicate));
-                                            boolean isAnyCheckboxChecked = gdanskChB.isChecked() || gdyniaChB.isChecked() || sopotChB.isChecked() || calendarSwitch.isChecked();
-
-                                            toFilterList =
-                                                    isAnyCheckboxChecked ?
-                                                            new ArrayList<>(Collections2.filter(eventList, predicate)) :
-                                                            new ArrayList<>(eventList);
-                                            Toast.makeText(MainActivity.this, String.valueOf(dayOfMonth), Toast.LENGTH_SHORT).show();
-
-                                            FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();
-
-
-                                            Bundle bundle1 = new Bundle();
-                                            bundle1.putSerializable("eventList", (Serializable) toFilterList);
-                                            // fragmentTransaction.detach(fragment);
-                                            //fragmentTransaction.remove(fragment).commit();
-                                            //  fragment.getArguments().putSerializable("eventList", (Serializable) eventList);
-                                            fragment = new EventListFragment();
-
-                                            fragment.setArguments(bundle1);
-                                            // fragmentTransaction.detach(fragment);
-
-                                            fragmentTransaction1.replace(R.id.fragment_container, fragment);
-                                            fragmentTransaction1.commit();
-
-                                        }
-                                    });
-
-
-                                } else  {
-                                    datePicker.setVisibility(View.GONE);
-                                }
-                                boolean isAnyCheckboxChecked = gdanskChB.isChecked() || gdyniaChB.isChecked() || sopotChB.isChecked() || calendarSwitch.isChecked();
-                                toFilterList =
-                                        isAnyCheckboxChecked ?
-                                                new ArrayList<>(Collections2.filter(eventList, predicate)) :
-                                                new ArrayList<>(eventList);
-
-
-
-                                FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();
-
-
-                                Bundle bundle1 = new Bundle();
-                                bundle1.putSerializable("eventList", (Serializable) toFilterList);
-                                // fragmentTransaction.detach(fragment);
-                                //fragmentTransaction.remove(fragment).commit();
-                                //  fragment.getArguments().putSerializable("eventList", (Serializable) eventList);
-                                fragment = new EventListFragment();
-
-                                fragment.setArguments(bundle1);
-                                // fragmentTransaction.detach(fragment);
-
-                                fragmentTransaction1.replace(R.id.fragment_container, fragment);
-                                fragmentTransaction1.commit();
+                                buildEventListFragment(predicate);
                             }
                         };
 
@@ -452,7 +377,39 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 gdyniaChB.setOnClickListener(listener);
                 sopotChB.setOnClickListener(listener);
                 otherChB.setOnClickListener(listener);
-                calendarSwitch.setOnClickListener(listener);
+                calendarSwitch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (calendarSwitch.isChecked()) {
+                            datePicker.setVisibility(View.VISIBLE);
+
+
+                            java.util.Calendar calendar = java.util.Calendar.getInstance();
+
+                            currentYear = calendar.get(Calendar.YEAR);
+                            currentMonth = calendar.get(Calendar.MONTH);
+                            currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+                            buildCurrentDate();
+
+                            datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+                                @Override
+                                public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                    currentYear = year;
+                                    currentMonth = monthOfYear;
+                                    currentDay = dayOfMonth;
+                                    buildCurrentDate();
+
+                                    buildEventListFragment(predicate);
+                                }
+                            });
+                        } else {
+                            datePicker.setVisibility(View.GONE);
+                        }
+
+                        buildEventListFragment(predicate);
+                    }
+                });
 //                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {
@@ -483,6 +440,42 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void buildCurrentDate() {
+        int monthValue = currentMonth + 1;
+        String month = monthValue < 10 ? "0" + monthValue : Integer.toString(monthValue);
+        String day = currentDay < 10 ? "0" + currentDay : Integer.toString(currentDay);
+        currentDate = currentYear + "-" + month + "-" + day;
+    }
+
+    private void buildEventListFragment(Predicate<Event> predicate) {
+        boolean isAnyCheckboxChecked = isAnyCityCheckboxChecked() || calendarSwitch.isChecked();
+        toFilterList =
+                isAnyCheckboxChecked ?
+                        new ArrayList<>(Collections2.filter(eventList, predicate)) :
+                        new ArrayList<>(eventList);
+
+
+        FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();
+
+
+        Bundle bundle1 = new Bundle();
+        bundle1.putSerializable("eventList", (Serializable) toFilterList);
+        // fragmentTransaction.detach(fragment);
+        //fragmentTransaction.remove(fragment).commit();
+        //  fragment.getArguments().putSerializable("eventList", (Serializable) eventList);
+        fragment = new EventListFragment();
+
+        fragment.setArguments(bundle1);
+        // fragmentTransaction.detach(fragment);
+
+        fragmentTransaction1.replace(R.id.fragment_container, fragment);
+        fragmentTransaction1.commit();
+    }
+
+    private boolean isAnyCityCheckboxChecked() {
+        return gdanskChB.isChecked() || gdyniaChB.isChecked() || sopotChB.isChecked();
     }
 
 
