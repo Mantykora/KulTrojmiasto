@@ -238,24 +238,17 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
             int placeId = x.getPlace().getId();
             for (Location y : locationList) {
                 if (y.getId() == placeId) {
-
                     x.setLocation(y);
-
-
                 }
-
-
             }
 
             map.put(placeId, x);
-
         }
 
 
         switch (item.getItemId()) {
             case R.id.map_menu_item:
                 Intent intent = new Intent(eu.mantykora.kultrjmiasto.MainActivity.this, MapsActivity.class);
-
 
                 toMapsList.addAll(map.values());
 
@@ -266,13 +259,11 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 return true;
 
             case R.id.favorites_menu_item:
-
                 Intent intent1 = new Intent(eu.mantykora.kultrjmiasto.MainActivity.this, FavoritesActivity.class);
                 startActivity(intent1);
                 return true;
 
             case R.id.about_menu_item:
-
                 Intent aboutIntent = new Intent(eu.mantykora.kultrjmiasto.MainActivity.this, AboutActivity.class);
                 startActivity(aboutIntent);
                 return true;
@@ -331,6 +322,21 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
 
                 Predicate<Event> predicate = new Predicate<Event>() {
+                    private final String[] CITIES = {"Gdańsk", "Gdynia", "Sopot"};
+
+                    private boolean otherFilterApplies(Event input) {
+                        String cityName = input.getLocation().getAddress().getCity();
+                        boolean result = true;
+                        for (String city : CITIES) {
+                            if (city.equals(cityName)) {
+                                result = false;
+                                break;
+                            }
+                        }
+
+                        return otherChB.isChecked() && result;
+                    }
+
                     private boolean filterApplies(CheckBox checkBox, String cityName, Event input, Switch calSwitch) {
                         return checkBox.isChecked() && cityName.equals(input.getLocation().getAddress().getCity());
                     }
@@ -345,9 +351,11 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                         boolean gdanskFilter = filterApplies(gdanskChB, "Gdańsk", input, calendarSwitch);
                         boolean gdyniaFilter = filterApplies(gdyniaChB, "Gdynia", input, calendarSwitch);
                         boolean sopotFilter = filterApplies(sopotChB, "Sopot", input, calendarSwitch);
+                        boolean otherFilter = otherFilterApplies(input);
 
-                        boolean cityFilter = gdanskFilter || gdyniaFilter || sopotFilter;
-                        if(isAnyCityCheckboxChecked()) {
+                        boolean cityFilter = gdanskFilter || gdyniaFilter || sopotFilter || otherFilter;
+
+                        if (isAnyCityCheckboxChecked()) {
                             return calendarSwitch.isChecked() ? cityFilter && filterAppliesToDate(input) : cityFilter;
                         } else {
                             return calendarSwitch.isChecked() && filterAppliesToDate(input);
@@ -475,7 +483,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     }
 
     private boolean isAnyCityCheckboxChecked() {
-        return gdanskChB.isChecked() || gdyniaChB.isChecked() || sopotChB.isChecked();
+        return gdanskChB.isChecked() || gdyniaChB.isChecked() || sopotChB.isChecked() || otherChB.isChecked();
     }
 
 
