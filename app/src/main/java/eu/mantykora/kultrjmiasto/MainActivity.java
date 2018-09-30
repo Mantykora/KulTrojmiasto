@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.MenuItemCompat;
@@ -102,6 +103,12 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private String currentDate;
 
     ArrayList<Event> toFilterList;
+
+    private boolean gdanskCheckboxChecked;
+    private boolean gdyniaCheckboxChecked;
+    private boolean sopotCheckboxChecked;
+    private boolean otherCheckboxChecked;
+    private boolean calendarSwitchChecked;
 
 
     @Override
@@ -281,44 +288,12 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
                 popupWindow = new PopupWindow(MainActivity.this);
                 layout = getLayoutInflater().inflate(R.layout.popup_window, null);
-                popupWindow.setContentView(layout);
-                // popupWindow.setHeight(1000);
-                popupWindow.setWidth(500);
-                popupWindow.setOutsideTouchable(true);
-                popupWindow.setFocusable(true);
-
-
                 gdanskChB = layout.findViewById(R.id.popup_gdansk_chb);
                 gdyniaChB = layout.findViewById(R.id.popup_Gdynia_chb);
                 sopotChB = layout.findViewById(R.id.popup_sopot_chb);
                 otherChB = layout.findViewById(R.id.popup_other_chb);
-
                 calendarSwitch = layout.findViewById(R.id.popup_switch);
-
                 datePicker = layout.findViewById(R.id.popup_calendar);
-
-//                calendarSwitch.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        if (calendarSwitch.isChecked()) {
-//                            datePicker.setVisibility(View.VISIBLE);
-//
-//
-//                            java.util.Calendar calendar = java.util.Calendar.getInstance();
-//                            datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
-//                                @Override
-//                                public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-//                                    Toast.makeText(MainActivity.this, String.valueOf(dayOfMonth), Toast.LENGTH_SHORT).show();
-//
-//                                }
-//                            });
-//
-//
-//                        } else  {
-//                            datePicker.setVisibility(View.GONE);
-//                        }
-//                    }
-//                });
 
 
                 Predicate<Event> predicate = new Predicate<Event>() {
@@ -363,61 +338,115 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                     }
                 };
 
-//                Predicate<Event> datePredicate = new Predicate<Event>() {
-//                    @Override
-//                    public boolean apply(Event input) {
-//                        String dateString = input.getStartDate().substring(0,10);
-//                        String currentDateString = currentYear + "-" + currentMonth + "-" + currentDay;
-//                        return currentDateString.equals(dateString);
-//                    }
-//                };
+
+                gdanskCheckboxChecked = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("checkBoxGdansk", false);
+                gdanskChB.setChecked(gdanskCheckboxChecked);
+
+                gdyniaCheckboxChecked = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("checkBoxGdynia", false);
+                gdyniaChB.setChecked(gdyniaCheckboxChecked);
+
+                sopotCheckboxChecked = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("checkBoxSopot", false);
+                sopotChB.setChecked(sopotCheckboxChecked);
+
+                otherCheckboxChecked = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("checkBoxOther", false);
+                otherChB.setChecked(otherCheckboxChecked);
+
+                calendarSwitchChecked = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("calendarSwitch", false);
+                calendarSwitch.setChecked(calendarSwitchChecked);
+                if (calendarSwitchChecked) {
+                    datePicker.setVisibility(View.VISIBLE);
 
 
-                View.OnClickListener listener =
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                buildEventListFragment(predicate);
-                            }
-                        };
+                    java.util.Calendar calendar = java.util.Calendar.getInstance();
 
-                gdanskChB.setOnClickListener(listener);
-                gdyniaChB.setOnClickListener(listener);
-                sopotChB.setOnClickListener(listener);
-                otherChB.setOnClickListener(listener);
-                calendarSwitch.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (calendarSwitch.isChecked()) {
-                            datePicker.setVisibility(View.VISIBLE);
+                    currentYear = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("year", calendar.get(Calendar.YEAR));
+                    currentMonth = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("month", calendar.get(Calendar.MONTH));
+                    currentDay = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("day", calendar.get(Calendar.DAY_OF_MONTH));
 
 
-                            java.util.Calendar calendar = java.util.Calendar.getInstance();
 
-                            currentYear = calendar.get(Calendar.YEAR);
-                            currentMonth = calendar.get(Calendar.MONTH);
-                            currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+                    buildCurrentDate();
+                    buildEventListFragment(predicate);
 
+
+                    datePicker.init(currentYear, currentMonth, currentDay, new DatePicker.OnDateChangedListener() {
+                        @Override
+                        public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                            currentYear = year;
+                            currentMonth = monthOfYear;
+                            currentDay = dayOfMonth;
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("year", currentYear).commit();
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("month", currentMonth).commit();
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("day", currentDay).commit();
                             buildCurrentDate();
 
-                            datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
-                                @Override
-                                public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                    currentYear = year;
-                                    currentMonth = monthOfYear;
-                                    currentDay = dayOfMonth;
-                                    buildCurrentDate();
-
-                                    buildEventListFragment(predicate);
-                                }
-                            });
-                        } else {
-                            datePicker.setVisibility(View.GONE);
+                            buildEventListFragment(predicate);
                         }
+                    });
+                }
 
+
+
+        popupWindow.setContentView(layout);
+        // popupWindow.setHeight(1000);
+        popupWindow.setWidth(500);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+
+
+
+
+
+        View.OnClickListener listener =
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         buildEventListFragment(predicate);
+                        switch (v.getId()) {
+                            case R.id.popup_gdansk_chb:
+                                gdanskCheckboxChecked = gdanskChB.isChecked();
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("checkBoxGdansk", gdanskCheckboxChecked).commit();
+                                break;
+                            case R.id.popup_Gdynia_chb:
+                                gdyniaCheckboxChecked = gdyniaChB.isChecked();
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("checkBoxGdynia", gdyniaCheckboxChecked).commit();
+                                break;
+                            case R.id.popup_sopot_chb:
+                                sopotCheckboxChecked = sopotChB.isChecked();
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("checkBoxSopot", sopotCheckboxChecked).commit();
+
+                                break;
+                            case R.id.popup_other_chb:
+                                otherCheckboxChecked = otherChB.isChecked();
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("checkBoxOther", otherCheckboxChecked).commit();
+
+                                break;
+
+
+                        }
                     }
-                });
+                };
+
+        gdanskChB.setOnClickListener(listener);
+        gdyniaChB.setOnClickListener(listener);
+        sopotChB.setOnClickListener(listener);
+        otherChB.setOnClickListener(listener);
+        calendarSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (calendarSwitch.isChecked()) {
+                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("calendarSwitch", true).commit();
+
+                    setCalendar(predicate);
+                } else {
+                    datePicker.setVisibility(View.GONE);
+                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("calendarSwitch", false).commit();
+
+                }
+
+                buildEventListFragment(predicate);
+            }
+        });
 //                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {
@@ -429,7 +458,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 //
 //                ArrayAdapter<String> adapter= new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, R.array.cities_array);
 //                listView.setAdapter(adapter);
-                popupWindow.showAsDropDown(myToolbar, Gravity.CENTER, 0, 0);
+        popupWindow.showAsDropDown(myToolbar, Gravity.CENTER, 0, 0);
 //                Spinner spinner = layout.findViewById(R.id.popup_window_city_spinner);
 //                SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(MainActivity.this, R.array.cities_array, android.R.layout.simple_spinner_dropdown_item);
 //                spinner.setAdapter(spinnerAdapter);
@@ -443,11 +472,42 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 //                }, 200L);
 
 
-                return true;
+        return true;
 
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        default:
+        return super.onOptionsItemSelected(item);
+    }
+
+}
+    private void setCalendar(Predicate<Event> predicate) {
+        datePicker.setVisibility(View.VISIBLE);
+
+
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+
+        currentYear = calendar.get(Calendar.YEAR);
+        currentMonth = calendar.get(Calendar.MONTH);
+        currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        buildCurrentDate();
+
+        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                currentYear = year;
+                currentMonth = monthOfYear;
+                currentDay = dayOfMonth;
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("year", currentYear).commit();
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("month", currentMonth).commit();
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("day", currentDay).commit();
+
+
+
+                buildCurrentDate();
+
+                buildEventListFragment(predicate);
+            }
+        });
     }
 
     private void buildCurrentDate() {
