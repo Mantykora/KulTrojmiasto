@@ -31,11 +31,9 @@
     </style>
     <style name="CalendarDatePickerSpinner" parent="@android:style/Widget.Material.DatePicker">
 
-        <item name="android:calendarTextColor">#FF0000</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="colorControlNormal">@android:color/white</item>
         <item name="android:datePickerMode">spinner</item>
-        <item name="android:dayOfWeekBackground">#FF0000</item>
 
 
 

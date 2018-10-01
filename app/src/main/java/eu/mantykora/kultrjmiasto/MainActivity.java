@@ -110,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private boolean otherCheckboxChecked;
     private boolean calendarSwitchChecked;
 
+    private Map<Integer, Event> map;
+
 
     @Override
     protected void onPause() {
@@ -160,6 +162,18 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
             public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
                 locationList = response.body();
 
+
+                for (Event x : eventList) {
+                    int placeId = x.getPlace().getId();
+                    for (Location y : locationList) {
+                        if (y.getId() == placeId) {
+                            x.setLocation(y);
+                        }
+                    }
+
+                    map.put(placeId, x);
+                }
+
             }
 
             @Override
@@ -182,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                                  progressDialog.dismiss();
                              }
                              eventList = response.body();
+
 
                              Bundle bundle = new Bundle();
                              bundle.putSerializable("eventList", (Serializable) eventList);
@@ -207,6 +222,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                                  fragmentTransaction.commit();
                              }
 
+
+
                          }
 
                          @Override
@@ -221,6 +238,11 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
         );
 
+        map = new HashMap<>();
+
+
+
+
     }
 
 
@@ -230,27 +252,18 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         inflater.inflate(R.menu.menu, menu);
 
 
+
         //spinner = (Spinner) findViewById(R.id.popup_city);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Map<Integer, Event> map = new HashMap<>();
         ArrayList<Event> toMapsList = new ArrayList<>();
         // ArrayList<Event> toFilterList;
 
 
-        for (Event x : eventList) {
-            int placeId = x.getPlace().getId();
-            for (Location y : locationList) {
-                if (y.getId() == placeId) {
-                    x.setLocation(y);
-                }
-            }
 
-            map.put(placeId, x);
-        }
 
 
         switch (item.getItemId()) {
