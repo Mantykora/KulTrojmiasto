@@ -16,6 +16,7 @@
         <!--<item name="android:windowTitleStyle">@style/TitleStyle</item>-->
         <item name="android:textAppearance">@style/TextAppeareance</item>
 
+
     </style>
 
     <style name="TextAppeareance" parent="@android:style/TextAppearance.DialogWindowTitle">
@@ -28,5 +29,25 @@
         <item name="android:buttonTint">@android:color/white</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+    <style name="CalendarDatePickerSpinner" parent="@android:style/Widget.Material.DatePicker">
+
+        <item name="android:calendarTextColor">#FF0000</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:dayOfWeekBackground">#FF0000</item>
+
+
+
+
+    </style>
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.DatePicker">
+        <item name="android:colorControlActivated">#ffea00</item>
+        . . .
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
+    </style>
+
+
 
 </resources>

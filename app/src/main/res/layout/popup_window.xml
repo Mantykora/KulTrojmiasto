@@ -80,11 +80,10 @@
         android:layout_height="212dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:calendarTextColor="@android:color/white"
         android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        android:textColor="@android:color/white"
         android:visibility="gone"
+        android:theme="@style/CalendarDatePickerSpinner"
+        style="@style/MyDatePickerStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/popup_switch" />
 
