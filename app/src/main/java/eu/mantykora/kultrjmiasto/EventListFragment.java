@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,6 +35,7 @@ public class EventListFragment extends Fragment {
     private int iconPosition;
     private ImageView doveIv;
     private TextView doveTv;
+    private boolean isThaterChecked;
 
     public EventListFragment() {
         super();
@@ -68,6 +70,12 @@ public class EventListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
+        if (adapter.getItemCount() == 0) {
+            doveTv.setVisibility(View.VISIBLE);
+            doveIv.setVisibility(View.VISIBLE);
+
+
+        }
         recyclerView.setAdapter(adapter);
         if (savedInstanceState != null) {
             iconPosition = savedInstanceState.getInt("iconPosition");
@@ -87,6 +95,15 @@ public class EventListFragment extends Fragment {
         if (position == 0) {
             iconPosition = 0;
             cutListView(19);
+            if (!isThaterChecked) {
+            isThaterChecked = true;
+
+
+                Toast.makeText(getActivity(), "true", Toast.LENGTH_SHORT).show();
+            } else {
+                isThaterChecked =false;
+                Toast.makeText(getActivity(), "false", Toast.LENGTH_SHORT).show();
+            }
         }
         if (position == 1) {
             iconPosition = 1;
@@ -130,6 +147,8 @@ public class EventListFragment extends Fragment {
 
     private void cutListView(int categoryId) {
 
+        doveIv.setVisibility(View.GONE);
+        doveTv.setVisibility(View.GONE);
 
         litToShort = new ArrayList<>(eventList);
         Iterator<Event> eventIterator = litToShort.iterator();
@@ -139,6 +158,7 @@ public class EventListFragment extends Fragment {
                 eventIterator.remove();
             }
         }
+
 
         adapter = new EventsAdapter(litToShort, getActivity());
         if (adapter.getItemCount() == 0) {
@@ -150,6 +170,16 @@ public class EventListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
+    }
+
+    public List<Event> getList() {
+        if (litToShort != null) {
+            return litToShort;
+        }
+
+        else {
+            return null;
+        }
     }
 
 

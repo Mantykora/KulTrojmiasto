@@ -112,6 +112,10 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
     private Map<Integer, Event> map;
 
+    private ArrayList<Event> listFromCategories;
+
+    private int iconPosition;
+
 
     @Override
     protected void onPause() {
@@ -195,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                              if ((progressDialog != null) && progressDialog.isShowing()) {
                                  progressDialog.dismiss();
                              }
-                             eventList = response.body();
+                               eventList = response.body();
 
 
                              Bundle bundle = new Bundle();
@@ -333,6 +337,10 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                         String dateString = input.getStartDate().substring(0, 10);
                         return currentDate.equals(dateString);
                     }
+
+//                    private boolean filterAppliesToCategories(Event input, int category) {
+//                        return
+//                    }
 
                     @Override
                     public boolean apply(Event input) {
@@ -532,10 +540,11 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
     private void buildEventListFragment(Predicate<Event> predicate) {
         boolean isAnyCheckboxChecked = isAnyCityCheckboxChecked() || calendarSwitch.isChecked();
-        toFilterList =
-                isAnyCheckboxChecked ?
-                        new ArrayList<>(Collections2.filter(eventList, predicate)) :
-                        new ArrayList<>(eventList);
+
+            toFilterList =
+                    isAnyCheckboxChecked ?
+                            new ArrayList<>(Collections2.filter(eventList, predicate)) :
+                            new ArrayList<>(eventList);
 
 
         FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();
@@ -564,7 +573,21 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     public void onIconSelected(int position) {
         EventListFragment eventListFragment = (EventListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
         eventListFragment.updateArticleView(position);
+//        if (eventListFragment.getList() != null) {
+//            if (position != 9) {
+//                listFromCategories = new ArrayList<>();
+//                listFromCategories = (ArrayList<Event>) eventListFragment.getList();
+//            } else {
+//                listFromCategories = null;
+//            }
+
+           iconPosition = position;
+        eu.mantykora.kultrjmiasto.model.CategoryEnum enumValue = eu.mantykora.kultrjmiasto.model.CategoryEnum.forPosition(position);
+        int categoryId = enumValue.getCode();
+
+
+    }
     }
 
 
-}
+
