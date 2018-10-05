@@ -2,15 +2,22 @@ package eu.mantykora.kultrjmiasto;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import eu.mantykora.kultrjmiasto.R;
 import eu.mantykora.kultrjmiasto.adapter.IconsAdapter;
@@ -20,6 +27,7 @@ public class IconsFragment extends Fragment {
     private OnIconSelectedListener listener;
     GridView iconsGridView;
     IconsAdapter adapter;
+    List<Boolean> list = new ArrayList (Arrays.asList(new Boolean[10]));
 
     public interface OnIconSelectedListener {
         void onIconSelected(int position);
@@ -57,24 +65,30 @@ public class IconsFragment extends Fragment {
 
         iconsGridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
             iconsGridView.setOnItemClickListener((parent, view1, position, id) -> listener.onIconSelected(position));
-
+        Collections.fill(list, false);
 
         return view;
     }
 
     public void colorGrid(int position){
-       // iconsGridView.setBackgroundColor(Color.BLUE);
+
         adapter.notifyDataSetChanged();
 
+        View view = iconsGridView.getChildAt(position);
+
+
         if(iconsGridView.isItemChecked(position)) {
-            View view = iconsGridView.getChildAt(position);
-            view.setSelected(false);
+
             view.setBackgroundColor(Color.RED);
+            list.set(position, true);
+
         }else {
 
-           View view = iconsGridView.getChildAt(position);
-           view.setSelected(true);
-            view.setBackgroundColor(Color.WHITE); //the color code is the background color of GridView
+            view.setBackgroundColor(Color.WHITE);
+            list.set(position, false);
+
         }
+
+        Log.d("Icons Fragment list", list.toString());
     }
 }
