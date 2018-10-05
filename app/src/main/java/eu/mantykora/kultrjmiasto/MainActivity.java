@@ -115,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private ArrayList<Event> listFromCategories;
 
     private int iconPosition;
+    private int categoryId;
+
+    private  Predicate<Event> predicate;
 
 
     @Override
@@ -313,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 datePicker = layout.findViewById(R.id.popup_calendar);
 
 
-                Predicate<Event> predicate = new Predicate<Event>() {
+                predicate = new Predicate<Event>() {
                     private final String[] CITIES = {"Gdańsk", "Gdynia", "Sopot"};
 
                     private boolean otherFilterApplies(Event input) {
@@ -338,9 +341,10 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                         return currentDate.equals(dateString);
                     }
 
-//                    private boolean filterAppliesToCategories(Event input, int category) {
-//                        return
-//                    }
+                    private boolean filterAppliesToCategories(Event input, int category) {
+
+                        return category == input.getCategoryId();
+                    }
 
                     @Override
                     public boolean apply(Event input) {
@@ -352,9 +356,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                         boolean cityFilter = gdanskFilter || gdyniaFilter || sopotFilter || otherFilter;
 
                         if (isAnyCityCheckboxChecked()) {
-                            return calendarSwitch.isChecked() ? cityFilter && filterAppliesToDate(input) : cityFilter;
+                            return calendarSwitch.isChecked() ? cityFilter && filterAppliesToDate(input) && filterAppliesToCategories(input, categoryId): cityFilter  && filterAppliesToCategories(input, categoryId);
                         } else {
-                            return calendarSwitch.isChecked() && filterAppliesToDate(input);
+                            return calendarSwitch.isChecked() && filterAppliesToDate(input)  && filterAppliesToCategories(input, categoryId);
                         }
                     }
                 };
@@ -572,7 +576,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     @Override
     public void onIconSelected(int position) {
         EventListFragment eventListFragment = (EventListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
-        eventListFragment.updateArticleView(position);
+        //eventListFragment.updateArticleView(position);
 //        if (eventListFragment.getList() != null) {
 //            if (position != 9) {
 //                listFromCategories = new ArrayList<>();
@@ -581,9 +585,15 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 //                listFromCategories = null;
 //            }
 
-           iconPosition = position;
+
+
+        iconPosition = position;
         eu.mantykora.kultrjmiasto.model.CategoryEnum enumValue = eu.mantykora.kultrjmiasto.model.CategoryEnum.forPosition(position);
-        int categoryId = enumValue.getCode();
+        categoryId = enumValue.getCode();
+
+        IconsFragment iconsFragment = (IconsFragment) getFragmentManager().findFragmentById(R.id.fragment_icons);
+        iconsFragment.colorGrid(position);
+        buildEventListFragment(predicate);
 
 
     }
