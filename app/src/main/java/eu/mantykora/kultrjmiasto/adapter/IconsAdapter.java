@@ -76,9 +76,6 @@ public class IconsAdapter extends BaseAdapter {
         imageView.setImageResource(icons.getResourceId(position, def));
         imageView.setContentDescription(contentDescriptions[position]);
         titleDescriptionTv.setText(contentDescriptions[position]);
-        if(CategoryEnum.existsForPosition(position)) {
-            convertView.setBackgroundColor(Color.RED);
-        }
 
         return convertView;
     }

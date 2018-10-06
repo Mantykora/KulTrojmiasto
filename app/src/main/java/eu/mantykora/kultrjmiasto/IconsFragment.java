@@ -71,6 +71,20 @@ public class IconsFragment extends Fragment {
         return view;
     }
 
+    public void disableColor(int position) {
+        adapter.notifyDataSetChanged();
+        View view = iconsGridView.getChildAt(position);
+        iconsGridView.setItemChecked(position, false);
+        view.setBackgroundColor(Color.WHITE);
+    }
+
+    public void enableColor(int position) {
+        adapter.notifyDataSetChanged();
+        View view = iconsGridView.getChildAt(position);
+        view.setBackgroundColor(Color.RED);
+        iconsGridView.setItemChecked(position, true);
+    }
+
     public void colorGrid(int position, CategoryEnum categoryEnumValue){
 
         adapter.notifyDataSetChanged();

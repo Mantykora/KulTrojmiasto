@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private int iconPosition;
     private int categoryId;
 
-    private Set<CategoryEnum> selectedCategories = new HashSet<>(CategoryEnum.enumValues);
+    private Set<CategoryEnum> selectedCategories = new HashSet<>();
 
     @Override
     protected void onPause() {
@@ -510,16 +510,33 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
     @Override
     public void onIconSelected(int position) {
-        iconPosition = position;
-        eu.mantykora.kultrjmiasto.model.CategoryEnum enumValue = eu.mantykora.kultrjmiasto.model.CategoryEnum.forPosition(position);
-        categoryId = enumValue.getCode();
-
+        eu.mantykora.kultrjmiasto.model.CategoryEnum enumValue = null;
+        if (position != 9) {
+            iconPosition = position;
+            enumValue = eu.mantykora.kultrjmiasto.model.CategoryEnum.forPosition(position);
+            categoryId = enumValue.getCode();
+        }
         IconsFragment iconsFragment = (IconsFragment) getFragmentManager().findFragmentById(R.id.fragment_icons);
-        iconsFragment.colorGrid(position, enumValue);
-        if(selectedCategories.contains(enumValue)) {
-            selectedCategories.remove(enumValue);
+        if(position == 9) {
+            if(selectedCategories.isEmpty()) {
+                selectedCategories.addAll(CategoryEnum.enumValues);
+                for (CategoryEnum categoryEnum: selectedCategories) {
+                    iconsFragment.enableColor(categoryEnum.getPosition());
+                }
+            } else {
+                selectedCategories.clear();
+                for (CategoryEnum categoryEnum: CategoryEnum.enumValues) {
+                    iconsFragment.disableColor(categoryEnum.getPosition());
+                }
+            }
         } else {
-            selectedCategories.add(enumValue);
+            if (selectedCategories.contains(enumValue)) {
+                selectedCategories.remove(enumValue);
+            } else {
+                selectedCategories.add(enumValue);
+            }
+
+            iconsFragment.colorGrid(position, enumValue);
         }
 
         buildEventListFragmentFromIconFragment(selectedCategories);

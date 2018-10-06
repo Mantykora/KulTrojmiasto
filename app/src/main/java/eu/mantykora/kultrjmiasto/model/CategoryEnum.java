@@ -47,7 +47,7 @@ public enum CategoryEnum {
     }
 
     public static CategoryEnum forPosition(int position) {
-        return map.get(position);
+        return positionMap.get(position);
     }
 
     private int code;
