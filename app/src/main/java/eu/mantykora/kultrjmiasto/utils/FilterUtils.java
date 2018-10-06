@@ -212,7 +212,9 @@ public class FilterUtils {
     }
 
     public static List<Event> filterEvents(List<Event> events, final FilterInput filterInput) {
-        if(filterInput.isAnyFilterEnabled()) {
+        if(events == null) {
+          return new ArrayList<>();
+        } else if(filterInput.isAnyFilterEnabled()) {
             return new ArrayList<>(Collections2.filter(events, new EventFilterPredicate(filterInput)));
         } else {
             return new ArrayList<>(events);

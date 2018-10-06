@@ -6,4 +6,5 @@
     <color name="colorPrimaryLight">#67daff</color>
     <color name="transparent">#00000000</color>
     <color name="background">#fafafa</color>
+    <color name="clicked_background">#D3D3D3</color>
 </resources>

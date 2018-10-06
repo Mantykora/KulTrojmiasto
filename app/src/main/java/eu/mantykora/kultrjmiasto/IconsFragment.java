@@ -82,7 +82,7 @@ public class IconsFragment extends Fragment {
     public void enableColor(int position) {
         adapter.notifyDataSetChanged();
         View view = iconsGridView.getChildAt(position);
-        view.setBackgroundColor(Color.RED);
+        view.setBackgroundColor(getResources().getColor(R.color.clicked_background));
         iconsGridView.setItemChecked(position, true);
     }
 
@@ -92,7 +92,7 @@ public class IconsFragment extends Fragment {
 
         View view = iconsGridView.getChildAt(position);
         if(iconsGridView.isItemChecked(position)) {
-            view.setBackgroundColor(Color.RED);
+            view.setBackgroundColor(getResources().getColor(R.color.clicked_background));
         }else {
             view.setBackgroundColor(getResources().getColor(R.color.background));
         }

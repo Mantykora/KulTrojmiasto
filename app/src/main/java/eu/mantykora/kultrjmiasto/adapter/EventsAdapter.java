@@ -143,9 +143,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             holder.dateTv.setText(eventDate);
         }
 
-        if (eventList.get(position).getLocation() != null) {
-            Toast.makeText(context, "adress not null", Toast.LENGTH_SHORT).show();
-        }
+
 
         String eventName = eventList.get(position).getName();
         if (eventName.length() > 45) {
