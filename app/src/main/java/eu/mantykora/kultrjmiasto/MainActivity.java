@@ -6,65 +6,41 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.icu.util.Calendar;
-import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Iterables;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import eu.mantykora.kultrjmiasto.AboutActivity;
-import eu.mantykora.kultrjmiasto.EventListFragment;
-import eu.mantykora.kultrjmiasto.FavoritesActivity;
-import eu.mantykora.kultrjmiasto.IconsFragment;
-import eu.mantykora.kultrjmiasto.MapsActivity;
-import eu.mantykora.kultrjmiasto.R;
+import eu.mantykora.kultrjmiasto.model.CategoryEnum;
 import eu.mantykora.kultrjmiasto.model.Event;
 import eu.mantykora.kultrjmiasto.model.Location;
 import eu.mantykora.kultrjmiasto.network.GetDataService;
 import eu.mantykora.kultrjmiasto.network.RetrofitClientInstance;
+import eu.mantykora.kultrjmiasto.utils.FilterUtils;
+import eu.mantykora.kultrjmiasto.utils.PreferencesManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -117,8 +93,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private int iconPosition;
     private int categoryId;
 
-    private  Predicate<Event> predicate;
-
+    private Set<CategoryEnum> selectedCategories = new HashSet<>(CategoryEnum.enumValues);
 
     @Override
     protected void onPause() {
@@ -143,33 +118,12 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    private volatile boolean locationsLoaded = false;
+    private volatile boolean eventsLoaded = false;
 
-
-        myToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-
-
-        progressDialog = new ProgressDialog(eu.mantykora.kultrjmiasto.MainActivity.this);
-        progressDialog.setMessage("Loading....");
-        progressDialog.show();
-
-
-        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-
-        Call<List<Location>> locationCall = service.getAllLocations();
-
-
-        locationCall.enqueue(new Callback<List<Location>>() {
-            @Override
-            public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
-                locationList = response.body();
-
-
+    private synchronized void dataLoaded() {
+        if(eventsLoaded && locationsLoaded) {
+            if(this.eventList != null && this.locationList != null) {
                 for (Event x : eventList) {
                     int placeId = x.getPlace().getId();
                     for (Location y : locationList) {
@@ -181,74 +135,107 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                     map.put(placeId, x);
                 }
 
+
+                if ((progressDialog != null) && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("eventList", (Serializable) filterEventsBasedOnSharedPreferences(selectedCategories));
+                bundle.putSerializable("locationList", (Serializable) locationList);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment eventFragment = fragmentManager.findFragmentById(R.id.fragment_container);
+                fragment = new EventListFragment();
+                if (eventFragment == null) {
+                    fragment.setArguments(bundle);
+
+                    fragmentTransaction.add(R.id.fragment_container, fragment);
+                    if (isStateSaved) {
+                        isDialogShowed = true;
+                    } else {
+                        fragmentTransaction.commit();
+
+                    }
+                } else {
+                    fragmentTransaction.detach(fragment);
+                    fragmentTransaction.add(R.id.fragment_container, fragment);
+                    fragmentTransaction.commit();
+                }
+
+            } else {
+                // handle this case
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+
+                Toast.makeText(eu.mantykora.kultrjmiasto.MainActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
+
+        progressDialog = new ProgressDialog(eu.mantykora.kultrjmiasto.MainActivity.this);
+        progressDialog.setMessage("Loading....");
+        progressDialog.show();
+
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+
+        Call<List<Location>> locationCall = service.getAllLocations();
+        locationCall.enqueue(new Callback<List<Location>>() {
+            @Override
+            public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
+                locationList = response.body();
+                locationsLoaded = true;
+                dataLoaded();
             }
 
             @Override
             public void onFailure(Call<List<Location>> call, Throwable t) {
-
+                locationsLoaded = true;
+                dataLoaded();
             }
         });
 
         Call<List<Event>> call = service.getAllEvents();
-
-
         call.enqueue(new Callback<List<Event>>()
-
                      {
                          @Override
                          public void onResponse
                                  (Call<List<Event>> call, Response<List<Event>> response) {
-
-                             if ((progressDialog != null) && progressDialog.isShowing()) {
-                                 progressDialog.dismiss();
-                             }
-                               eventList = response.body();
-
-
-                             Bundle bundle = new Bundle();
-                             bundle.putSerializable("eventList", (Serializable) eventList);
-                             bundle.putSerializable("locationList", (Serializable) locationList);
-
-                             FragmentManager fragmentManager = getFragmentManager();
-                             fragmentTransaction = fragmentManager.beginTransaction();
-                             Fragment eventFragment = fragmentManager.findFragmentById(R.id.fragment_container);
-                             fragment = new EventListFragment();
-                             if (eventFragment == null) {
-                                 fragment.setArguments(bundle);
-
-                                 fragmentTransaction.add(R.id.fragment_container, fragment);
-                                 if (isStateSaved) {
-                                     isDialogShowed = true;
-                                 } else {
-                                     fragmentTransaction.commit();
-
-                                 }
-                             } else {
-                                 fragmentTransaction.detach(fragment);
-                                 fragmentTransaction.add(R.id.fragment_container, fragment);
-                                 fragmentTransaction.commit();
-                             }
-
-
-
+                             eventList = response.body();
+                             eventsLoaded = true;
+                             dataLoaded();
                          }
 
                          @Override
                          public void onFailure(Call<List<Event>> call, Throwable t) {
-                             if (progressDialog != null) {
-                                 progressDialog.dismiss();
-                             }
-
-                             Toast.makeText(eu.mantykora.kultrjmiasto.MainActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+                             eventsLoaded = true;
+                             dataLoaded();
                          }
                      }
 
         );
 
         map = new HashMap<>();
-
-
-
+        popupWindow = new PopupWindow(MainActivity.this);
+        layout = getLayoutInflater().inflate(R.layout.popup_window, null);
+        gdanskChB = layout.findViewById(R.id.popup_gdansk_chb);
+        gdyniaChB = layout.findViewById(R.id.popup_Gdynia_chb);
+        sopotChB = layout.findViewById(R.id.popup_sopot_chb);
+        otherChB = layout.findViewById(R.id.popup_other_chb);
+        calendarSwitch = layout.findViewById(R.id.popup_switch);
+        datePicker = layout.findViewById(R.id.popup_calendar);
 
     }
 
@@ -259,7 +246,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         inflater.inflate(R.menu.menu, menu);
 
 
-
         //spinner = (Spinner) findViewById(R.id.popup_city);
         return true;
     }
@@ -268,9 +254,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     public boolean onOptionsItemSelected(MenuItem item) {
         ArrayList<Event> toMapsList = new ArrayList<>();
         // ArrayList<Event> toFilterList;
-
-
-
 
 
         switch (item.getItemId()) {
@@ -304,66 +287,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 //
 //                spinner.setAdapter(spinnerAdapter);
                 //  popupMenu.show();
-
-
-                popupWindow = new PopupWindow(MainActivity.this);
-                layout = getLayoutInflater().inflate(R.layout.popup_window, null);
-                gdanskChB = layout.findViewById(R.id.popup_gdansk_chb);
-                gdyniaChB = layout.findViewById(R.id.popup_Gdynia_chb);
-                sopotChB = layout.findViewById(R.id.popup_sopot_chb);
-                otherChB = layout.findViewById(R.id.popup_other_chb);
-                calendarSwitch = layout.findViewById(R.id.popup_switch);
-                datePicker = layout.findViewById(R.id.popup_calendar);
-
-
-                predicate = new Predicate<Event>() {
-                    private final String[] CITIES = {"Gdańsk", "Gdynia", "Sopot"};
-
-                    private boolean otherFilterApplies(Event input) {
-                        String cityName = input.getLocation().getAddress().getCity();
-                        boolean result = true;
-                        for (String city : CITIES) {
-                            if (city.equals(cityName)) {
-                                result = false;
-                                break;
-                            }
-                        }
-
-                        return otherChB.isChecked() && result;
-                    }
-
-                    private boolean filterApplies(CheckBox checkBox, String cityName, Event input, Switch calSwitch) {
-                        return checkBox.isChecked() && cityName.equals(input.getLocation().getAddress().getCity());
-                    }
-
-                    private boolean filterAppliesToDate(Event input) {
-                        String dateString = input.getStartDate().substring(0, 10);
-                        return currentDate.equals(dateString);
-                    }
-
-                    private boolean filterAppliesToCategories(Event input, int category) {
-
-                        return category == input.getCategoryId();
-                    }
-
-                    @Override
-                    public boolean apply(Event input) {
-                        boolean gdanskFilter = filterApplies(gdanskChB, "Gdańsk", input, calendarSwitch);
-                        boolean gdyniaFilter = filterApplies(gdyniaChB, "Gdynia", input, calendarSwitch);
-                        boolean sopotFilter = filterApplies(sopotChB, "Sopot", input, calendarSwitch);
-                        boolean otherFilter = otherFilterApplies(input);
-
-                        boolean cityFilter = gdanskFilter || gdyniaFilter || sopotFilter || otherFilter;
-
-                        if (isAnyCityCheckboxChecked()) {
-                            return calendarSwitch.isChecked() ? cityFilter && filterAppliesToDate(input) && filterAppliesToCategories(input, categoryId): cityFilter  && filterAppliesToCategories(input, categoryId);
-                        } else {
-                            return calendarSwitch.isChecked() && filterAppliesToDate(input)  && filterAppliesToCategories(input, categoryId);
-                        }
-                    }
-                };
-
-
                 gdanskCheckboxChecked = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("checkBoxGdansk", false);
                 gdanskChB.setChecked(gdanskCheckboxChecked);
 
@@ -388,11 +311,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                     currentMonth = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("month", calendar.get(Calendar.MONTH));
                     currentDay = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("day", calendar.get(Calendar.DAY_OF_MONTH));
 
-
-
                     buildCurrentDate();
-                    buildEventListFragment(predicate);
-
+                    buildEventListFragmentFromFilterFragment();
 
                     datePicker.init(currentYear, currentMonth, currentDay, new DatePicker.OnDateChangedListener() {
                         @Override
@@ -405,73 +325,69 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("day", currentDay).commit();
                             buildCurrentDate();
 
-                            buildEventListFragment(predicate);
+                            buildEventListFragmentFromFilterFragment();
                         }
                     });
                 }
 
 
-
-        popupWindow.setContentView(layout);
-        // popupWindow.setHeight(1000);
-        popupWindow.setWidth(500);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-
+                popupWindow.setContentView(layout);
+                // popupWindow.setHeight(1000);
+                popupWindow.setWidth(500);
+                popupWindow.setOutsideTouchable(true);
+                popupWindow.setFocusable(true);
 
 
+                View.OnClickListener listener =
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                buildEventListFragmentFromFilterFragment();
+                                switch (v.getId()) {
+                                    case R.id.popup_gdansk_chb:
+                                        gdanskCheckboxChecked = gdanskChB.isChecked();
+                                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("checkBoxGdansk", gdanskCheckboxChecked).commit();
+                                        break;
+                                    case R.id.popup_Gdynia_chb:
+                                        gdyniaCheckboxChecked = gdyniaChB.isChecked();
+                                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("checkBoxGdynia", gdyniaCheckboxChecked).commit();
+                                        break;
+                                    case R.id.popup_sopot_chb:
+                                        sopotCheckboxChecked = sopotChB.isChecked();
+                                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("checkBoxSopot", sopotCheckboxChecked).commit();
+
+                                        break;
+                                    case R.id.popup_other_chb:
+                                        otherCheckboxChecked = otherChB.isChecked();
+                                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("checkBoxOther", otherCheckboxChecked).commit();
+
+                                        break;
 
 
-        View.OnClickListener listener =
-                new View.OnClickListener() {
+                                }
+                            }
+                        };
+
+                gdanskChB.setOnClickListener(listener);
+                gdyniaChB.setOnClickListener(listener);
+                sopotChB.setOnClickListener(listener);
+                otherChB.setOnClickListener(listener);
+                calendarSwitch.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        buildEventListFragment(predicate);
-                        switch (v.getId()) {
-                            case R.id.popup_gdansk_chb:
-                                gdanskCheckboxChecked = gdanskChB.isChecked();
-                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("checkBoxGdansk", gdanskCheckboxChecked).commit();
-                                break;
-                            case R.id.popup_Gdynia_chb:
-                                gdyniaCheckboxChecked = gdyniaChB.isChecked();
-                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("checkBoxGdynia", gdyniaCheckboxChecked).commit();
-                                break;
-                            case R.id.popup_sopot_chb:
-                                sopotCheckboxChecked = sopotChB.isChecked();
-                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("checkBoxSopot", sopotCheckboxChecked).commit();
+                        if (calendarSwitch.isChecked()) {
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("calendarSwitch", true).commit();
 
-                                break;
-                            case R.id.popup_other_chb:
-                                otherCheckboxChecked = otherChB.isChecked();
-                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("checkBoxOther", otherCheckboxChecked).commit();
-
-                                break;
-
+                            setCalendar();
+                        } else {
+                            datePicker.setVisibility(View.GONE);
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("calendarSwitch", false).commit();
 
                         }
+
+                        buildEventListFragmentFromFilterFragment();
                     }
-                };
-
-        gdanskChB.setOnClickListener(listener);
-        gdyniaChB.setOnClickListener(listener);
-        sopotChB.setOnClickListener(listener);
-        otherChB.setOnClickListener(listener);
-        calendarSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (calendarSwitch.isChecked()) {
-                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("calendarSwitch", true).commit();
-
-                    setCalendar(predicate);
-                } else {
-                    datePicker.setVisibility(View.GONE);
-                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("calendarSwitch", false).commit();
-
-                }
-
-                buildEventListFragment(predicate);
-            }
-        });
+                });
 //                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {
@@ -483,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 //
 //                ArrayAdapter<String> adapter= new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, R.array.cities_array);
 //                listView.setAdapter(adapter);
-        popupWindow.showAsDropDown(myToolbar, Gravity.CENTER, 0, 0);
+                popupWindow.showAsDropDown(myToolbar, Gravity.CENTER, 0, 0);
 //                Spinner spinner = layout.findViewById(R.id.popup_window_city_spinner);
 //                SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(MainActivity.this, R.array.cities_array, android.R.layout.simple_spinner_dropdown_item);
 //                spinner.setAdapter(spinnerAdapter);
@@ -497,14 +413,15 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 //                }, 200L);
 
 
-        return true;
+                return true;
 
-        default:
-        return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
-}
-    private void setCalendar(Predicate<Event> predicate) {
+    private void setCalendar() {
         datePicker.setVisibility(View.VISIBLE);
 
 
@@ -527,10 +444,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("day", currentDay).commit();
 
 
-
                 buildCurrentDate();
 
-                buildEventListFragment(predicate);
+                buildEventListFragmentFromFilterFragment();
             }
         });
     }
@@ -542,62 +458,74 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         currentDate = currentYear + "-" + month + "-" + day;
     }
 
-    private void buildEventListFragment(Predicate<Event> predicate) {
-        boolean isAnyCheckboxChecked = isAnyCityCheckboxChecked() || calendarSwitch.isChecked();
+    private void buildEventListFragmentFromFilterFragment() {
+        FilterUtils.FilterInput filterInput =
+                new FilterUtils.FilterInput(
+                        new FilterUtils.FilterInput.CheckboxesState(
+                                gdanskChB.isChecked(),
+                                gdyniaChB.isChecked(),
+                                sopotChB.isChecked(),
+                                otherChB.isChecked(),
+                                calendarSwitch.isChecked()
+                        ),
+                        new FilterUtils.FilterInput.FilterDate(
+                                currentYear, currentMonth, currentDay
+                        ),
+                        selectedCategories
+                );
 
-            toFilterList =
-                    isAnyCheckboxChecked ?
-                            new ArrayList<>(Collections2.filter(eventList, predicate)) :
-                            new ArrayList<>(eventList);
+        List<Event> filteredList = FilterUtils.filterEvents(eventList, filterInput);
 
+        replaceEventListFragment(filteredList);
+    }
 
+    private void buildEventListFragmentFromIconFragment(Set<CategoryEnum> selectedCategories) {
+        List<Event> filteredList = filterEventsBasedOnSharedPreferences(selectedCategories);
+
+        replaceEventListFragment(filteredList);
+    }
+
+    @NonNull
+    private List<Event> filterEventsBasedOnSharedPreferences(Set<CategoryEnum> selectedCategories) {
+        FilterUtils.FilterInput filterInput =
+                new FilterUtils.FilterInput(
+                        PreferencesManager.getCheckboxesState(getApplicationContext()),
+                        PreferencesManager.getFilterDate(getApplicationContext()),
+                        selectedCategories == null ? new HashSet<>() : selectedCategories
+                );
+
+        return FilterUtils.filterEvents(eventList, filterInput);
+    }
+
+    private void replaceEventListFragment(List<Event> filteredList) {
         FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();
-
-
         Bundle bundle1 = new Bundle();
-        bundle1.putSerializable("eventList", (Serializable) toFilterList);
-        // fragmentTransaction.detach(fragment);
-        //fragmentTransaction.remove(fragment).commit();
-        //  fragment.getArguments().putSerializable("eventList", (Serializable) eventList);
+        bundle1.putSerializable("eventList",(Serializable) filteredList);
+
         fragment = new EventListFragment();
-
         fragment.setArguments(bundle1);
-        // fragmentTransaction.detach(fragment);
-
         fragmentTransaction1.replace(R.id.fragment_container, fragment);
         fragmentTransaction1.commit();
     }
 
-    private boolean isAnyCityCheckboxChecked() {
-        return gdanskChB.isChecked() || gdyniaChB.isChecked() || sopotChB.isChecked() || otherChB.isChecked();
-    }
-
-
     @Override
     public void onIconSelected(int position) {
-        EventListFragment eventListFragment = (EventListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
-        //eventListFragment.updateArticleView(position);
-//        if (eventListFragment.getList() != null) {
-//            if (position != 9) {
-//                listFromCategories = new ArrayList<>();
-//                listFromCategories = (ArrayList<Event>) eventListFragment.getList();
-//            } else {
-//                listFromCategories = null;
-//            }
-
-
-
         iconPosition = position;
         eu.mantykora.kultrjmiasto.model.CategoryEnum enumValue = eu.mantykora.kultrjmiasto.model.CategoryEnum.forPosition(position);
         categoryId = enumValue.getCode();
 
         IconsFragment iconsFragment = (IconsFragment) getFragmentManager().findFragmentById(R.id.fragment_icons);
-        iconsFragment.colorGrid(position);
-        buildEventListFragment(predicate);
+        iconsFragment.colorGrid(position, enumValue);
+        if(selectedCategories.contains(enumValue)) {
+            selectedCategories.remove(enumValue);
+        } else {
+            selectedCategories.add(enumValue);
+        }
 
+        buildEventListFragmentFromIconFragment(selectedCategories);
 
     }
-    }
+}
 
 
 

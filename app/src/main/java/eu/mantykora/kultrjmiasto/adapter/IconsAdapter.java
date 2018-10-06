@@ -3,6 +3,7 @@ package eu.mantykora.kultrjmiasto.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 
 import eu.mantykora.kultrjmiasto.R;
+import eu.mantykora.kultrjmiasto.model.CategoryEnum;
 
 public class IconsAdapter extends BaseAdapter {
 
@@ -74,6 +76,10 @@ public class IconsAdapter extends BaseAdapter {
         imageView.setImageResource(icons.getResourceId(position, def));
         imageView.setContentDescription(contentDescriptions[position]);
         titleDescriptionTv.setText(contentDescriptions[position]);
+        if(CategoryEnum.existsForPosition(position)) {
+            convertView.setBackgroundColor(Color.RED);
+        }
+
         return convertView;
     }
 

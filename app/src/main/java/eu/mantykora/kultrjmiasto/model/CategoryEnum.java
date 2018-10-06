@@ -19,7 +19,7 @@ public enum CategoryEnum {
     KINO(1, "kino", R.drawable.baseline_videocam_black_24, 1),
     LITERATURA(61, "literatura", R.drawable.baseline_local_library_black_24, 5);
 
-    static final List<CategoryEnum> enumValues;
+    public static final List<CategoryEnum> enumValues;
     static final List<CategoryEnum> categoryValues;
 
 
@@ -32,14 +32,15 @@ public enum CategoryEnum {
         }
     }
 
-    private static final Map<Integer, Integer> positionMap = new HashMap<>();
+    private static final Map<Integer, CategoryEnum> positionMap = new HashMap<>();
     static {
         categoryValues = new ArrayList<>(EnumSet.allOf(CategoryEnum.class));
-        for (CategoryEnum value : enumValues) {
-            map.put(value.getPosition(), value);
-
+        for (CategoryEnum value : categoryValues) {
+            positionMap.put(value.getPosition(), value);
         }
     }
+
+    public static boolean existsForPosition(int position) { return positionMap.containsKey(position); }
 
     public static CategoryEnum forCode(int code) {
         return map.get(code);

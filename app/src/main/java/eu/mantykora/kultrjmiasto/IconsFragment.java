@@ -17,17 +17,19 @@ import android.widget.GridView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import eu.mantykora.kultrjmiasto.R;
 import eu.mantykora.kultrjmiasto.adapter.IconsAdapter;
+import eu.mantykora.kultrjmiasto.model.CategoryEnum;
 
 
 public class IconsFragment extends Fragment {
     private OnIconSelectedListener listener;
     GridView iconsGridView;
     IconsAdapter adapter;
-    List<Boolean> list = new ArrayList (Arrays.asList(new Boolean[10]));
 
     public interface OnIconSelectedListener {
         void onIconSelected(int position);
@@ -65,30 +67,19 @@ public class IconsFragment extends Fragment {
 
         iconsGridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
             iconsGridView.setOnItemClickListener((parent, view1, position, id) -> listener.onIconSelected(position));
-        Collections.fill(list, false);
 
         return view;
     }
 
-    public void colorGrid(int position){
+    public void colorGrid(int position, CategoryEnum categoryEnumValue){
 
         adapter.notifyDataSetChanged();
 
         View view = iconsGridView.getChildAt(position);
-
-
         if(iconsGridView.isItemChecked(position)) {
-
             view.setBackgroundColor(Color.RED);
-            list.set(position, true);
-
         }else {
-
             view.setBackgroundColor(Color.WHITE);
-            list.set(position, false);
-
         }
-
-        Log.d("Icons Fragment list", list.toString());
     }
 }
