@@ -26,6 +26,7 @@ import eu.mantykora.kultrjmiasto.adapter.IconsAdapter;
 import eu.mantykora.kultrjmiasto.model.CategoryEnum;
 
 
+
 public class IconsFragment extends Fragment {
     private OnIconSelectedListener listener;
     GridView iconsGridView;
@@ -75,7 +76,7 @@ public class IconsFragment extends Fragment {
         adapter.notifyDataSetChanged();
         View view = iconsGridView.getChildAt(position);
         iconsGridView.setItemChecked(position, false);
-        view.setBackgroundColor(Color.WHITE);
+        view.setBackgroundColor(getResources().getColor(R.color.background));
     }
 
     public void enableColor(int position) {
@@ -93,7 +94,7 @@ public class IconsFragment extends Fragment {
         if(iconsGridView.isItemChecked(position)) {
             view.setBackgroundColor(Color.RED);
         }else {
-            view.setBackgroundColor(Color.WHITE);
+            view.setBackgroundColor(getResources().getColor(R.color.background));
         }
     }
 }
