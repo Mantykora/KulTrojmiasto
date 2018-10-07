@@ -23,7 +23,7 @@
             android:textSize="30sp" />
     </android.support.v7.widget.Toolbar>
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fragment_icons"
         android:name="eu.mantykora.kultrjmiasto.IconsFragment"
         android:layout_width="0dp"

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
@@ -31,6 +32,7 @@ public class IconsFragment extends Fragment {
     private OnIconSelectedListener listener;
     GridView iconsGridView;
     IconsAdapter adapter;
+
 
     public interface OnIconSelectedListener {
         void onIconSelected(int position);
@@ -62,6 +64,7 @@ public class IconsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_icons, container, false);
+
         iconsGridView = view.findViewById(R.id.icons_gv);
         adapter = new IconsAdapter(getActivity());
         iconsGridView.setAdapter(adapter);
@@ -80,10 +83,23 @@ public class IconsFragment extends Fragment {
     }
 
     public void enableColor(int position) {
+//        if (adapter == null) {
+//            adapter = new IconsAdapter();
+//        }
         adapter.notifyDataSetChanged();
-        View view = iconsGridView.getChildAt(position);
-        view.setBackgroundColor(getResources().getColor(R.color.clicked_background));
-        iconsGridView.setItemChecked(position, true);
+
+        iconsGridView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                View view = iconsGridView.getChildAt(position);
+
+                iconsGridView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                view.setBackgroundColor(getResources().getColor(R.color.clicked_background));
+                iconsGridView.setItemChecked(position, true);
+            }
+        });
+//        view.setBackgroundColor(getResources().getColor(R.color.clicked_background));
+//        iconsGridView.setItemChecked(position, true);
     }
 
     public void colorGrid(int position, CategoryEnum categoryEnumValue){

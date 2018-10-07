@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.icu.util.Calendar;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -94,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private int categoryId;
 
     private Set<CategoryEnum> selectedCategories = new HashSet<>();
+
+    private List<Event> filteredList;
 
     @Override
     protected void onPause() {
@@ -184,6 +187,12 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         setSupportActionBar(myToolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction3 = fragmentManager.beginTransaction();
+        Fragment iconFragment = fragmentManager.findFragmentById(R.id.fragment_icons);
+        iconFragment = new IconsFragment();
+        fragmentTransaction3.add(R.id.fragment_icons, iconFragment);
+        fragmentTransaction3.commit();
 
         progressDialog = new ProgressDialog(eu.mantykora.kultrjmiasto.MainActivity.this);
         progressDialog.setMessage("Loading....");
@@ -237,6 +246,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         calendarSwitch = layout.findViewById(R.id.popup_switch);
         datePicker = layout.findViewById(R.id.popup_calendar);
 
+
+
     }
 
 
@@ -279,14 +290,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 return true;
 
             case R.id.filter_menu_item:
-//                PopupMenu popupMenu = new PopupMenu(MainActivity.this, myToolbar, Gravity.RIGHT);
-//                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-//                Spinner spinner = (Spinner) popupMenu.getMenu().findItem(R.id.popup_city).getActionView();
-//                SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.cities_array, android.R.layout.simple_spinner_dropdown_item);
-//
-//
-//                spinner.setAdapter(spinnerAdapter);
-                //  popupMenu.show();
+
                 gdanskCheckboxChecked = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("checkBoxGdansk", false);
                 gdanskChB.setChecked(gdanskCheckboxChecked);
 
@@ -458,6 +462,53 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         currentDate = currentYear + "-" + month + "-" + day;
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        filteredList = savedInstanceState.getParcelableArrayList("filteredList");
+        eventList = savedInstanceState.getParcelableArrayList("eventList");
+//        if (filteredList != null) {
+//            replaceEventListFragment(filteredList);
+//        } else {
+//            replaceEventListFragment(allList);
+//        }
+
+       ArrayList<CategoryEnum> selectedList = (ArrayList<CategoryEnum>) savedInstanceState.getSerializable("selectedCategories");
+        Set<CategoryEnum> set =  new HashSet<>(selectedList);
+
+
+
+       // filteredList = filterEventsBasedOnSharedPreferences(set);
+       // replaceEventListFragment(filteredList);
+      buildEventListFragmentFromIconFragment(set);
+      //  IconsFragment fragment = new IconsFragment();
+       IconsFragment iconsFragment = (IconsFragment) getFragmentManager().findFragmentById(R.id.fragment_icons);
+
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
+//       IconsFragment iconsFragment = new IconsFragment();
+//      //  fragmentTransaction2.detach(iconsFragment);
+//       fragmentTransaction2.replace(R.id.fragment_icons, iconsFragment);
+//       fragmentTransaction2.commit();
+        for (CategoryEnum categoryEnum: set) {
+
+            iconsFragment.enableColor(categoryEnum.getPosition());
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+            outState.putParcelableArrayList("filteredList", (ArrayList<? extends Parcelable>) filteredList);
+            outState.putParcelableArrayList("eventList", (ArrayList<? extends Parcelable>) eventList);
+
+            ArrayList<CategoryEnum> selectedList = new ArrayList<>(selectedCategories);
+            outState.putSerializable("selectedCategories", selectedList);
+
+    }
+
     private void buildEventListFragmentFromFilterFragment() {
         FilterUtils.FilterInput filterInput =
                 new FilterUtils.FilterInput(
@@ -474,13 +525,13 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                         selectedCategories
                 );
 
-        List<Event> filteredList = FilterUtils.filterEvents(eventList, filterInput);
+        filteredList = FilterUtils.filterEvents(eventList, filterInput);
 
         replaceEventListFragment(filteredList);
     }
 
     private void buildEventListFragmentFromIconFragment(Set<CategoryEnum> selectedCategories) {
-        List<Event> filteredList = filterEventsBasedOnSharedPreferences(selectedCategories);
+       filteredList = filterEventsBasedOnSharedPreferences(selectedCategories);
 
         replaceEventListFragment(filteredList);
     }
@@ -504,6 +555,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
         fragment = new EventListFragment();
         fragment.setArguments(bundle1);
+
         fragmentTransaction1.replace(R.id.fragment_container, fragment);
         fragmentTransaction1.commit();
     }
