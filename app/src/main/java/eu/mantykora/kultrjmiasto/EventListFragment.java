@@ -79,7 +79,7 @@ public class EventListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         if (savedInstanceState != null) {
             iconPosition = savedInstanceState.getInt("iconPosition");
-            updateArticleView(iconPosition);
+
         }
 
         return view;
@@ -91,86 +91,8 @@ public class EventListFragment extends Fragment {
         outState.putInt("iconPosition", iconPosition);
     }
 
-    public void updateArticleView(int position) {
-        if (position == 0) {
-            iconPosition = 0;
-            cutListView(19);
-            if (!isThaterChecked) {
-            isThaterChecked = true;
 
 
-                Toast.makeText(getActivity(), "true", Toast.LENGTH_SHORT).show();
-            } else {
-                isThaterChecked =false;
-                Toast.makeText(getActivity(), "false", Toast.LENGTH_SHORT).show();
-            }
-        }
-        if (position == 1) {
-            iconPosition = 1;
-            cutListView(1);
-        }
-        if (position == 2) {
-            iconPosition = 2;
-            cutListView(51);
-        }
-        if (position == 3) {
-            iconPosition = 3;
-            cutListView(35);
-        }
-        if (position == 4) {
-            iconPosition = 4;
-            cutListView(83);
-        }
-        if (position == 5) {
-            iconPosition = 5;
-            cutListView(61);
-        }
-        if (position == 6) {
-            iconPosition = 6;
-            cutListView(69);
-        }
-        if (position == 7) {
-            iconPosition = 7;
-            cutListView(77);
-        }
-        if (position == 8) {
-            iconPosition = 8;
-            cutListView(96);
-        }
-        if (position == 9) {
-            iconPosition = 9;
-            adapter = new EventsAdapter(eventList, getActivity());
-            recyclerView.setAdapter(adapter);
-        }
-
-    }
-
-    private void cutListView(int categoryId) {
-
-        doveIv.setVisibility(View.GONE);
-        doveTv.setVisibility(View.GONE);
-
-        litToShort = new ArrayList<>(eventList);
-        Iterator<Event> eventIterator = litToShort.iterator();
-        while (eventIterator.hasNext()) {
-            Event event = eventIterator.next();
-            if (event.getCategoryId() != categoryId) {
-                eventIterator.remove();
-            }
-        }
-
-
-        adapter = new EventsAdapter(litToShort, getActivity());
-        if (adapter.getItemCount() == 0) {
-            doveTv.setVisibility(View.VISIBLE);
-            doveIv.setVisibility(View.VISIBLE);
-
-
-        }
-        recyclerView.setAdapter(adapter);
-
-
-    }
 
     public List<Event> getList() {
         if (litToShort != null) {
