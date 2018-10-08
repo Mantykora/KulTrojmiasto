@@ -194,8 +194,20 @@ public class DetailActivity extends AppCompatActivity {
         DateTime dateTime = new DateTime(event.getStartDate());
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
         String dateString = dateTime.toString(dateTimeFormatter);
-        dateTv.setText(dateString);
 
+        org.joda.time.format.DateTimeFormatter hourFormatter = DateTimeFormat.forPattern("HH:mm");
+        String eventHour = dateTime.toString(hourFormatter);
+
+        DateTimeFormatter onlyDateFormatter = DateTimeFormat.forPattern("dd-MM-yyyy");
+        String dateWithoutHourString = dateTime.toString(onlyDateFormatter);
+
+        if (eventHour.equals("00:00")) {
+            dateTv.setText(dateWithoutHourString);
+        }  else {
+
+
+            dateTv.setText(dateString);
+        }
 
         getTicketType(event.getTickets().getType());
 
@@ -225,7 +237,22 @@ public class DetailActivity extends AppCompatActivity {
         DateTime dateTime = new DateTime(fav.getDate());
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
         String dateString = dateTime.toString(dateTimeFormatter);
-        dateTv.setText(dateString);
+
+        org.joda.time.format.DateTimeFormatter hourFormatter = DateTimeFormat.forPattern("HH:mm");
+        String eventHour = dateTime.toString(hourFormatter);
+
+        DateTimeFormatter onlyDateFormatter = DateTimeFormat.forPattern("dd-MM-yyyy");
+        String dateWithoutHourString = dateTime.toString(onlyDateFormatter);
+
+        if (eventHour.equals("00:00")) {
+            dateTv.setText(dateWithoutHourString);
+        }  else {
+
+
+            dateTv.setText(dateString);
+        }
+
+
         getTicketType(fav.getTicketType());
 
         String describtionString = fav.getDescription();

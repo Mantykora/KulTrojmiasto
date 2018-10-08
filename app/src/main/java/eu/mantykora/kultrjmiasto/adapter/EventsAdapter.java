@@ -161,8 +161,12 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
         int drawable = enumValue.getDrawable();
         holder.eventCategoryIv.setImageResource(drawable);
-        holder.hourTextView.setText(eventHour);
-
+        if(eventHour.equals("00:00")) {
+            holder.hourTextView.setVisibility(View.GONE);
+        } else {
+            holder.hourTextView.setVisibility(View.VISIBLE);
+            holder.hourTextView.setText(eventHour);
+        }
         if (attachments.size() > 0) {
 
             if (attachments.size() > 1) {
