@@ -256,15 +256,12 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
 
-
-        //spinner = (Spinner) findViewById(R.id.popup_city);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         ArrayList<Event> toMapsList = new ArrayList<>();
-        // ArrayList<Event> toFilterList;
 
 
         switch (item.getItemId()) {
@@ -392,29 +389,9 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                         buildEventListFragmentFromFilterFragment();
                     }
                 });
-//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        popupWindow.showAtLocation(myToolbar, Gravity.CENTER, 0, 0);
-//                    }
-//                }, 4000);
 
-//                listView = layout.findViewById(R.id.popup_window_city_spinner);
-//
-//                ArrayAdapter<String> adapter= new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, R.array.cities_array);
-//                listView.setAdapter(adapter);
+
                 popupWindow.showAsDropDown(myToolbar, Gravity.CENTER, 0, 0);
-//                Spinner spinner = layout.findViewById(R.id.popup_window_city_spinner);
-//                SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(MainActivity.this, R.array.cities_array, android.R.layout.simple_spinner_dropdown_item);
-//                spinner.setAdapter(spinnerAdapter);
-//
-//                new Handler().postDelayed(new Runnable(){
-//
-//                    public void run() {
-//                        popupWindow.showAsDropDown(myToolbar, Gravity.CENTER,0,0);
-//                    }
-//
-//                }, 200L);
 
 
                 return true;
@@ -467,30 +444,15 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         super.onRestoreInstanceState(savedInstanceState);
         filteredList = savedInstanceState.getParcelableArrayList("filteredList");
         eventList = savedInstanceState.getParcelableArrayList("eventList");
-//        if (filteredList != null) {
-//            replaceEventListFragment(filteredList);
-//        } else {
-//            replaceEventListFragment(allList);
-//        }
 
        ArrayList<CategoryEnum> selectedList = (ArrayList<CategoryEnum>) savedInstanceState.getSerializable("selectedCategories");
-        Set<CategoryEnum> set =  new HashSet<>(selectedList);
+        selectedCategories =  new HashSet<>(selectedList);
 
-
-
-       // filteredList = filterEventsBasedOnSharedPreferences(set);
-       // replaceEventListFragment(filteredList);
-      buildEventListFragmentFromIconFragment(set);
-      //  IconsFragment fragment = new IconsFragment();
+      buildEventListFragmentFromIconFragment(selectedCategories);
        IconsFragment iconsFragment = (IconsFragment) getFragmentManager().findFragmentById(R.id.fragment_icons);
 
-//        FragmentManager fragmentManager = getFragmentManager();
-//        FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
-//       IconsFragment iconsFragment = new IconsFragment();
-//      //  fragmentTransaction2.detach(iconsFragment);
-//       fragmentTransaction2.replace(R.id.fragment_icons, iconsFragment);
-//       fragmentTransaction2.commit();
-        for (CategoryEnum categoryEnum: set) {
+
+        for (CategoryEnum categoryEnum: selectedCategories) {
 
             iconsFragment.enableColor(categoryEnum.getPosition());
         }
