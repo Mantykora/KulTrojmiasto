@@ -83,9 +83,7 @@ public class IconsFragment extends Fragment {
     }
 
     public void enableColor(int position) {
-//        if (adapter == null) {
-//            adapter = new IconsAdapter();
-//        }
+
         adapter.notifyDataSetChanged();
 
         iconsGridView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -98,8 +96,7 @@ public class IconsFragment extends Fragment {
                 iconsGridView.setItemChecked(position, true);
             }
         });
-//        view.setBackgroundColor(getResources().getColor(R.color.clicked_background));
-//        iconsGridView.setItemChecked(position, true);
+
     }
 
     public void colorGrid(int position, CategoryEnum categoryEnumValue){

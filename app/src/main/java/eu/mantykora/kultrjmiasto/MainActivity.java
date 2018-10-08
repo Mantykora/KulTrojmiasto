@@ -333,7 +333,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
 
                 popupWindow.setContentView(layout);
-                // popupWindow.setHeight(1000);
                 popupWindow.setWidth(500);
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setFocusable(true);

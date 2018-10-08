@@ -121,7 +121,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
 
         if (enumValue == null) {
-            Log.d("EventAdapter", "enmu value is null");
+
             return;
         }
 
