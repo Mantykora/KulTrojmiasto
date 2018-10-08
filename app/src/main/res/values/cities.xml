@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="cities_array">
+    <string-array name="cities_array" translatable="false">
         <item>Gdańsk</item>
         <item>Sopot</item>
         <item>Gdynia</item>

@@ -61,8 +61,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private View layout;
     private ListView listView;
 
-
-    private CheckBox gdanskChB;
+   private CheckBox gdanskChB;
     private CheckBox sopotChB;
     private CheckBox gdyniaChB;
     private CheckBox otherChB;
@@ -311,6 +310,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                     currentYear = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("year", calendar.get(Calendar.YEAR));
                     currentMonth = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("month", calendar.get(Calendar.MONTH));
                     currentDay = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("day", calendar.get(Calendar.DAY_OF_MONTH));
+                    saveDateInPreferences();
 
                     buildCurrentDate();
                     buildEventListFragmentFromFilterFragment();
@@ -321,9 +321,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                             currentYear = year;
                             currentMonth = monthOfYear;
                             currentDay = dayOfMonth;
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("year", currentYear).commit();
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("month", currentMonth).commit();
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("day", currentDay).commit();
+                            saveDateInPreferences();
                             buildCurrentDate();
 
                             buildEventListFragmentFromFilterFragment();
@@ -401,6 +399,12 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
     }
 
+    private void saveDateInPreferences() {
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("year", currentYear).commit();
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("month", currentMonth).commit();
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("day", currentDay).commit();
+    }
+
     private void setCalendar() {
         datePicker.setVisibility(View.VISIBLE);
 
@@ -410,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         currentYear = calendar.get(Calendar.YEAR);
         currentMonth = calendar.get(Calendar.MONTH);
         currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-
+        saveDateInPreferences();
         buildCurrentDate();
 
         datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
@@ -419,11 +423,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 currentYear = year;
                 currentMonth = monthOfYear;
                 currentDay = dayOfMonth;
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("year", currentYear).commit();
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("month", currentMonth).commit();
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("day", currentDay).commit();
-
-
+                saveDateInPreferences();
                 buildCurrentDate();
 
                 buildEventListFragmentFromFilterFragment();

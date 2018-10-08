@@ -25,5 +25,5 @@
     <string name="o_programie">O programie</string>
     <string name="about_text">Aplikacja powstała w oparciu o dane z portalu planer.info.pl. \n\nIkony stworzone przez: Freepik z www.flaticon.com, Nikita Golubev z www.flaticon.com - licencja CC 3.0 BY</string>
     <string name="author">Autor: Róża Kazenas \nE-mail: roza.kazenas@gmail.com</string>
-    <string name="filtruj_wydarzenia">Filtruj wydarzenia</string>
+    <string name="filtruj_wydarzenia" translatable="false">Filtruj wydarzenia</string>
 </resources>
