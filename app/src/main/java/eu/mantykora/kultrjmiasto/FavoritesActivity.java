@@ -2,9 +2,11 @@ package eu.mantykora.kultrjmiasto;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -14,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -35,6 +39,9 @@ public class FavoritesActivity extends AppCompatActivity {
 
     private FavoritesAdapter adapter;
 
+    @BindView(R.id.delete_all_button)
+    ImageButton deleteAllButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +60,16 @@ public class FavoritesActivity extends AppCompatActivity {
         favoritesRv.addItemDecoration(new DividerItemDecoration(favoritesRv.getContext(), DividerItemDecoration.VERTICAL));
 
         favoritesRv.setVisibility(View.GONE);
+
+        deleteAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog dialog = AskIfDelete();
+                dialog.show();
+
+            }
+        });
 
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -126,5 +143,41 @@ public class FavoritesActivity extends AppCompatActivity {
 
     private void removeFavoriteFromDatabase(FavoriteEntry favoriteEntry) {
         AppExecutors.getInstance().diskIO().execute(() -> mDb.favoriteDao().deleteTask(favoriteEntry));
+    }
+
+    private void deleteAllFavs() {
+        AppExecutors.getInstance().diskIO().execute(() -> mDb.favoriteDao().deleteAll());
+    }
+
+    private AlertDialog AskIfDelete()
+    {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("Usun wszystkie")
+                .setMessage("Czy na pewno chcesz usunąć wszystkie ulubione?")
+                .setIcon(R.drawable.ic_delete_black_36dp)
+
+                .setPositiveButton("UsuN", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Toast.makeText(FavoritesActivity.this, "usuwanie", Toast.LENGTH_SHORT).show();
+                        deleteAllFavs();
+
+                        dialog.dismiss();
+                    }
+
+                })
+
+
+
+                .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                })
+                .create();
+        return alertDialog;
+
     }
 }

@@ -24,6 +24,10 @@ public interface FavoriteDao {
     @Delete
     void deleteTask(eu.mantykora.kultrjmiasto.database.FavoriteEntry favoriteEntry);
 
+
+    @Query("DELETE FROM favorite")
+    void deleteAll();
+
     @Query("SELECT * FROM favorite WHERE id = :id")
     LiveData<eu.mantykora.kultrjmiasto.database.FavoriteEntry> loadTaskById(int id);
 
