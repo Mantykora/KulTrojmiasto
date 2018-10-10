@@ -152,11 +152,11 @@ public class FavoritesActivity extends AppCompatActivity {
     private AlertDialog AskIfDelete()
     {
         AlertDialog alertDialog = new AlertDialog.Builder(this)
-                .setTitle("Usun wszystkie")
+                .setTitle("Usuń wszystkie")
                 .setMessage("Czy na pewno chcesz usunąć wszystkie ulubione?")
                 .setIcon(R.drawable.ic_delete_black_36dp)
 
-                .setPositiveButton("UsuN", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Usuń", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
                         Toast.makeText(FavoritesActivity.this, "usuwanie", Toast.LENGTH_SHORT).show();

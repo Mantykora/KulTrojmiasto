@@ -73,8 +73,6 @@ public class EventListFragment extends Fragment {
         if (adapter.getItemCount() == 0) {
             doveTv.setVisibility(View.VISIBLE);
             doveIv.setVisibility(View.VISIBLE);
-
-
         }
         recyclerView.setAdapter(adapter);
         if (savedInstanceState != null) {

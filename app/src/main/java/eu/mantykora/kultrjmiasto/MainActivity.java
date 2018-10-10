@@ -26,6 +26,10 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private Set<CategoryEnum> selectedCategories = new HashSet<>();
 
     private List<Event> filteredList;
+
+    private AdView mAdView;
 
     @Override
     protected void onPause() {
@@ -183,8 +189,17 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         setContentView(R.layout.activity_main);
 
         myToolbar = findViewById(R.id.my_toolbar);
+
         setSupportActionBar(myToolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
+        MobileAds.initialize(this, getResources().getString(R.string.add_id));
+
+
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction3 = fragmentManager.beginTransaction();
