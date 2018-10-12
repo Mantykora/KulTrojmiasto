@@ -476,6 +476,7 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.clear();
 
             outState.putParcelableArrayList("filteredList", (ArrayList<? extends Parcelable>) filteredList);
             outState.putParcelableArrayList("eventList", (ArrayList<? extends Parcelable>) eventList);
