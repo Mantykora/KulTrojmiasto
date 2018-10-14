@@ -63,6 +63,7 @@ public class IconsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_icons, container, false);
 
         iconsGridView = view.findViewById(R.id.icons_gv);
@@ -84,11 +85,15 @@ public class IconsFragment extends Fragment {
 
     public void enableColor(int position) {
 
+
+
         adapter.notifyDataSetChanged();
 
         iconsGridView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
+
+
                 View view = iconsGridView.getChildAt(position);
 
                 iconsGridView.getViewTreeObserver().removeOnGlobalLayoutListener(this);

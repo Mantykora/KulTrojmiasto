@@ -1,5 +1,6 @@
 package eu.mantykora.kultrjmiasto;
 
+import android.app.Application;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.gu.toolargetool.TooLargeTool;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -102,6 +104,27 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     private List<Event> filteredList;
 
     private AdView mAdView;
+
+    private DataFragment dataFragment;
+    ArrayList<CategoryEnum> selectedList;
+
+    private IconsFragment iconsFragment;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+
+       selectedList = new ArrayList<>(selectedCategories);
+
+
+        dataFragment.setEventList((ArrayList<Event>) eventList);
+        dataFragment.setFilteredList((ArrayList<Event>) filteredList);
+        dataFragment.setSelectedList((ArrayList<CategoryEnum>) selectedList);
+    }
+
+
 
     @Override
     protected void onPause() {
@@ -193,20 +216,55 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         setSupportActionBar(myToolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
-        MobileAds.initialize(this, getResources().getString(R.string.add_id));
+        TooLargeTool.startLogging(getApplication());
 
 
+      //  MobileAds.initialize(this, getResources().getString(R.string.add_id));
 
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+
+//
+//        mAdView = findViewById(R.id.adView);
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        mAdView.loadAd(adRequest);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction3 = fragmentManager.beginTransaction();
-        Fragment iconFragment = fragmentManager.findFragmentById(R.id.fragment_icons);
-        iconFragment = new IconsFragment();
-        fragmentTransaction3.add(R.id.fragment_icons, iconFragment);
-        fragmentTransaction3.commit();
+
+
+        if (iconsFragment == null) {
+            iconsFragment = new IconsFragment();
+
+            fragmentTransaction3.add(R.id.fragment_icons, iconsFragment, "icons");
+            fragmentTransaction3.commit();
+
+
+   }
+
+        dataFragment = (DataFragment) fragmentManager.findFragmentByTag("data");
+
+        if (dataFragment == null) {
+            dataFragment = new DataFragment();
+            fragmentTransaction3.add(dataFragment, "data");
+
+
+            }else {
+
+
+
+                eventList = dataFragment.getEventList();
+                filteredList = dataFragment.getFilteredList();
+                selectedList =  dataFragment.getSelectedList();
+
+
+                selectedCategories = new HashSet<>(selectedList);
+
+
+                buildEventListFragmentFromIconFragment(selectedCategories);
+
+
+        }
+
+
 
         progressDialog = new ProgressDialog(eu.mantykora.kultrjmiasto.MainActivity.this);
         progressDialog.setMessage("Loading....");
@@ -456,13 +514,10 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        filteredList = savedInstanceState.getParcelableArrayList("filteredList");
-        eventList = savedInstanceState.getParcelableArrayList("eventList");
 
        ArrayList<CategoryEnum> selectedList = (ArrayList<CategoryEnum>) savedInstanceState.getSerializable("selectedCategories");
         selectedCategories =  new HashSet<>(selectedList);
 
-      buildEventListFragmentFromIconFragment(selectedCategories);
        IconsFragment iconsFragment = (IconsFragment) getFragmentManager().findFragmentById(R.id.fragment_icons);
 
 
@@ -472,14 +527,11 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         }
 
     }
-
+//
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.clear();
-
-            outState.putParcelableArrayList("filteredList", (ArrayList<? extends Parcelable>) filteredList);
-            outState.putParcelableArrayList("eventList", (ArrayList<? extends Parcelable>) eventList);
 
             ArrayList<CategoryEnum> selectedList = new ArrayList<>(selectedCategories);
             outState.putSerializable("selectedCategories", selectedList);
