@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -404,7 +405,8 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
 
 
                 popupWindow.setContentView(layout);
-                popupWindow.setWidth(500);
+                popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setFocusable(true);
 
