@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -79,7 +81,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         @Override
         public void onClick(View view) {
             clickListener.onEventListItem(view);
-            int position = (int) view.getTag();
+            int position = (int) view.getTag(R.id.event_iv);
 
             Intent intent = new Intent(itemView.getContext(), eu.mantykora.kultrjmiasto.DetailActivity.class);
 
@@ -109,7 +111,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
     public void onBindViewHolder(@NonNull EventsViewHolder holder, int position) {
 
         eu.mantykora.kultrjmiasto.model.Event event = eventList.get(position);
-        holder.imageIv.setTag(position);
+        holder.imageIv.setTag(R.id.event_iv, position);
         String imageLinkString;
 
         int categoryId = event.getCategoryId();
@@ -175,11 +177,17 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
                 imageLinkString = attachments.get(0).getFileName();
             }
             Transformation transformation = new ImageTransformation(context);
-            Picasso.get().load(imageLinkString)
-                    .transform(transformation)
-                    .error(R.color.transparent)
-                    .placeholder(R.drawable.progress_animation)
-                    .into(holder.imageIv);
+
+
+//            Picasso.get().load(imageLinkString)
+//                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+//                    .transform(transformation)
+//                    .error(R.color.transparent)
+//                    .placeholder(R.drawable.progress_animation)
+//                    .into(holder.imageIv);
+
+            Glide.with(context).load(imageLinkString).into(holder.imageIv);
+
         } else {
             holder.imageIv.setImageDrawable(null);
         }
