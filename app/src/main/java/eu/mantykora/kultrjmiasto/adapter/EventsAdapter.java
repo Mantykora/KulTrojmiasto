@@ -15,8 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import org.joda.time.DateTime;
@@ -26,13 +26,22 @@ import org.joda.time.format.DateTimeFormat;
 import java.util.List;
 
 import eu.mantykora.kultrjmiasto.DetailActivity;
+import eu.mantykora.kultrjmiasto.MyAppGlideModule;
 import eu.mantykora.kultrjmiasto.R;
 import eu.mantykora.kultrjmiasto.model.Attachment;
 import eu.mantykora.kultrjmiasto.model.CategoryEnum;
 import eu.mantykora.kultrjmiasto.model.Event;
 import eu.mantykora.kultrjmiasto.utils.ImageTransformation;
 
+
+
+
+
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsViewHolder> {
+
+
+
+
 
     private static List<eu.mantykora.kultrjmiasto.model.Event> eventList;
     private Context context;
@@ -176,17 +185,19 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             } else {
                 imageLinkString = attachments.get(0).getFileName();
             }
-            Transformation transformation = new ImageTransformation(context);
+            //Transformation transformation = new ImageTransformation(context);
+
+            RequestOptions requestOptions = new RequestOptions()
+                    .error(R.color.transparent)
+                    .placeholder(R.drawable.progress_animation);
 
 
-//            Picasso.get().load(imageLinkString)
-//                    .memoryPolicy(MemoryPolicy.NO_CACHE)
-//                    .transform(transformation)
-//                    .error(R.color.transparent)
-//                    .placeholder(R.drawable.progress_animation)
-//                    .into(holder.imageIv);
+            Glide.with(context)
+                    .load(imageLinkString)
+                    .apply(requestOptions)
+                    .into(holder.imageIv);
 
-            Glide.with(context).load(imageLinkString).into(holder.imageIv);
+
 
         } else {
             holder.imageIv.setImageDrawable(null);

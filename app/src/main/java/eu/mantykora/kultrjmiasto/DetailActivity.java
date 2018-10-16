@@ -13,9 +13,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
-import com.squareup.picasso.Picasso;
+
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -177,7 +179,19 @@ public class DetailActivity extends AppCompatActivity {
             DisplayMetrics displaymetrics = getResources().getDisplayMetrics();
             int width = displaymetrics.widthPixels;
             int height = getResources().getDimensionPixelOffset(R.dimen.cardview_height);
-            Picasso.get().load(event.getAttachments().get(0).getFileName()).resize(width, height).centerCrop().into(imageView);
+
+
+           RequestOptions requestOptions = new RequestOptions()
+                   .override(width, height)
+                   .centerCrop();
+
+
+            Glide.with(this)
+                    .load(event.getAttachments().get(0).getFileName())
+                    .apply(requestOptions)
+                    .into(imageView);
+
+
             titleTv2.setText(event.getName());
             titleTv2.setVisibility(View.GONE);
         }
@@ -269,7 +283,18 @@ public class DetailActivity extends AppCompatActivity {
         DisplayMetrics displaymetrics = getResources().getDisplayMetrics();
         int width = displaymetrics.widthPixels;
         int height = getResources().getDimensionPixelOffset(R.dimen.cardview_height);
-        Picasso.get().load(fav.getImage()).resize(width, height).centerCrop().into(imageView);
+
+
+
+        RequestOptions requestOptions = new RequestOptions()
+                .override(width, height)
+                .centerCrop();
+
+
+        Glide.with(this)
+                .load(fav.getImage())
+                .apply(requestOptions)
+                .into(imageView);
 
 
     }
