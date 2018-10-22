@@ -31,7 +31,6 @@ import eu.mantykora.kultrjmiasto.R;
 import eu.mantykora.kultrjmiasto.model.Attachment;
 import eu.mantykora.kultrjmiasto.model.CategoryEnum;
 import eu.mantykora.kultrjmiasto.model.Event;
-import eu.mantykora.kultrjmiasto.utils.ImageTransformation;
 
 
 
@@ -185,7 +184,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             } else {
                 imageLinkString = attachments.get(0).getFileName();
             }
-            //Transformation transformation = new ImageTransformation(context);
 
             RequestOptions requestOptions = new RequestOptions()
                     .error(R.color.transparent)

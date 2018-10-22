@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.icu.util.Calendar;
+import android.net.Uri;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -31,7 +32,6 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.gu.toolargetool.TooLargeTool;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -217,16 +217,15 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
         setSupportActionBar(myToolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
-        TooLargeTool.startLogging(getApplication());
 
 
-      //  MobileAds.initialize(this, getResources().getString(R.string.add_id));
+        MobileAds.initialize(this, getResources().getString(R.string.add_id));
 
 
-//
-//        mAdView = findViewById(R.id.adView);
-//        AdRequest adRequest = new AdRequest.Builder().build();
-//        mAdView.loadAd(adRequest);
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction3 = fragmentManager.beginTransaction();
@@ -466,6 +465,10 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnI
                 popupWindow.showAsDropDown(myToolbar, Gravity.CENTER, 0, 0);
 
 
+                return true;
+            case R.id.policy:
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://mantykora.eu/policy/privacy_policy.html"));
+                startActivity(webIntent);
                 return true;
 
             default:

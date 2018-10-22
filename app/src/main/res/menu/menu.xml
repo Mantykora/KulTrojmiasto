@@ -22,6 +22,9 @@
         android:id="@+id/about_menu_item"
         android:title="@string/o_programie"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/policy"
+        android:title="@string/polityka_prywatno_ci"/>
 
 
 </menu>

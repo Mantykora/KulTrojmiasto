@@ -159,7 +159,6 @@ public class FavoritesActivity extends AppCompatActivity {
                 .setPositiveButton("Usuń", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        Toast.makeText(FavoritesActivity.this, "usuwanie", Toast.LENGTH_SHORT).show();
                         deleteAllFavs();
 
                         dialog.dismiss();
